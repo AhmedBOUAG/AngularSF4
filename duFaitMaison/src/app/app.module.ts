@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { RecetteComponent } from './recette/recette.component';
@@ -16,7 +17,8 @@ import { RecetteComponent } from './recette/recette.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule, 
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
