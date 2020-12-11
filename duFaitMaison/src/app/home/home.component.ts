@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 export class HomeComponent implements OnInit, OnDestroy {
 
   properties = [];
-  propertiesSubscription: Subscription;
+  propertiesSubscription: Subscription | any;
 
   constructor(
     private propertiesService: PropertiesService) {
