@@ -1,19 +1,25 @@
 <div class="container">
     <div class="row mt-5">
-        <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let property of properties; let i = index">
+        <div class="col-sm-12 col-md-6 col-lg-4 mb-5" *ngFor="let property of properties; let i = index">
             <div class="card" style="width: 18rem;">
+                <img src="{{property.image}}" class="card-img-top" alt="">
                 <div class="card-body">
                     <h5 class="card-title">{{property.title}}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{property.subTitle}}</h6>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Voir les offres</a>
+                    <hr />
+                    <strong>Crée par:</strong> {{property.pseudo}}<br />
+                    <strong>Quantité:</strong> {{property.quantity}}<br />
+                    <strong>Lieu:</strong> {{property.location}} ({{property.zip}})<br />
+                    <strong>Prix:</strong> {{property.price}} €<br />
                     <ng-container *ngIf="!property.isAvailable; else elseTemplate">
-                        <span class="text-danger"> {{ getAvailability(i) }}</span>
+                        <span class="text-danger"><i class="fas fa-times-circle"></i> {{ getAvailability(i) }}</span>
                     </ng-container>
                     <ng-template #elseTemplate>
-                        <span class="text-success"> {{ getAvailability(i) }}</span>
+                        <span class="text-success"><i class="fas fa-check-circle"></i> {{ getAvailability(i) }}</span>
                     </ng-template>
-
+                    <br />
+                    <a href="#" class="card-link">Voir dans la même catégories</a><br />
                 </div>
             </div>
         </div>

@@ -1,17 +1,57 @@
 <div class="container">
-    <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded mt-5">
-        <div class="col-md-6">
-            <label for="titre">Titre :</label>
-            <input type="text" class="form-control">
-        </div>
-        <div class="col-md-6">
-            <label for="sous-titr"><i>Sous titre :</i></label>
-            <input type="text" class="form-control">
-        </div>
-
-        <div class="form-floating col-md-12">
-            <label for="description">Description</label>
-            <textarea class="form-control" placeholder="Décrivez ici votre produit" id="floatingTextarea2" style="height: 100px"></textarea>
-        </div>
+    <div class="row col-12 shadow-sm p-3 bg-white rounded mt-5">
+        <h1 style="text-align: center;"><i class="fas fa-pen"></i> Saisissez votre recette</h1>
     </div>
+    <form [formGroup]="dataFormCreate" (ngSubmit)="onSubmitDataFormCreate()">
+        <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded mt-5">
+
+            <div class="col-md-6">
+                <label for="title">Titre :</label>
+                <input type="text" class="form-control" formControlName="title">
+            </div>
+            <div class="col-md-6">
+                <label for="subtitle"><i>Sous titre :</i></label>
+                <input type="text" class="form-control" formControlName="subtitle">
+            </div>
+            <div class="col-md-12 mt-3">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Catégorie :</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" formControlName="category">
+                <option> ----- Séléctionnez -------</option>
+                <option value="1">Gateau Anniversaire</option>
+                <option value="2">Pâtisserie</option>
+                <option value="3">Variété</option>
+              </select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label for="description">Description</label>
+                <textarea class="form-control" placeholder="Décrivez ici votre produit" id="floatingTextarea2" style="height: 100px" formControlName="description"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label for="city">Ville :</label>
+                <input type="text" class="form-control" formControlName="city">
+            </div>
+            <div class="col-md-6">
+                <label for="zip">Code Postal :</label>
+                <input type="text" class="form-control" formControlName="zip">
+            </div>
+            <hr/>
+            <div class="input-group mt-3 col-md-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><strong>Prix: </strong></span>
+                </div>
+                <input type="text" class="form-control" style="font-weight: bold;" dir="rtl" aria-label="Prix en euro" formControlName="price">
+                <div class="input-group-append">
+                    <span class="input-group-text">€</span>
+                </div>
+            </div>
+            <div style="float:right;" class="col-12 mt-3">
+                <button class="btn btn-primary" type="submit">Enregistrer</button>
+            </div>
+
+        </div>
+    </form>
 </div>
