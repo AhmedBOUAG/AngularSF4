@@ -2,6 +2,7 @@ import { PropertiesService } from './../services/properties.service';
 import { AppComponent } from './../app.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Property } from '../interfaces/property';
 
 @Component({
   selector: 'app-home',
@@ -9,31 +10,24 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  properties: Property[] = [];
+  propertiesSubscription: Subscription = new Subscription();
 
-  properties = [];
-  propertiesSubscription: Subscription | any;
-
-  constructor(
-    private propertiesService: PropertiesService) {
+  constructor(private propertiesService: PropertiesService) {      
   }
 
   ngOnInit(): void {
-    /* this.propertiesService.getProperties().then(
-      (data: any) => {
-        console.log(data);
-        this.properties = data;
-      }
-    ).catch(
-      (error: any) => {
-        console.log(error);
-      }
-    ) */
-    this.propertiesSubscription = this.propertiesService.propertiesSubject.subscribe(
-      (data: any) => {
-        this.properties = data;
-      }
+    this.getProperties();
+  }
+
+  getProperties(): void {
+    //this.properties = this.propertiesService.getProperties();
+
+    this.propertiesSubscription.add(
+      this.propertiesService.getProperties().subscribe((res: Property[]) => {
+        return (this.properties = res);
+      })
     );
-    this.propertiesService.emitProporties();
   }
 
   getAvailability(index: number): string {
