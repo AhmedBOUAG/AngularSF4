@@ -84,6 +84,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       (res: Recette[]) => {
         console.log(res);
         ($('#modalEditRecette') as any).modal('hide');
+        this.ngOnInit();
         this.success = 'Les modifications ont été apportées avec succès';
         f.reset();
     },

@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{property.title}}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{property.subtitle}}</h6>
-                    <p class="card-text">{{ property.description }}</p>
+                    <p class="card-text">{{ property.description | slice:0:90 }}...</p>
                     <hr />
                     <strong>Crée par:</strong> <br />
                     <strong>Catégorie:</strong> {{property.category}}<br />
