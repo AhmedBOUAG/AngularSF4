@@ -10,6 +10,7 @@ import { map, catchError } from 'rxjs/operators';
 })
 export class RecetteService {
 
+  isSingleResult = false;
   baseUrl = 'http://127.0.0.1:8000/api/recette_d_f_ms';
   recettes!: Recette[];
 
@@ -19,13 +20,26 @@ export class RecetteService {
    * Fonction qui récupère, via l'API, toutes les recettes
    */
   getAll(): Observable<Recette[]> {
-    return this.http.get(`${this.baseUrl}`).pipe(
+    const uri = `${this.baseUrl}`;
+    return this.getRecette(uri);
+  }
+
+  getRecetteById(id: number): any {
+    this.isSingleResult = true;
+    const uri = `${this.baseUrl}/${id}`;
+    return this.getRecette(uri);
+  }
+
+  getRecette(uri: string): any {
+    //console.log(uri);
+    return this.http.get<Recette[]>(uri).pipe(
       map((res: any) => {
-        this.recettes = res['hydra:member'];
+        this.recettes = this.isSingleResult === true ? res : res['hydra:member'];
         return this.recettes;
       }),
       catchError(this.handleError));
   }
+
 
   /**
    * Fonction permettant de sauvegarder, via l'API, les données d'une recette lors de sa création
@@ -41,7 +55,16 @@ export class RecetteService {
       }),
       catchError(this.handleError));
   }
-
+  update(recette: Recette, id: number): Observable<Recette[]> {
+    console.log(recette);
+    return this.http.put(`${this.baseUrl}/${id}`, recette)
+      .pipe(map((res) => {
+        console.log(res);
+        //this.recettes.push(res);
+        return this.recettes;
+      }),
+      catchError(this.handleError));
+  }
   /**
    * Fonction permettant de supprimer, par le biais de l'API, une recette existante
    * @id: number // id de la recette à supprimer

@@ -16,10 +16,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   propertiesSubscription: Subscription = new Subscription();
 
 
-  recettes: Recette[] | any;
+  recettes: any = {};
+  recetteToUpdate: any = {};
   error = '';
   success = '';
   idDelete = 0;
+  idUpdate = 0;
 
 
   constructor(private propertiesService: PropertiesService, private RecetteService: RecetteService) {
@@ -46,10 +48,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
   }
 
+  editRecette(id: number): void {
+
+    this.RecetteService.getRecetteById(id).subscribe(
+      (res: Recette[]) => {
+        this.idUpdate = id;
+        this.recetteToUpdate = res;
+        ($('#modalEditRecette') as any).modal('show');
+      },
+      (err: any) => {
+        this.error = err;
+      }
+    );
+  }
+
   getRecettes(): void {
     this.RecetteService.getAll().subscribe(
       (res: Recette[]) => {
-        console.log(res);
         this.recettes = res;
       },
       (err) => {
@@ -58,22 +73,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
   }
 
-  getAvailability(index: number): string {
-    if (this.properties[index]) {
-      return 'En stock!';
-    } else {
-      return 'En rupture!';
-    }
-  }
-
-  editRecette(i: number): any {
-    console.log(i);
-  }
-
   deleteRecette(id: number): any {
-    console.log('Supression id:' + id);
     this.idDelete = id;
     ($('#modalConfirmation') as any).modal('toggle');
+  }
+
+  validateFormEdit(f: any): any {
+    console.log(f.form.value);
+    this.RecetteService.update(this.recetteToUpdate, this.idUpdate).subscribe(
+      (res: Recette[]) => {
+        console.log(res);
+        ($('#modalEditRecette') as any).modal('hide');
+        this.success = 'Les modifications ont été apportées avec succès';
+        f.reset();
+    },
+      (err) => {
+        this.error = err;
+      }
+    );
   }
 
   confirmDelete(): void {
@@ -82,6 +99,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         console.log(res);
         this.success = res;
         ($('#modalConfirmation') as any).modal('hide');
+        this.success = 'La recette a été supprimée de manière définitive.';
       },
       (err) => {
         this.error = err;
