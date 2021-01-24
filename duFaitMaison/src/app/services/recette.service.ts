@@ -24,50 +24,58 @@ export class RecetteService {
     return this.getRecette(uri);
   }
 
+  /**
+   * Permet de récuperer une recette
+   * @param id // id de la recette à récuperer
+   */
   getRecetteById(id: number): any {
     this.isSingleResult = true;
     const uri = `${this.baseUrl}/${id}`;
     return this.getRecette(uri);
   }
 
+  /**
+   * Fonction générique pour récupérer les data de recette
+   * @param uri // uri de l'API
+   */
   getRecette(uri: string): any {
-    //console.log(uri);
     return this.http.get<Recette[]>(uri).pipe(
       map((res: any) => {
         this.recettes = this.isSingleResult === true ? res : res['hydra:member'];
+        this.isSingleResult = false;
         return this.recettes;
       }),
       catchError(this.handleError));
   }
-
 
   /**
    * Fonction permettant de sauvegarder, via l'API, les données d'une recette lors de sa création
-   * @recette: Recette // l'objet json de la recette créee.
+   * @param Recette // l'objet json de la recette créee.
    */
   store(recette: Recette): Observable<Recette[]> {
-    console.log(recette);
     return this.http.post(`${this.baseUrl}`, recette)
       .pipe(map((res) => {
-        console.log(res);
-        //this.recettes.push(res);
         return this.recettes;
       }),
       catchError(this.handleError));
   }
+
+  /**
+   * Fonction de mise à jour d'une recette
+   * @param Recette // Les nouvelles données de la recette
+   * @param id // id de la recette à mettre à jour
+   */
   update(recette: Recette, id: number): Observable<Recette[]> {
-    console.log(recette);
     return this.http.put(`${this.baseUrl}/${id}`, recette)
       .pipe(map((res) => {
-        console.log(res);
-        //this.recettes.push(res);
         return this.recettes;
       }),
       catchError(this.handleError));
   }
+
   /**
    * Fonction permettant de supprimer, par le biais de l'API, une recette existante
-   * @id: number // id de la recette à supprimer
+   * @param id //number // id de la recette à supprimer
    */
   delete(id: number): Observable<{}>{
     return this.http.delete(`${this.baseUrl}/${id}`).pipe(
@@ -80,6 +88,6 @@ export class RecetteService {
    */
   private handleError(error: HttpErrorResponse) {
     console.log(error);
-    return throwError('erreur! cette opération a échoué. ');
+    return throwError('Une erreur est survenue lors du chargement de la page. Si le problème persiste, veuillez en informer l\'administrateur du site.');
   }
 }

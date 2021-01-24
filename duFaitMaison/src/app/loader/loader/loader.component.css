@@ -1,0 +1,54 @@
+.loading-spinner {
+    background: linear-gradient(to right, #e9ecefb8, #e9ecefc9 50%, #f3f3f3);
+    position: fixed;
+    font-weight: 700;
+    width: 100%;
+    color: hsl(204deg 73% 81%);
+    top: 0px;
+    left: 0px;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    display: grid;
+}
+
+.loading-spinner img {
+    align-self: end;
+    -webkit-animation: spin 2s linear infinite;
+    -moz-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+.loading-message {
+    text-align: center;
+    align-self: start;
+}
+
+@-moz-keyframes spin {
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+.carre-loading {
+    width: 110px;
+    height: 120px;
+    border: 1px solid #ffffff9c;
+    background: #708090c4;
+    border-radius: 5px;
+    margin: auto;
+    padding: 15px;
+}

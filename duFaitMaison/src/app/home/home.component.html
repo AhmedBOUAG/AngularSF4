@@ -5,44 +5,36 @@
             <button class="btn btn-success float-right" routerLink="/recette"><i class="fas fa-plus"></i> Créer une recette</button>
         </div>
     </div>
-    <div class="row col-12 alert alert-success p-2 mt-3" *ngIf="success !== '' ">
-        <i class="fas fa-check-circle" style="margin-top:.29rem"></i><span class="pl-2">{{success}}</span>
+    <div class="row col-12 alert {{ messageHandler.typeOperation }} p-2 mt-3" *ngIf="messageHandler.messageOperation !== '' ">
+        <i class="fas {{messageHandler.iconOperation}}" style="margin-top:.29rem"></i><span class="pl-2">{{messageHandler.messageOperation}}</span>
     </div>
-    <div class="row col-12 mt-3 shadow-sm pt-5 mb-5 bg-white rounded mr-5">
-        <div class="col-sm-12 col-md-6 col-lg-4 mb-5" *ngFor="let property of recettes; let i = index">
+
+    <div class="row col-12 mt-3 shadow-sm mb-5 bg-white rounded mr-5">
+        <div class="col-12 mb-3 mt-2 nb title-nb-recette">
+            Nombre de recette retourné (<b>{{recettes.length}}</b>)
+        </div>
+        <div id="#cardRecette" class="col-sm-12 col-md-6 col-lg-4 mb-5" *ngFor="let property of recettes; let i = index">
             <div class="card w-100 mh-100" style="min-height:560px;">
                 <img src="https://pastryfreak.fr/wp-content/uploads/2020/04/recette-gateau-zebre-10.jpg" [ngStyle]="{'max-height.px': '190'}" class="card-img-top" alt="">
                 <div class="card-body">
-                    <h5 class="card-title">{{property.title}}</h5>
+                    <h5 class="card-title">{{property.title | slice:0:20}}...</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{property.subtitle}}</h6>
-                    <p class="card-text">{{ property.description | slice:0:90 }}...</p>
+                    <p class="card-text">{{ property.description | slice:0:85 }}...</p>
                     <hr />
                     <strong>Crée par:</strong> <br />
                     <strong>Catégorie:</strong> {{property.category}}<br />
                     <strong>Lieu:</strong> {{property.city}} ({{property.zip}})<br />
                     <strong>Prix:</strong> {{property.price}} €<br />
-                    <div style="    position: absolute;
-                    width: 90%;
-                    left: 0;
-                    margin: 15px;
-                    bottom: 0;
-                ">
+                    <div class="tools-btn-recette">
                         <hr style="border: 1px dashed rgb(236, 236, 236)">
                         <button class="btn btn-danger text-white" (click)="deleteRecette(property.id)"><i class="fas fa-trash-alt"></i> Supprimer</button>
                         <button class="btn btn-primary float-right" (click)="editRecette(property.id)"><i class="fas fa-edit"></i> Editer</button>
                     </div>
-                    <!-- <ng-container *ngIf="!property.isAvailable; else elseTemplate">
-                        <span class="text-danger"><i class="fas fa-times-circle"></i> {{ getAvailability(i) }}</span>
-                    </ng-container>
-                    <ng-template #elseTemplate>
-                        <span class="text-success"><i class="fas fa-check-circle"></i> {{ getAvailability(i) }}</span>
-                    </ng-template>
-                    <br />
-                    <a href="#" class="card-link">Voir dans la même catégories</a><br /> -->
                 </div>
             </div>
         </div>
     </div>
+
     <!-- La modal de confirmation -->
     <div class="modal fade" id="modalConfirmation" tabindex="-1" role="dialog" aria-labelledby="modalConfirmationLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

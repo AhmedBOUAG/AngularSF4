@@ -1,0 +1,12 @@
+.tools-btn-recette {
+    position: absolute;
+    width: 90%;
+    left: 0;
+    margin: 15px;
+    bottom: 0;
+}
+
+.title-nb-recette {
+    color: rgb(199, 198, 198);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}

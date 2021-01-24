@@ -1,9 +1,9 @@
-import { PropertiesService } from './../services/properties.service';
 import { AppComponent } from './../app.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RecetteService } from './../services/recette.service';
 import { Recette } from './../recette/recette';
+import { MessageHandlerService } from './../services/message-handler.service';
 import * as $ from 'jquery';
 
 @Component({
@@ -11,53 +11,32 @@ import * as $ from 'jquery';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent implements OnInit, OnDestroy {
-  properties = [];
-  propertiesSubscription: Subscription = new Subscription();
 
-
-  recettes: any = {};
-  recetteToUpdate: any = {};
-  error = '';
-  success = '';
+  isLoad = true;
+  messageHandler: any = {};
+  recettes: Recette[] = [];
+  recetteToUpdate: Recette = new Recette();
   idDelete = 0;
   idUpdate = 0;
 
-
-  constructor(private propertiesService: PropertiesService, private RecetteService: RecetteService) {
+  constructor(private RecetteService: RecetteService, private mhs: MessageHandlerService) {
   }
 
-
   ngOnInit(): void {
-    /* this.propertiesService.getProperties().then(
-      (data: any) => {
-        console.log(data);
-        this.properties = data;
-      }
-    ).catch(
-      (error: any) => {
-        console.log(error);
-      }
-    ) */
     this.getRecettes();
-
-    this.propertiesSubscription = this.propertiesService.propertiesSubject.subscribe(
-      (data: any) => {
-        this.properties = data;
-      }
-    );
   }
 
   editRecette(id: number): void {
-
     this.RecetteService.getRecetteById(id).subscribe(
-      (res: Recette[]) => {
+      (res: Recette) => {
         this.idUpdate = id;
         this.recetteToUpdate = res;
         ($('#modalEditRecette') as any).modal('show');
       },
       (err: any) => {
-        this.error = err;
+        this.errorHandler(err);
       }
     );
   }
@@ -68,7 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.recettes = res;
       },
       (err) => {
-        this.error = err;
+        this.errorHandler(err);
       }
     );
   }
@@ -79,17 +58,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   validateFormEdit(f: any): any {
-    console.log(f.form.value);
     this.RecetteService.update(this.recetteToUpdate, this.idUpdate).subscribe(
       (res: Recette[]) => {
-        console.log(res);
         ($('#modalEditRecette') as any).modal('hide');
-        this.ngOnInit();
-        this.success = 'Les modifications ont été apportées avec succès';
+        this.getRecettes();
+        this.messageHandler = this.mhs.display('MODIF');
+        setTimeout(() => this.messageHandler = {}, 7000);
         f.reset();
     },
       (err) => {
-        this.error = err;
+        this.errorHandler(err);
       }
     );
   }
@@ -97,19 +75,22 @@ export class HomeComponent implements OnInit, OnDestroy {
   confirmDelete(): void {
     this.RecetteService.delete(this.idDelete).subscribe(
       (res: any) => {
-        console.log(res);
-        this.success = res;
         ($('#modalConfirmation') as any).modal('hide');
-        this.success = 'La recette a été supprimée de manière définitive.';
+        this.getRecettes();
+        this.messageHandler = this.mhs.display('DELETE');
+        setTimeout(() => this.messageHandler = {}, 7000);
       },
       (err) => {
-        this.error = err;
+        this.errorHandler(err);
       }
     );
   }
 
+  errorHandler(err: any) {
+    this.messageHandler = this.mhs.display(err, true);
+  }
+
   ngOnDestroy(): void {
-    this.propertiesSubscription.unsubscribe();
 
   }
 }

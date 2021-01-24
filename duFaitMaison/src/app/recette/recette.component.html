@@ -2,8 +2,11 @@
     <div class="row col-12 shadow-sm p-3 bg-white rounded mt-5">
         <h1 style="text-align: center;"><i class="fas fa-pen"></i> Saisissez votre recette</h1>
     </div>
+    <div class="row col-12 alert {{ messageHandler.typeOperation }} p-2 mt-3" *ngIf="messageHandler.messageOperation !== '' ">
+        <i class="fas {{messageHandler.iconOperation}}" style="margin-top:.29rem"></i><span class="pl-2">{{messageHandler.messageOperation}}</span>
+    </div>
     <form #f="ngForm" (ngSubmit)="onSubmitDataFormCreate(f)">
-        <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded mt-5">
+        <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded mt-2">
 
             <div class="col-md-6">
                 <label for="title">Titre :</label>
@@ -50,7 +53,7 @@
                 </div>
             </div>
             <div style="float:right;" class="col-12 mt-3">
-                <button class="btn btn-primary" type="submit" [disabled]="f.invalid">Enregistrer</button>
+                <button class="btn btn-primary float-right" type="submit" [disabled]="f.invalid">Enregistrer</button>
             </div>
 
         </div>

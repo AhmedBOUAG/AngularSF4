@@ -1,9 +1,7 @@
 import { RecetteService } from './../services/recette.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Recette } from './recette';
-import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { MessageHandlerService } from './../services/message-handler.service';
 
 @Component({
   selector: 'app-recette',
@@ -13,27 +11,27 @@ import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 export class RecetteComponent implements OnInit {
 
   recette: Recette | any = {};
-  error = '';
-  success = '';
+  messageHandler: any = {};
 
   constructor(
-    private formBuilder: FormBuilder,  private RecetteService: RecetteService
+    private RecetteService: RecetteService, private mhs: MessageHandlerService
   ) {}
 
   ngOnInit(): void {
   }
 
   onSubmitDataFormCreate(f: any): any {
-    this.error = '';
-    this.success = '';
     this.RecetteService.store(f.form.value)
       .subscribe(
         (res: Recette[]) => {
           //this.recettes = res;
-          this.success = 'Created successfully';
+          this.messageHandler = this.mhs.display('CREATE');
+          setTimeout(() => this.messageHandler = {}, 7000);
           f.reset();
         },
-        (err) => this.error = err
+        (err) => {
+          this.messageHandler = this.mhs.display(err, true);
+         }
       );
   }
 
