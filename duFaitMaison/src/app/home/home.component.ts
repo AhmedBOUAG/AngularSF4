@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   recetteToUpdate: Recette = new Recette();
   idDelete = 0;
   idUpdate = 0;
+  uploadImage = "http://127.0.0.1:8000/images/"
 
   constructor(private RecetteService: RecetteService, private mhs: MessageHandlerService) {
   }
@@ -91,6 +92,5 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
   }
 }

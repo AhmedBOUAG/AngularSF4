@@ -15,16 +15,16 @@
         </div>
         <div id="#cardRecette" class="col-sm-12 col-md-6 col-lg-4 mb-5" *ngFor="let property of recettes; let i = index">
             <div class="card w-100 mh-100" style="min-height:560px;">
-                <img src="https://pastryfreak.fr/wp-content/uploads/2020/04/recette-gateau-zebre-10.jpg" [ngStyle]="{'max-height.px': '190'}" class="card-img-top" alt="">
+                <img src= "{{uploadImage}}{{property.images[0].name}}" [ngStyle]="{'max-height.px': '190'}" class="card-img-top" alt="">
                 <div class="card-body">
                     <h5 class="card-title">{{property.title | slice:0:20}}...</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{property.subtitle}}</h6>
                     <p class="card-text">{{ property.description | slice:0:85 }}...</p>
                     <hr />
                     <strong>Crée par:</strong> <br />
-                    <strong>Catégorie:</strong> {{property.category}}<br />
-                    <strong>Lieu:</strong> {{property.city}} ({{property.zip}})<br />
-                    <strong>Prix:</strong> {{property.price}} €<br />
+                    <strong>Catégorie:</strong> {{property.category}}<br/>
+                    <strong>Lieu:</strong> {{property.city}} ({{property.zip}})<br/>
+                    <strong>Prix:</strong> {{property.price}} €<br/>
                     <div class="tools-btn-recette">
                         <hr style="border: 1px dashed rgb(236, 236, 236)">
                         <button class="btn btn-danger text-white" (click)="deleteRecette(property.id)"><i class="fas fa-trash-alt"></i> Supprimer</button>
@@ -72,7 +72,7 @@
 
                             <div class="col-md-6">
                                 <label for="title">Titre :</label>
-                                <input type="text" class="form-control" name="title" [(ngModel)]="recetteToUpdate.title" #trackTitle="ngModel" #recetteTile="ngModel" required>
+                                <input type="text" class="form-control" name="title" [(ngModel)]="recetteToUpdate.title" #trackTitle="ngModel" #recetteTitle="ngModel" required>
                                 <p class="alert" *ngIf="!trackTitle.valid && trackTitle.touched">Le titre est obligatoire!</p>
                             </div>
                             <div class="col-md-6">
@@ -104,17 +104,26 @@
                                 <label for="zip">Code Postal :</label>
                                 <input type="text" class="form-control" name="zip" [(ngModel)]="recetteToUpdate.zip" #recetteZip="ngModel" required>
                             </div>
+
+                            <div class="col-md-12 mt-3 custom-file ">
+                              <input type="file" name="images" id="file" multiple (change)="handleFileInput($event)" class="custom-file-input">
+                              <label for="file" class="custom-file-label">Choississez des fichiers</label>
+                            </div>
+
                             <hr/>
                             <div class="input-group mt-3 col-md-3" style="min-width: 240px !important;">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><strong>Prix: </strong></span>
+                                  <span class="input-group-text"><strong>Prix: </strong></span>
                                 </div>
                                 <input type="number" class="form-control" style="font-weight: bold;" dir="rtl" name="price" aria-label="Prix en euro" [(ngModel)]="recetteToUpdate.price" #recettePrice="ngModel" required>
                                 <div class="input-group-append">
-                                    <span class="input-group-text">€</span>
+                                  <span class="input-group-text">€</span>
                                 </div>
                             </div>
-                        </div>
+                            <div  *ngFor="let image of recetteToUpdate.images">
+                              <a href="{{uploadImage}}{{image.name}}" [ngStyle]="{'max-height.px': '190'}" class="card-img-top" alt=""> {{image.name}} </a>
+                            </div>
+                           </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>

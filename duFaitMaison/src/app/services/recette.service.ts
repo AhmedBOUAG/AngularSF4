@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-
+import { __core_private_testing_placeholder__ } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ export class RecetteService {
   isSingleResult = false;
   baseUrl = 'http://127.0.0.1:8000/api/recette_d_f_ms';
   recettes!: Recette[];
+  images = [];
 
   constructor(private http: HttpClient) { }
 
@@ -21,6 +22,7 @@ export class RecetteService {
    */
   getAll(): Observable<Recette[]> {
     const uri = `${this.baseUrl}`;
+
     return this.getRecette(uri);
   }
 
@@ -53,7 +55,19 @@ export class RecetteService {
    * @param Recette // l'objet json de la recette créee.
    */
   store(recette: Recette): Observable<Recette[]> {
-    return this.http.post(`${this.baseUrl}`, recette)
+    const formData = new FormData();
+    for (var i = 0; i < recette.images.length; i++) {
+      formData.append("images["+ i +"]", recette.images.item(i),recette.images.item(i).name);
+    }
+
+    formData.append("title", recette.title);
+    formData.append("subtitle", recette.subtitle);
+    formData.append("category", recette.category);
+    formData.append("city", recette.city);
+    formData.append("description", recette.description);
+    formData.append("zip", recette.zip);
+
+    return this.http.post(`${this.baseUrl}`, formData)
       .pipe(map((res) => {
         return this.recettes;
       }),
