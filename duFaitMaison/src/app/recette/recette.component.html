@@ -30,6 +30,7 @@
               </select>
                 </div>
             </div>
+
             <div class="col-md-12">
                 <label for="description">Description</label>
                 <textarea class="form-control" placeholder="Décrivez ici votre produit" id="floatingTextarea2" name="description" style="height: 100px" [(ngModel)]="recette.description" #recetteDescription="ngModel" required></textarea>
@@ -52,10 +53,15 @@
                     <span class="input-group-text">€</span>
                 </div>
             </div>
-            <div style="float:right;" class="col-12 mt-3">
-                <button class="btn btn-primary float-right" type="submit" [disabled]="f.invalid">Enregistrer</button>
+
+            <div class="col-md-6 mt-3 custom-file ">
+              <input type="file" name="images" id="file" multiple (change)="handleFileInput($event)" class="custom-file-input">
+              <label for="file" class="custom-file-label">Choississez des fichiers</label>
             </div>
 
+            <div style="float:left;" class="col-12 mt-3">
+                <button class="btn btn-primary float-right" type="submit" [disabled]="f.invalid">Enregistrer</button>
+            </div>
         </div>
         {{f.value | json}}
     </form>

@@ -7,4 +7,5 @@ export class Recette {
   zip!: string;
   price!: number;
   description?: any; // type 'text' provoque une erreur dans la console. a voir plus tard
+  images : any;
 }

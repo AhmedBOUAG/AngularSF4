@@ -20,11 +20,23 @@ export class RecetteComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  handleFileInput(event:any)
+  {
+    this.recette.images = event.target.files;
+  }
+
   onSubmitDataFormCreate(f: any): any {
-    this.RecetteService.store(f.form.value)
+    this.recette.title = f.form.value.title;
+    this.recette.subtitle = f.form.value.subtitle;
+    this.recette.category = f.form.value.category;
+    this.recette.city = f.form.value.city;
+    this.recette.zip = f.form.value.zip;
+    this.recette.price = f.form.value.price;
+    this.recette.description = f.form.value.description;
+
+    this.RecetteService.store(this.recette)
       .subscribe(
         (res: Recette[]) => {
-          //this.recettes = res;
           this.messageHandler = this.mhs.display('CREATE');
           setTimeout(() => this.messageHandler = {}, 7000);
           f.reset();
@@ -34,7 +46,4 @@ export class RecetteComponent implements OnInit {
          }
       );
   }
-
-
-
 }
