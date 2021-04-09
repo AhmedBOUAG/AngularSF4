@@ -12,13 +12,15 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class CreateRecetteAction
 {
-    public function __invoke(Request $request,SerializerInterface $serializer): RecetteDFM
+    public function __invoke(Request $request, SerializerInterface $serializer): RecetteDFM
     {   
         $uploadedFiles = $request->files->get('images');
-        $recette = $request->request->all();
        
+        $recette = $request->request->all();
+        $recette['price'] = floatval($recette['price']);
+        //dd($uploadedFiles,  $recette);
         $recetteSerialize = $serializer->denormalize($recette, RecetteDFM::class);
-        
+       
         if (!$uploadedFiles) {
             throw new BadRequestHttpException('"file" is required');
         }
@@ -28,7 +30,7 @@ final class CreateRecetteAction
             $image->setFile($uploadedFile);
             $recetteSerialize->setImages($image);
         }
-        
+      
         return $recetteSerialize;
     }
 }

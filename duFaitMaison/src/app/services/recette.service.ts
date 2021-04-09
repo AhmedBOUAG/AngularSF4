@@ -57,10 +57,11 @@ export class RecetteService {
   store(recette: Recette): Observable<Recette[]> {
     const formData = new FormData();
     for (var i = 0; i < recette.images.length; i++) {
-      formData.append("images["+ i +"]", recette.images.item(i),recette.images.item(i).name);
+      formData.append("images[" + i + "]", recette.images.item(i), recette.images.item(i).name);
     }
-
+    console.log(recette);
     formData.append("title", recette.title);
+    formData.append("price", recette.price);
     formData.append("subtitle", recette.subtitle);
     formData.append("category", recette.category);
     formData.append("city", recette.city);
@@ -71,27 +72,27 @@ export class RecetteService {
       .pipe(map((res) => {
         return this.recettes;
       }),
-      catchError(this.handleError));
+        catchError(this.handleError));
   }
 
   /**
    * Fonction de mise à jour d'une recette
-   * @param Recette // Les nouvelles données de la recette
-   * @param id // id de la recette à mettre à jour
+   * @param Recette // Les datas de la recette modifiée
    */
-  update(recette: Recette, id: number): Observable<Recette[]> {
-    return this.http.put(`${this.baseUrl}/${id}`, recette)
+  update(recette: Recette): Observable<Recette[]> {
+    console.log(recette);
+    return this.http.put(`${this.baseUrl}/${recette.id}`, recette)
       .pipe(map((res) => {
         return this.recettes;
       }),
-      catchError(this.handleError));
+        catchError(this.handleError));
   }
 
   /**
    * Fonction permettant de supprimer, par le biais de l'API, une recette existante
    * @param id //number // id de la recette à supprimer
    */
-  delete(id: number): Observable<{}>{
+  delete(id: number): Observable<{}> {
     return this.http.delete(`${this.baseUrl}/${id}`).pipe(
       catchError(this.handleError)
     );

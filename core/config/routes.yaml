@@ -1,3 +1,10 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+recette_delete_image:
+    path: /api/image/{name}
+    methods: ['DELETE']
+    defaults:
+        _controller: App\Controller\Api\ImageRecetteController::removeImage
+        _api_resource_class: App\Entity\Image
+        _api_item_operation_name: delete_image

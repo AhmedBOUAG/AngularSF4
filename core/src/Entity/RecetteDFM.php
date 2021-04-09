@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Controller\Api\CreateRecetteAction;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
- * @ApiResource(
+ * @ApiResource(iri="http://schema.org/RecetteDFM",
  * normalizationContext={"groups"={"recette"}},
  *    collectionOperations={
  *         "post"={
@@ -41,10 +42,35 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
  *                 }
  *             }
  *         },
+ *       
  *         "get"
  *     },
  *     itemOperations={
- *         "get"
+ *         "get",
+ *          "put"={
+ *             "controller"=CreateRecetteAction::class,
+ *              "method"="post",
+ *             "deserialize"=false,
+ *             
+ *             "openapi_context"={
+ *                 "requestBody"={
+ *                     "content"={
+ *                         "multipart/form-data"={
+ *                             "schema"={
+ *                                 "type"="object",
+ *                                 "properties"={
+ *                                     "images"={
+ *                                         "type"="string",
+ *                                         "format"="binary"
+ *                                     }                                
+ *                                 }
+ *                             }
+ *                         }
+ *                     }
+ *                 }
+ *             }
+ *         },
+ *         "DELETE"
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\RecetteDFMRepository")
@@ -93,7 +119,7 @@ class RecetteDFM
      * @ORM\Column(type="float")
      * @Groups({"recette"})
      */
-    private float $price = 0.00;
+    private ?float $price = 0.00;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -102,9 +128,10 @@ class RecetteDFM
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Image", mappedBy="recette", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="recette", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ApiSubresource()
      * @Groups({"recette"})
+     * @ApiProperty(iri="http://schema.org/Image")
      */
     private $images;
 
@@ -182,7 +209,7 @@ class RecetteDFM
         return $this->price;
     }
 
-    public function setPrice(float $price): self
+    public function setPrice(?float $price): self
     {
         $this->price = $price;
 

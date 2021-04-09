@@ -16,7 +16,11 @@ class CreateUserController
     private $em;
     private $validator;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em, ValidatorInterface $validator)
+    public function __construct(
+        UserPasswordEncoderInterface $passwordEncoder, 
+        EntityManagerInterface $em, 
+        ValidatorInterface $validator
+    )
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->em = $em;
@@ -24,7 +28,6 @@ class CreateUserController
     }
     public function __invoke(User $data)
     {
-
         $errors = $this->validator->validate($data, null, ['registration']);
         
         if (count($errors) > 0) {

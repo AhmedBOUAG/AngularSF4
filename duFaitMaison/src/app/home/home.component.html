@@ -13,22 +13,22 @@
         <div class="col-12 mb-3 mt-2 nb title-nb-recette">
             Nombre de recette retourné (<b>{{recettes.length}}</b>)
         </div>
-        <div id="#cardRecette" class="col-sm-12 col-md-6 col-lg-4 mb-5" *ngFor="let property of recettes; let i = index">
+        <div id="#cardRecette" class="col-sm-12 col-md-6 col-lg-4 mb-5" *ngFor="let recette of recettes; let i = index">
             <div class="card w-100 mh-100" style="min-height:560px;">
-                <img src= "{{uploadImage}}{{property.images[0].name}}" [ngStyle]="{'max-height.px': '190'}" class="card-img-top" alt="">
+                <img src="{{uploadImage}}{{recette.images[0].name}}" [ngStyle]="{'max-height.px': '190'}" class="card-img-top" alt="">
                 <div class="card-body">
-                    <h5 class="card-title">{{property.title | slice:0:20}}...</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{property.subtitle}}</h6>
-                    <p class="card-text">{{ property.description | slice:0:85 }}...</p>
+                    <h5 class="card-title">{{recette.title | slice:0:20}}...</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{recette.subtitle}}</h6>
+                    <p class="card-text">{{ recette.description | slice:0:85 }}...</p>
                     <hr />
                     <strong>Crée par:</strong> <br />
-                    <strong>Catégorie:</strong> {{property.category}}<br/>
-                    <strong>Lieu:</strong> {{property.city}} ({{property.zip}})<br/>
-                    <strong>Prix:</strong> {{property.price}} €<br/>
+                    <strong>Catégorie:</strong> {{recette.category}}<br/>
+                    <strong>Lieu:</strong> {{recette.city}} ({{recette.zip}})<br/>
+                    <strong>Prix:</strong> {{recette.price}} €<br/>
                     <div class="tools-btn-recette">
                         <hr style="border: 1px dashed rgb(236, 236, 236)">
-                        <button class="btn btn-danger text-white" (click)="deleteRecette(property.id)"><i class="fas fa-trash-alt"></i> Supprimer</button>
-                        <button class="btn btn-primary float-right" (click)="editRecette(property.id)"><i class="fas fa-edit"></i> Editer</button>
+                        <button class="btn btn-danger text-white" (click)="deleteRecette(recette.id)"><i class="fas fa-trash-alt"></i> Supprimer</button>
+                        <button class="btn btn-primary float-right" (click)="editRecette(recette.id)"><i class="fas fa-edit"></i> Editer</button>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
     <div class="modal fade" id="modalEditRecette" tabindex="-1" role="dialog" aria-labelledby="modalEditRecetteLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form #f="ngForm" (ngSubmit)="validateFormEdit(f)">
+                <form #f="ngForm" (ngSubmit)="saveFormEdit(f)">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalEditRecetteLabel">Editer cette recette</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -106,25 +106,34 @@
                             </div>
 
                             <div class="col-md-12 mt-3 custom-file ">
-                              <input type="file" name="images" id="file" multiple (change)="handleFileInput($event)" class="custom-file-input">
-                              <label for="file" class="custom-file-label">Choississez des fichiers</label>
+                                <input type="file" name="images" id="file" multiple (change)="handleFileInput($event)" class="custom-file-input">
+                                <label for="file" class="custom-file-label">Choississez des fichiers</label>
                             </div>
 
                             <hr/>
                             <div class="input-group mt-3 col-md-3" style="min-width: 240px !important;">
                                 <div class="input-group-prepend">
-                                  <span class="input-group-text"><strong>Prix: </strong></span>
+                                    <span class="input-group-text"><strong>Prix: </strong></span>
                                 </div>
                                 <input type="number" class="form-control" style="font-weight: bold;" dir="rtl" name="price" aria-label="Prix en euro" [(ngModel)]="recetteToUpdate.price" #recettePrice="ngModel" required>
                                 <div class="input-group-append">
-                                  <span class="input-group-text">€</span>
+                                    <span class="input-group-text">€</span>
                                 </div>
                             </div>
-                            <div  *ngFor="let image of recetteToUpdate.images">
-                              <a href="{{uploadImage}}{{image.name}}" [ngStyle]="{'max-height.px': '190'}" class="card-img-top" alt=""> {{image.name}} </a>
+                        </div>
+                        <div class="row mt-2" style="background-color: rgb(238, 238, 238);">
+
+                            <div *ngFor="let image of recetteToUpdate.images">
+                                <div class="col-lg-2 col-md-2">
+                                    <a id="btn-delete-image" class="btn btn-danger btn-delete-image" href="#" (click)="deleteThumbnailRecette(image.id)" title="Supprimer cette image">
+                                    X
+                                    </a>
+                                    <img src="{{uploadImage}}{{image.name}}" id="img{{image.id}}" class="rounded" style="width:80px; height:45px; border: 1px solid gray;" alt="">
+                                </div>
                             </div>
-                           </div>
+                        </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                         <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Valider</button>

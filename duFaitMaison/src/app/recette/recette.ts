@@ -5,7 +5,7 @@ export class Recette {
   category!: string;
   city!: string;
   zip!: string;
-  price!: number;
+  price!: string;
   description?: any; // type 'text' provoque une erreur dans la console. a voir plus tard
-  images : any;
+  images: any;
 }

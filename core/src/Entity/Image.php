@@ -12,7 +12,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ApiResource
+ * @ApiResource(iri="http://schema.org/Image",
+ *              collectionOperations={
+ *                  "post",
+ *                  "get"
+ *              },
+ *              itemOperations={
+ *                  "get",
+ *                  "delete_image"={
+ *                      "route_name"="recette_delete_image",
+ *                      "method"="DELETE"
+ *                  }
+ *              }
+ * )
  * @ORM\Entity(repositoryClass=ImageRepository::class)
  * @Vich\Uploadable
  */
@@ -22,6 +34,7 @@ class Image
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"recette"})
      */
     private $id;
 
@@ -67,7 +80,7 @@ class Image
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -91,7 +104,7 @@ class Image
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(?string $type): self
     {
         $this->type = $type;
 
