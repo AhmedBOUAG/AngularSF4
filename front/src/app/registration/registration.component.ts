@@ -5,6 +5,7 @@ import { UserRegistration } from './registration';
 import { NgbDateParserFormatter, NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { RegistrationService } from '../services/registration.service';
 import { NgbDateFRParserFormatter } from '../datepicker/ngb-date-fr-parser-formatter';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -21,25 +22,24 @@ import { NgbDateFRParserFormatter } from '../datepicker/ngb-date-fr-parser-forma
 export class RegistrationComponent implements OnInit {
   messageHandler: any = {};
   parseDate = new NgbDateFRParserFormatter();
-  birthdate = '';
 
   newUser: UserRegistration = new UserRegistration();
 
-  constructor(private mhs: MessageHandlerService, private regUser: RegistrationService) { }
+  constructor(private mhs: MessageHandlerService, private regUser: RegistrationService, public datePipe: DatePipe) { }
 
   ngOnInit(): void {
   }
 
   onUserRegistration(f: any) {
     let birthdate = f.form.value.birthdate;
-    if (typeof f.form.value.birthdate === 'string') {
-      //this.parseDate.dateCheck(birthdate); // a revoir plus tard
-      f.form.value.birthdate = this.parseDate.parse(f.form.value.birthdate);
+
+    if (typeof birthdate === 'object' && birthdate !== null) {
+      f.form.value.birthdate = birthdate.day + birthdate.month + birthdate.year;
     }
-    console.log(typeof f.form.value.birthdate);
-    this.birthdate =  f.form.value.birthdate !== 'undefined' ? f.form.value.birthdate : this.birthdate ;
-    f.form.value.birthdate = this.parseDate.formatDB(f.form.value.birthdate);
-    //console.log(f.form.value);
+    // else if (typeof birthdate === 'string') {
+    //   f.form.value.birthdate = this.datePipe.transform(birthdate, 'dd-MM-yyyy');
+    // }
+
     this.regUser.registration(f.form.value).subscribe(
       (data: UserRegistration[]) => {
         this.messageHandler = this.mhs.display('CREATE');

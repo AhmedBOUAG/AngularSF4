@@ -65,7 +65,9 @@ class User implements UserInterface, \Serializable
     private $username;
 
     /**
-     * 
+     * @Assert\NotBlank(
+     *    message = "Un email est obligatoire pour l'inscription"
+     * )
      * @Assert\Email(
      *     message = "L'adresse email {{ value }} n'est pas valide."
      * )
@@ -75,13 +77,24 @@ class User implements UserInterface, \Serializable
     private $email;
 
     /**
+     * @Assert\NotBlank(
+     *    message = "Un mot de passe est obligatoire pour l'inscription"
+     * )
+     * @Assert\NotCompromisedPassword(
+     *    message = "Votre mot de passe est corrompu ! Veuillez en saisir un autre."
+     * )
      * @ORM\Column(type="string", length=255)
      * @Groups({"user:write"})
      */
     private $password;
 
     /**
-     * @Assert\Date
+     * @Assert\Date(
+     *    message = "Le format de la date n'est pas valide."
+     * )
+     * @Assert\NotBlank(
+     *    message = "La date de naissance est obligatoire pour l'inscription"
+     * )
      * @ORM\Column(type="date")
      * @Groups({"user:read", "user:write"})
      */
@@ -179,32 +192,31 @@ class User implements UserInterface, \Serializable
     {
         return $this->createdAt;
     }
-     
-   /**
+
+    /**
      * 
      * @return (Role|string)[] the user roles
      */
-    
+
     public function getRoles()
     {
         return ['ROLE_USER'];
     }
-    
+
     /*
      * 
      * @return string|null the salt     
      */
-    
-    public function getSalt() 
+
+    public function getSalt()
     {
         return  null;
     }
-    
+
     public function eraseCredentials()
     {
-
     }
-    public function serialize() 
+    public function serialize()
     {
         return serialize([
             $this->id,
@@ -212,13 +224,13 @@ class User implements UserInterface, \Serializable
             $this->password
         ]);
     }
-    public function unserialize($serialized) {
+    public function unserialize($serialized)
+    {
 
-    list(
+        list(
             $this->id,
             $this->username,
             $this->password
         ) = unserialize($serialized, ['allowed_classes' => false]);
     }
-
 }

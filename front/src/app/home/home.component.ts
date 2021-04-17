@@ -6,6 +6,7 @@ import { RecetteService } from './../services/recette.service';
 import { Recette } from './../recette/recette';
 import { MessageHandlerService } from './../services/message-handler.service';
 import * as $ from 'jquery';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   recettes: Recette[] = [];
   recetteToUpdate: Recette = new Recette();
   idDelete = 0;
-  uploadImage = "http://127.0.0.1:8000/images/";
+  uploadImage = environment.apiBaseUrl + "images/";
 
   constructor(private RecetteService: RecetteService, private mhs: MessageHandlerService) {
   }
