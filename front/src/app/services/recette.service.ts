@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { __core_private_testing_placeholder__ } from '@angular/core/testing';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { __core_private_testing_placeholder__ } from '@angular/core/testing';
 export class RecetteService {
 
   isSingleResult = false;
-  baseUrl = 'http://127.0.0.1:8000/api/recette_d_f_ms';
+  private apiUrl= environment.apiBaseUrl + 'api/recette_d_f_ms';
   recettes!: Recette[];
   images = [];
 
@@ -21,7 +22,7 @@ export class RecetteService {
    * Fonction qui récupère, via l'API, toutes les recettes
    */
   getAll(): Observable<Recette[]> {
-    const uri = `${this.baseUrl}`;
+    const uri = `${this.apiUrl}`;
 
     return this.getRecette(uri);
   }
@@ -32,7 +33,7 @@ export class RecetteService {
    */
   getRecetteById(id: number): any {
     this.isSingleResult = true;
-    const uri = `${this.baseUrl}/${id}`;
+    const uri = `${this.apiUrl}/${id}`;
     return this.getRecette(uri);
   }
 
@@ -68,7 +69,7 @@ export class RecetteService {
     formData.append("description", recette.description);
     formData.append("zip", recette.zip);
 
-    return this.http.post(`${this.baseUrl}`, formData)
+    return this.http.post(`${this.apiUrl}`, formData)
       .pipe(map((res) => {
         return this.recettes;
       }),
@@ -81,7 +82,7 @@ export class RecetteService {
    */
   update(recette: Recette): Observable<Recette[]> {
     console.log(recette);
-    return this.http.put(`${this.baseUrl}/${recette.id}`, recette)
+    return this.http.put(`${this.apiUrl}/${recette.id}`, recette)
       .pipe(map((res) => {
         return this.recettes;
       }),
@@ -93,7 +94,7 @@ export class RecetteService {
    * @param id //number // id de la recette à supprimer
    */
   delete(id: number): Observable<{}> {
-    return this.http.delete(`${this.baseUrl}/${id}`).pipe(
+    return this.http.delete(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError)
     );
   }

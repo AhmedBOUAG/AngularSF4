@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { LoaderService } from '../../services/loader.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { LoaderService } from '../../services/loader.service';
 export class LoaderComponent implements OnInit {
 
   loading: boolean = false;
+  imageApiUrl: string = environment.apiBaseUrl + 'images/loading-loader.svg';
 
   constructor(private loaderService: LoaderService) {
 

@@ -129,7 +129,7 @@
         "version": "v4.10.4"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -245,6 +245,9 @@
             "./src/Controller/.gitignore",
             "./src/Kernel.php"
         ]
+    },
+    "symfony/http-client": {
+        "version": "v4.4.21"
     },
     "symfony/http-client-contracts": {
         "version": "v2.3.1"

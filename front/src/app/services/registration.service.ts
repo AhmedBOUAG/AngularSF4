@@ -3,20 +3,20 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { UserRegistration } from '../registration/registration';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegistrationService {
-
-  baseUrl = 'http://127.0.0.1:8000/api/users';
+  private apiUrl= environment.apiBaseUrl + 'api/users';
   user!: UserRegistration[];
 
   constructor(private http: HttpClient) { }
 
   registration(userReg: UserRegistration): Observable<UserRegistration[]>{
-    return this.http.post(`${this.baseUrl}`, userReg).pipe(
+    return this.http.post(`${this.apiUrl}`, userReg).pipe(
       map((res) => {
         console.log(res);
         return this.user;

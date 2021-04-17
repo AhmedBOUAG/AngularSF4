@@ -1,7 +1,7 @@
 <div class="progress-loader" [hidden]="!loading">
     <div class="loading-spinner">
         <div class="carre-loading">
-            <img src="http://127.0.0.1:8000/images/loading-loader.svg">
+            <img [src]="imageApiUrl">
             <span class="loading-message">Patientez...</span>
         </div>
     </div>

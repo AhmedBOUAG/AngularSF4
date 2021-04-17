@@ -16,6 +16,7 @@ import { LoaderService } from './services/loader.service';
 import { RegistrationComponent } from './registration/registration.component';
 import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateFRParserFormatter } from './datepicker/ngb-date-fr-parser-formatter';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { NgbDateFRParserFormatter } from './datepicker/ngb-date-fr-parser-format
   ],
   providers: [
     LoaderService,
-    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+    DatePipe,
   ],
   bootstrap: [AppComponent]
 })
