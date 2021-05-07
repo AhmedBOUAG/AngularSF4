@@ -1,0 +1,6 @@
+.bg-dfm {
+    background: linear-gradient(to top, rgb(4, 150, 248), rgb(2, 199, 248));
+    width: 100%;
+    clear: both;
+    position: relative;
+}

@@ -1,0 +1,30 @@
+a {
+    display: inline;
+    list-style: none;
+    margin-right: 50px;
+}
+
+.navbar {
+    background: linear-gradient(to right, rgb(4, 150, 248), rgb(2, 199, 248));
+}
+
+ul>.nav-item>a {
+    padding: 18px 19px;
+}
+
+a.nav-link-title {
+    color: #fff !important;
+}
+
+
+/* li a:hover {
+    border-radius: 5px;
+    text-decoration: none;
+} */
+
+li.nav-item a:hover {
+    background-color: rgb(232, 250, 254);
+    text-decoration: none;
+    font-weight: 400;
+    color: rgb(4, 150, 248) !important;
+}
