@@ -8,7 +8,7 @@ export class MessageHandlerService {
 
   constructor() { }
 
-  display(mess: string, error = false): any {
+  display(mess: string, message: string = '', error = false): any {
     if (error) {
       this.message = {
         'iconOperation': 'fa-exclamation-triangle',
@@ -34,7 +34,7 @@ export class MessageHandlerService {
       this.message = {
         'iconOperation': 'fa-check-circle',
         'typeOperation': 'alert-success',
-        'messageOperation': 'La recette a été créée avec succès'
+        'messageOperation': message
       }
     }
 

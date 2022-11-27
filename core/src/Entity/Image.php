@@ -12,19 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ApiResource(iri="http://schema.org/Image",
- *              collectionOperations={
- *                  "post",
- *                  "get"
- *              },
- *              itemOperations={
- *                  "get",
- *                  "delete_image"={
- *                      "route_name"="recette_delete_image",
- *                      "method"="DELETE"
- *                  }
- *              }
- * )
+ * @ApiResource()
  * @ORM\Entity(repositoryClass=ImageRepository::class)
  * @Vich\Uploadable
  */
@@ -34,22 +22,22 @@ class Image
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"recette"})
+     * @Groups({"recette:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"recette"})
+     * @Groups({"recette:read", "recette:write"})
      */
     private ?string $name = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"recette"})
+     * @Groups({"recette:read", "recette:write"})
      */
     private ?string $path = null;
-    
+
     /**
      *
      * @Vich\UploadableField(mapping="image_object", fileNameProperty="name",mimeType="type",size="path")
@@ -60,12 +48,13 @@ class Image
      * @var string|null
      * 
      * @ORM\Column(type="string", length=25)
-     * @Groups({"recette"})
+     * @Groups({"recette:read", "recette:write"})
      */
     private ?string $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="RecetteDFM", inversedBy="images")
+     * 
      * 
      */
     private $recette;
@@ -110,14 +99,14 @@ class Image
 
         return $this;
     }
-    
+
     public function getRecette(): RecetteDFM
     {
         return $this->recette;
     }
 
-  
-    public function setRecette($recette) : self
+
+    public function setRecette($recette): self
     {
         $this->recette = $recette;
 
@@ -126,7 +115,7 @@ class Image
 
     /**
      * Get the value of file
-     */ 
+     */
     public function getFile()
     {
         return $this->file;
@@ -136,7 +125,7 @@ class Image
      * Set the value of file
      *
      * @return  self
-     */ 
+     */
     public function setFile(?File $file = null)
     {
         $this->file = $file;

@@ -7,7 +7,7 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { LoaderService } from '../services/loader.service';
 
 @Injectable()
@@ -25,27 +25,30 @@ export class LoaderInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+    console.log('intercept Loader');
+    const calledApiName = req.url.split('/').slice(-1)[0];
     this.requests.push(req);
 
-    console.log(this.requests.length); // numero de la requete
+    //  console.log(this.requests.length); // numero de la requete
 
-    this.loaderService.isLoading.next(true);
-    return Observable.create((observer: any) => {
+    if ('login_check' !== calledApiName) {
+      this.loaderService.isLoading.next(true);
+    }
+    return new Observable((observer: any) => {
       const subscription = next.handle(req).subscribe(event => {
-            if (event instanceof HttpResponse) {
-              this.removeRequest(req);
-              observer.next(event);
-            }
-          }, err => {
-            //alert('error' + err);
-            this.removeRequest(req);
-            observer.error(err);
-          },
-          () => {
-            this.removeRequest(req);
-            observer.complete();
-          });
+        if (event instanceof HttpResponse) {
+          this.removeRequest(req);
+          observer.next(event);
+        }
+      }, err => {
+        //alert('error' + err);
+        this.removeRequest(req);
+        observer.error(err);
+      },
+        () => {
+          this.removeRequest(req);
+          observer.complete();
+        });
       // remove request from queue when cancelled
       return () => {
         this.removeRequest(req);

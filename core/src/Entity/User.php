@@ -9,6 +9,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ApiResource(
@@ -17,7 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *    collectionOperations={
  *      "get"={"method"="GET"},
  *      "post"={
- *          "controller"=App\Controller\Api\CreateUserController::class   
+ *          "controller"=App\Controller\Api\UserController::class,
+ *          "path"="user/create"   
  *       }
  *     },
  *     itemOperations={
@@ -26,8 +28,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * * @UniqueEntity(fields={"email"}, message="Un utilisateur est déjà enregistré sous cet adresse email")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -71,7 +74,7 @@ class User implements UserInterface, \Serializable
      * @Assert\Email(
      *     message = "L'adresse email {{ value }} n'est pas valide."
      * )
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", unique=true, length=255)
      * @Groups({"user:read", "user:write"})
      */
     private $email;
@@ -128,10 +131,10 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getLastname(): ?string
+    /* public function getLastname(): ?string
     {
         return $this->lastname;
-    }
+    }*/
 
     public function setLastname(string $lastname): self
     {
@@ -150,6 +153,14 @@ class User implements UserInterface, \Serializable
         $this->username = $username;
 
         return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
     }
 
     public function getEmail(): ?string
@@ -216,7 +227,7 @@ class User implements UserInterface, \Serializable
     public function eraseCredentials()
     {
     }
-    public function serialize()
+    public function __serialize()
     {
         return serialize([
             $this->id,
@@ -224,7 +235,7 @@ class User implements UserInterface, \Serializable
             $this->password
         ]);
     }
-    public function unserialize($serialized)
+    public function __unserialize($serialized)
     {
 
         list(

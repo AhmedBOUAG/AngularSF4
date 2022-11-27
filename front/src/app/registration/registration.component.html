@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container" id="wrapper">
     <div class="row col-12 shadow-sm p-3 bg-white rounded mt-5">
-        <h1 style="text-align: center;"><i class="fas fa-pen"></i> Devenir membre</h1>
+        <h3 style="text-align: center;"><i class="fas fa-pen"></i> Devenir membre</h3>
     </div>
     <div *ngIf="messageHandler !== '' " class="row col-12 alert {{ messageHandler.typeOperation }} p-2 mt-3">
         <i class="fas {{messageHandler.iconOperation}}" style="margin-top:.29rem"></i><span class="pl-2">{{messageHandler.messageOperation}}</span>

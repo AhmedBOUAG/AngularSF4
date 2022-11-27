@@ -1,5 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&family=Zen+Kurenaido&display=swap');
+html,
 body {
-    background-color: #fafafa;
+    background-color: #f8f8f8;
+    height: 100%;
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1em;
+}
+
+#wrapper {
+    min-height: 75%;
+}
+
+.bg-white {
+    border-top-width: 0 !important;
+    border-right-width: 0.1em !important;
+    border-bottom-width: 0.2em !important;
+    border-left-width: 0 !important;
+    border-color: #d6d6d6 !important;
+    border: solid;
 }

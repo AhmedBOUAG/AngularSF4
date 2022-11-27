@@ -1,19 +1,25 @@
-.tools-btn-recette {
-    position: absolute;
-    width: 90%;
-    left: 0;
-    margin: 15px;
-    bottom: 0;
+@import url('https://fonts.googleapis.com/css?family=Waiting+for+the+Sunrise');
+
+div#typedtext {
+    color: #0FB2D2;
+    width: 58%;
+    text-align: center;
+    transform: rotateZ(349deg);
+    font-family: 'Waiting for the Sunrise', cursive;
+    font-size: 30px;
+    margin-top: 6%;
+    font-weight: 600;
+    letter-spacing: 6px;
 }
 
-.title-nb-recette {
-    color: rgb(199, 198, 198);
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-.btn-delete-image {
-    position: absolute;
-    width: 1.3rem;
-    padding: 0px;
-    margin: 0px;
+.typewrite-home {
+    font-size: 2em;
+    max-height: 48vh;
+    height: 30vh;
+    text-align: center;
+    color: #0fb2d2;
+    font-weight: 600;
+    min-height: 10em;
+    display: table-cell;
+    vertical-align: middle
 }

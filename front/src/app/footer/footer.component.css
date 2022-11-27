@@ -1,6 +1,8 @@
 .bg-dfm {
-    background: linear-gradient(to top, rgb(4, 150, 248), rgb(2, 199, 248));
+    font-family: 'Zen Kurenaido', sans-serif;
+    background: linear-gradient(to top, rgb(101 126 143), rgb(7 113 139));
     width: 100%;
     clear: both;
     position: relative;
+    bottom: -3px;
 }
