@@ -14,9 +14,9 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./registration.component.css'],
   providers: [
     I18n,
-    {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n},
-    {provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter}
-    ]
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+    { provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter }
+  ]
 
 })
 export class RegistrationComponent implements OnInit {
@@ -31,23 +31,19 @@ export class RegistrationComponent implements OnInit {
   }
 
   onUserRegistration(f: any) {
-    let birthdate = f.form.value.birthdate;
-
-    if (typeof birthdate === 'object' && birthdate !== null) {
-      f.form.value.birthdate = birthdate.day + birthdate.month + birthdate.year;
-    }
-    // else if (typeof birthdate === 'string') {
-    //   f.form.value.birthdate = this.datePipe.transform(birthdate, 'dd-MM-yyyy');
-    // }
-
+    // let birthdate = f.form.value.birthdate;
+    console.log(typeof f.form.value.birthdate);
+    // birthdate = f.form.value.birthdate !== 'undefined' ? f.form.value.birthdate : birthdate;
+    f.form.value.birthdate = this.parseDate.formatDB(f.form.value.birthdate);
     this.regUser.registration(f.form.value).subscribe(
       (data: UserRegistration[]) => {
-        this.messageHandler = this.mhs.display('CREATE');
-          setTimeout(() => this.messageHandler = {}, 7000);
-          f.reset();
+        let message = "Votre inscription a été effectuée avec succès."
+        this.messageHandler = this.mhs.display('CREATE', message, false);
+        setTimeout(() => this.messageHandler = {}, 7000);
+        f.reset();
       },
       (err) => {
-        this.messageHandler = this.mhs.display(err, true);
+        this.messageHandler = this.mhs.display(err, '', true);
       }
     );
   }
