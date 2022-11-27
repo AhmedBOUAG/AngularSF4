@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Controller\Api\CreateRecetteAction;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
-use Doctrine\ORM\Mapping as ORM;
+use App\Controller\Api\CreateRecetteAction;
+use App\Controller\Api\EditRecetteAction;
+use App\Traits\ResourceIdTrait;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ApiResource(iri="http://schema.org/RecetteDFM",
- * normalizationContext={"groups"={"recette"}},
+ * normalizationContext={"groups"={"recette:read"}},
+ * denormalizationContext={"groups"={"recette:write"}},
  *    collectionOperations={
  *         "post"={
  *             "controller"=CreateRecetteAction::class,
@@ -47,8 +50,8 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
  *     },
  *     itemOperations={
  *         "get",
- *          "put"={
- *             "controller"=CreateRecetteAction::class,
+ *          EditRecetteAction::EDIT_OPERATION={
+ *             "controller"=EditRecetteAction::class,
  *              "method"="post",
  *             "deserialize"=false,
  *             
@@ -59,7 +62,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
  *                             "schema"={
  *                                 "type"="object",
  *                                 "properties"={
- *                                     "images"={
+ *                                     "imagesUploaded"={
  *                                         "type"="string",
  *                                         "format"="binary"
  *                                     }                                
@@ -77,71 +80,75 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
  */
 class RecetteDFM
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     * @Groups({"recette"})
-     */
-    private int $id;
+    use ResourceIdTrait;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"recette"})
+     * @Groups({"recette:read", "recette:write"})
      */
     private string $title;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"recette"})
+     * @Groups({"recette:read", "recette:write"})
      */
     private ?string $subtitle = null;
 
     /**
-     * @ORM\Column(type="string", length=30)
-     * @Groups({"recette"})
+     * @ORM\Column(type="integer", length=30)
+     * @Groups({"recette:read", "recette:write"})
      */
-    private int $category = 1;
+    private int $category = 0;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"recette"})
+     * @Groups({"recette:read", "recette:write"})
      */
     private ?string $city = null;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"recette"})
+     * @Groups({"recette:read", "recette:write"})
      */
     private ?string $zip = null;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"recette"})
+     * @Groups({"recette:read", "recette:write"})
      */
     private ?float $price = 0.00;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"recette"})
+     * @Groups({"recette:read", "recette:write"})
      */
     private $description;
 
     /**
+     * @ORM\Column(type="datetime")
+     * @Groups({"recette:read", "recette:write"})
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"recette:read", "recette:write"})
+     */
+    private $updatedAt = null;
+
+    /**
      * @ORM\OneToMany(targetEntity="Image", mappedBy="recette", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ApiSubresource()
-     * @Groups({"recette"})
+     * @Groups({"recette:read", "recette:write"})
      * @ApiProperty(iri="http://schema.org/Image")
      */
-    private $images;
+    private $images = [];
 
-    public function __construct() {
-        $this->images = new ArrayCollection();
-    }
 
-    public function getId(): ?int
+    public function __construct()
     {
-        return $this->id;
+        $this->images = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getTitle(): ?string
@@ -227,16 +234,48 @@ class RecetteDFM
 
         return $this;
     }
- 
+
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setUpdatedAt(?DateTimeInterface $date)
+    {
+        $this->updatedAt = $date;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
     public function getImages(): ?Collection
     {
         return $this->images;
     }
 
-    public function setImages( Image $image): self
-    {   
-        $image->setRecette($this);
-        $this->images->add($image);
+    public function addImages(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setRecette($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImages(Image $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getRecette() === $this) {
+                $image->setRecette(null);
+            }
+        }
 
         return $this;
     }

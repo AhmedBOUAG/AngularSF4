@@ -1,11 +1,10 @@
 a {
-    display: inline;
     list-style: none;
     margin-right: 50px;
 }
 
 .navbar {
-    background: linear-gradient(to right, rgb(4, 150, 248), rgb(2, 199, 248));
+    background: linear-gradient(to right, rgb(15 114 139), rgb(16 93 124));
 }
 
 ul>.nav-item>a {
@@ -23,8 +22,11 @@ a.nav-link-title {
 } */
 
 li.nav-item a:hover {
-    background-color: rgb(232, 250, 254);
+    background-color: rgb(11 113 139);
     text-decoration: none;
     font-weight: 400;
-    color: rgb(4, 150, 248) !important;
+    color: rgb(191, 220, 253) !important;
+}
+#menu-links>.nav-item>a.selected {
+  background-color: #fcfcfc26;
 }

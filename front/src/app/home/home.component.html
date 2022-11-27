@@ -1,144 +1,21 @@
-<div class="container">
-    <div class="row col-12 shadow-sm p-3 mb-3 bg-white rounded mt-5">
-        <div class="w-100">
-            <h3 class="float-left"><i class="fas fa-list"></i> Liste des recettes</h3>
-            <button class="btn btn-success float-right" routerLink="/recette"><i class="fas fa-plus"></i> Créer une recette</button>
-        </div>
-    </div>
-    <div class="row col-12 alert {{ messageHandler.typeOperation }} p-2 mt-3" *ngIf="messageHandler.messageOperation !== '' ">
-        <i class="fas {{messageHandler.iconOperation}}" style="margin-top:.29rem"></i><span class="pl-2">{{messageHandler.messageOperation}}</span>
-    </div>
-
-    <div class="row col-12 mt-3 shadow-sm mb-5 bg-white rounded mr-5">
-        <div class="col-12 mb-3 mt-2 nb title-nb-recette">
-            Nombre de recette retourné (<b>{{recettes.length}}</b>)
-        </div>
-        <div id="#cardRecette" class="col-sm-12 col-md-6 col-lg-4 mb-5" *ngFor="let recette of recettes; let i = index">
-            <div class="card w-100 mh-100" style="min-height:560px;">
-                <img src="{{uploadImage}}{{recette.images[0].name}}" [ngStyle]="{'max-height.px': '190'}" class="card-img-top" alt="">
-                <div class="card-body">
-                    <h5 class="card-title">{{recette.title | slice:0:20}}...</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{recette.subtitle}}</h6>
-                    <p class="card-text">{{ recette.description | slice:0:85 }}...</p>
-                    <hr />
-                    <strong>Crée par:</strong> <br />
-                    <strong>Catégorie:</strong> {{recette.category}}<br/>
-                    <strong>Lieu:</strong> {{recette.city}} ({{recette.zip}})<br/>
-                    <strong>Prix:</strong> {{recette.price}} €<br/>
-                    <div class="tools-btn-recette">
-                        <hr style="border: 1px dashed rgb(236, 236, 236)">
-                        <button class="btn btn-danger text-white" (click)="deleteRecette(recette.id)"><i class="fas fa-trash-alt"></i> Supprimer</button>
-                        <button class="btn btn-primary float-right" (click)="editRecette(recette.id)"><i class="fas fa-edit"></i> Editer</button>
+<div class="container" id="wrapper">
+    <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded">
+        <div class="w-100 p-3" style="border: 1px solid #e3eaed; border-radius: 5px; background: #f7f7f7;">
+            <div class="row">
+                <div class="col-sm-4 col-md-4">
+                    <img src="./assets/svg/svg_mister_chef.svg" width="100%">
+                </div>
+                <div class="col-sm-8 col-md-8 mt-30">
+                    <div class="typewrite-home">
+                        <ngtypewriter [StringList]='list' [speed]='1000'></ngtypewriter>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- La modal de confirmation -->
-    <div class="modal fade" id="modalConfirmation" tabindex="-1" role="dialog" aria-labelledby="modalConfirmationLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalConfirmationLabel">Confirmer cette action</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-                </div>
-                <div class="modal-body">
-                    <p>Vous êtes sur le point de supprimer cette recette, cette action est définitive et irréversible! Vous souhaitez continuer?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary" (click)="confirmDelete()">Continuer</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal édition d'une recette -->
-    <div class="modal fade" id="modalEditRecette" tabindex="-1" role="dialog" aria-labelledby="modalEditRecetteLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form #f="ngForm" (ngSubmit)="saveFormEdit(f)">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalEditRecetteLabel">Editer cette recette</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
+                    <div class="mb-0">
+                        <button class="btn btn-success float-right" routerLink="/create-recipe">
+                            <i class="fas fa-plus"></i> Créer une recette
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="row col-12">
 
-                            <div class="col-md-6">
-                                <label for="title">Titre :</label>
-                                <input type="text" class="form-control" name="title" [(ngModel)]="recetteToUpdate.title" #trackTitle="ngModel" #recetteTitle="ngModel" required>
-                                <p class="alert" *ngIf="!trackTitle.valid && trackTitle.touched">Le titre est obligatoire!</p>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="subtitle"><i>Sous titre :</i></label>
-                                <input type="text" class="form-control" name="subtitle" [(ngModel)]="recetteToUpdate.subtitle" #recetteSubtitle="ngModel" required>
-                            </div>
-                            <div class="col-md-12 mt-3">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <label class="input-group-text" for="inputGroupSelect01">Catégorie :</label>
-                                    </div>
-                                    <select class="custom-select" id="inputGroupSelect01" name="category" [(ngModel)]="recetteToUpdate.category" #recetteCategory="ngModel" required>
-                                      <option> ----- Séléctionnez -------</option>
-                                      <option value="1">Gateau Anniversaire</option>
-                                      <option value="2">Pâtisserie</option>
-                                      <option value="3">Variété</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="description">Description</label>
-                                <textarea class="form-control" placeholder="Décrivez ici votre produit" id="floatingTextarea2" name="description" style="height: 100px" [(ngModel)]="recetteToUpdate.description" #recetteDescription="ngModel" required></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="city">Ville :</label>
-                                <input type="text" class="form-control" name="city" [(ngModel)]="recetteToUpdate.city" #recetteCity="ngModel" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="zip">Code Postal :</label>
-                                <input type="text" class="form-control" name="zip" [(ngModel)]="recetteToUpdate.zip" #recetteZip="ngModel" required>
-                            </div>
-
-                            <div class="col-md-12 mt-3 custom-file ">
-                                <input type="file" name="images" id="file" multiple (change)="handleFileInput($event)" class="custom-file-input">
-                                <label for="file" class="custom-file-label">Choississez des fichiers</label>
-                            </div>
-
-                            <hr/>
-                            <div class="input-group mt-3 col-md-3" style="min-width: 240px !important;">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><strong>Prix: </strong></span>
-                                </div>
-                                <input type="number" class="form-control" style="font-weight: bold;" dir="rtl" name="price" aria-label="Prix en euro" [(ngModel)]="recetteToUpdate.price" #recettePrice="ngModel" required>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">€</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-2" style="background-color: rgb(238, 238, 238);">
-
-                            <div *ngFor="let image of recetteToUpdate.images">
-                                <div class="col-lg-2 col-md-2">
-                                    <a id="btn-delete-image" class="btn btn-danger btn-delete-image" href="#" (click)="deleteThumbnailRecette(image.id)" title="Supprimer cette image">
-                                    X
-                                    </a>
-                                    <img src="{{uploadImage}}{{image.name}}" id="img{{image.id}}" class="rounded" style="width:80px; height:45px; border: 1px solid gray;" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                        <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Valider</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
