@@ -144,7 +144,6 @@ class RecetteDFM
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recetteDFMs")
      * @ORM\JoinColumn(nullable=false)
-     * @MaxDepth(1)
      */
     private $creator;
 
