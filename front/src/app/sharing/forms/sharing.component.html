@@ -1,0 +1,194 @@
+<!-- <form #f="ngForm" (ngSubmit)="saveEditRecipe(f)"> -->
+<form [formGroup]="recipeForm" (ngSubmit)="saveEditRecipe()">
+  <div class="modal-header" mat-dialog-title>
+    <h5 class="modal-title" id="modalEditRecetteLabel">{{ operationTitle }}</h5>
+    <button
+      mat-button
+      mat-dialog-close
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body" mat-dialog-content>
+    <div class="row col-12">
+      <div class="col-md-6 form-group">
+        <label for="title">Titre :</label>
+        <input
+          formControlName="title"
+          type="text"
+          class="form-control"
+          name="title"
+          required
+        />
+
+        <div
+          *ngIf="f.title.touched && f.title.invalid"
+          class="alert alert-danger"
+        >
+          <div *ngIf="f.title.errors && f.title.errors.required">
+            Le titre est obligatoire!
+          </div>
+          <div *ngIf="f.title.errors && f.title.errors.minlength">
+            Le titre doit contenir plus de 15 caractères
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="subtitle"><i>Sous titre :</i></label>
+        <input
+          type="text"
+          class="form-control"
+          name="subtitle"
+          formControlName="subtitle"
+          required
+        />
+      </div>
+      <div class="col-md-12 mt-3">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01"
+              >Catégorie :</label
+            >
+          </div>
+          <select
+            class="custom-select"
+            id="inputGroupSelect01"
+            name="category"
+            formControlName="category"
+            required
+          >
+            <option>----- Séléctionnez -------</option>
+            <option value="1">Gateau Anniversaire</option>
+            <option value="2">Pâtisserie</option>
+            <option value="3">Variété</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <label for="description">Description</label>
+        <textarea
+          class="form-control"
+          placeholder="Décrivez ici votre produit"
+          id="floatingTextarea2"
+          name="description"
+          style="height: 100px"
+          formControlName="description"
+          required
+        ></textarea>
+      </div>
+      <div class="col-md-6">
+        <label for="city">Ville :</label>
+        <input
+          type="text"
+          class="form-control"
+          name="city"
+          formControlName="city"
+          required
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="zip">Code Postal :</label>
+        <input
+          type="text"
+          class="form-control"
+          name="zip"
+          formControlName="zip"
+          required
+        />
+      </div>
+
+      <div class="col-md-12 mt-3 custom-file">
+        <input
+          type="file"
+          name="images"
+          id="file"
+          multiple
+          (change)="loadFile($event)"
+          class="custom-file-input"
+        />
+        <label for="file" class="custom-file-label"
+          >Choississez des fichiers</label
+        >
+      </div>
+
+      <hr />
+      <div
+        class="input-group mt-3 col-md-3"
+        style="min-width: 240px !important"
+      >
+        <div class="input-group-prepend">
+          <span class="input-group-text"><strong>Prix: </strong></span>
+        </div>
+        <input
+          type="number"
+          class="form-control"
+          style="font-weight: bold"
+          dir="rtl"
+          name="price"
+          aria-label="Prix en euro"
+          formControlName="price"
+          required
+        />
+        <div class="input-group-append">
+          <span class="input-group-text">€</span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row mt-2"
+      style="background-color: rgb(238, 238, 238)"
+      *ngIf="isEdit"
+    >
+      <div *ngFor="let image of thumbnails">
+        <div class="col-lg-2 col-md-2">
+          <a
+            id="btn-delete-image"
+            class="btn btn-danger btn-delete-image"
+            (click)="preDeleteThumbnail(image.id)"
+            title="Supprimer cette image"
+          >
+            X
+          </a>
+          <img
+            src="{{ uploadImagesDir }}{{ image.name }}"
+            id="img{{ image.id }}"
+            class="rounded"
+            style="width: 80px; height: 45px; border: 1px solid gray"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+    <br />
+    <div
+      *ngIf="thumbnails.length === 1 && isEdit"
+      class="alert alert-warning"
+      style="font-size: 0.9em"
+    >
+      <strong>Attention:</strong> Votre recette ne contient qu'une seule image.
+      Si vous décidez de supprimer cette dernière <u>sans</u> en chargeant une
+      autre, votre recette sera définitivement supprimée.
+    </div>
+  </div>
+
+  <div class="modal-footer" mat-dialog-actions>
+    <button
+      mat-dialog-close
+      type="button"
+      class="btn btn-secondary"
+      data-dismiss="modal"
+      (click)="closeModal()"
+    >
+      Annuler
+    </button>
+    <button type="submit" class="btn btn-primary" [disabled]="f.invalid">
+      Valider
+    </button>
+  </div>
+</form>

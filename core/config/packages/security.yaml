@@ -49,6 +49,7 @@ security:
   # Note: Only the *first* access control that matches will be used
   access_control:
     - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/last_three_recipes, roles: IS_AUTHENTICATED_ANONYMOUSLY}
     - { path: ^/api/user/create, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

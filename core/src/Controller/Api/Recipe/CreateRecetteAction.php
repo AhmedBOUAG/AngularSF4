@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\Api\Recipe;
 
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Entity\Image;

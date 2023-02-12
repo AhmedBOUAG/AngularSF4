@@ -29,11 +29,18 @@ services:
 
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
-  App\EventListener\UpdateRecipe:
+  recipe.listener:
+    class: App\EventListener\RecipeListener
+    arguments: ["@security.helper"]
     tags:
       - {
           name: "doctrine.orm.entity_listener",
-          event: "preUpdate",
+          event: "postUpdate",
+          entity: 'App\Entity\RecetteDFM',
+        }
+      - {
+          name: "doctrine.orm.entity_listener",
+          event: "postPersist",
           entity: 'App\Entity\RecetteDFM',
         }
   dfm.jwt_token_authenticator:
@@ -43,3 +50,7 @@ services:
   #  class: App\EventListener\LoginSuccessListener
   #  tag:
   #    - {name: kernel.event_listener, event: lexik_jwt_authentication.handler.authentication_success, , method: onLoginSuccess}
+  'App\Doctrine\CurrentUserExtension':
+    tags:
+      - { name: api_platform.doctrine.orm.query_extension.collection }
+      - { name: api_platform.doctrine.orm.query_extension.item }

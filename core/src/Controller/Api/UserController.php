@@ -4,12 +4,13 @@ namespace App\Controller\Api;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
-
-class UserController
+class UserController extends AbstractController
 {
 
     public function __construct(
@@ -29,5 +30,15 @@ class UserController
         $data->setPassword($this->passwordEncoder->encodePassword($data, $data->getPassword()));
 
         return $data;
+    }
+
+    public function getClaimsCurrentUser()
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return;
+        }
+
+        return $this->json(['username' => $user->getUsername(), 'roles' => $user->getRoles()]);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Controller\UserController;
 use App\Repository\UserRepository;
@@ -63,7 +65,7 @@ class User implements UserInterface
      *    message = "Un pseudo est obligatoire pour l'inscription"
      * )
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user:read", "user:write", "recette:read"})
      */
     private $username;
 
@@ -78,6 +80,11 @@ class User implements UserInterface
      * @Groups({"user:read", "user:write"})
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = ['ROLE_USER'];
 
     /**
      * @Assert\NotBlank(
@@ -109,9 +116,15 @@ class User implements UserInterface
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RecetteDFM::class, mappedBy="creator")
+     */
+    private $recetteDFMs;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->recetteDFMs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,7 +224,14 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     /*
@@ -243,5 +263,35 @@ class User implements UserInterface
             $this->username,
             $this->password
         ) = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    /**
+     * @return Collection<int, RecetteDFM>
+     */
+    public function getRecetteDFMs(): Collection
+    {
+        return $this->recetteDFMs;
+    }
+
+    public function addRecetteDFM(RecetteDFM $recetteDFM): self
+    {
+        if (!$this->recetteDFMs->contains($recetteDFM)) {
+            $this->recetteDFMs[] = $recetteDFM;
+            $recetteDFM->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecetteDFM(RecetteDFM $recetteDFM): self
+    {
+        if ($this->recetteDFMs->removeElement($recetteDFM)) {
+            // set the owning side to null (unless already changed)
+            if ($recetteDFM->getCreator() === $this) {
+                $recetteDFM->setCreator(null);
+            }
+        }
+
+        return $this;
     }
 }

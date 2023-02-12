@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\Api\Recipe;
 
 use App\Entity\Image;
 use App\Entity\RecetteDFM;

@@ -10,15 +10,14 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class RegistrationService {
-  private apiUrl= environment.apiBaseUrl + 'api/users';
+  private createUser= environment.apiBaseUrl + 'api/user/create';
   user!: UserRegistration[];
 
   constructor(private http: HttpClient) { }
 
   registration(userReg: UserRegistration): Observable<UserRegistration[]>{
-    return this.http.post(`${this.apiUrl}`, userReg).pipe(
+    return this.http.post(`${this.createUser}`, userReg).pipe(
       map((res) => {
-        console.log(res);
         return this.user;
       }),
       catchError(this.handleError)

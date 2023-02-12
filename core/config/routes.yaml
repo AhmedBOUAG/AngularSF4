@@ -13,3 +13,7 @@ api_login_check:
 swagger_ui:
   path: /docs
   controller: api_platform.swagger.action.ui
+current_user:
+  path: /api/user/current_user
+  methods: ["GET"]
+  controller: App\Controller\Api\UserController::getClaimsCurrentUser

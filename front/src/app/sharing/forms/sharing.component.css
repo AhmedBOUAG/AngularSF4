@@ -1,0 +1,29 @@
+.tools-btn-recette {
+  position: absolute;
+  width: 90%;
+  left: 0;
+  margin: 15px;
+  bottom: 0;
+}
+
+.title-nb-recette {
+  color: rgb(199, 198, 198);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.btn-delete-image {
+  position: absolute;
+  width: 1.3rem;
+  padding: 0px;
+  margin: 0px;
+}
+
+div#cardRecette {
+  transition: box-shadow .3s;
+  border-radius: 10px;
+  background: #fff;
+}
+
+div#cardRecette:hover {
+  box-shadow: 0 0 11px rgba(33, 33, 33, .2);
+}

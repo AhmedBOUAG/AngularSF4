@@ -1,0 +1,69 @@
+<div class="row col-12">
+  <mat-card class="col recipe-card" *ngFor="let recipe of recipes">
+    <mat-card-header>
+      <div mat-card-avatar class="recipe-header-image"></div>
+      <mat-card-title>{{ recipe.title | slice : 0 : 30 }}...</mat-card-title>
+      <mat-card-subtitle
+        >{{ recipe.subtitle | slice : 0 : 50 }}...</mat-card-subtitle
+      >
+    </mat-card-header>
+    <img
+      mat-card-image
+      src="{{ dirUploadedImages }}{{ recipe.images[0].name }}"
+      alt="Photo of a Shiba Inu"
+    />
+    <mat-card-content>
+      <p>{{ recipe.description | slice : 0 : 95 }}...</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>
+  </mat-card>
+  <!--
+  <mat-card class="recipe-card">
+    <mat-card-header>
+      <div mat-card-avatar class="recipe-header-image"></div>
+      <mat-card-title>Shiba Inu</mat-card-title>
+      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+    </mat-card-header>
+    <img
+      mat-card-image
+      src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+      alt="Photo of a Shiba Inu"
+    />
+    <mat-card-content>
+      <p>
+        The Shiba Inu is the smallest of the six original and distinct spitz
+        breeds of dog from Japan...
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="recipe-card">
+    <mat-card-header>
+      <div mat-card-avatar class="recipe-header-image"></div>
+      <mat-card-title>Shiba Inu</mat-card-title>
+      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+    </mat-card-header>
+    <img
+      mat-card-image
+      src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+      alt="Photo of a Shiba Inu"
+    />
+    <mat-card-content>
+      <p>
+        The Shiba Inu is the smallest of the six original and distinct spitz
+        breeds of dog from Japan...
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>
+  </mat-card> -->
+</div>

@@ -1,0 +1,21 @@
+/*.recipe-card {
+  max-width: 350px;
+  max-height: 480px;
+}*/
+.recipe-card:not(:first-child) {
+  margin-left: 1.9rem;
+}
+.recipe-header-image {
+  background-image: url('https://e7.pngegg.com/pngimages/59/644/png-clipart-silhouette-avatar-line-art-silhouette-animals-vexel.png');
+  background-size: cover;
+}
+.mat-card {
+  background: #4f98a7 !important;
+  color: #ffffffdb;
+}
+.mat-card-header .mat-card-title {
+  font-size: 16px !important;
+}
+.mat-card-subtitle {
+  color: rgb(255 255 255 / 54%);
+}

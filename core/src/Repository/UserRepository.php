@@ -18,10 +18,10 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
-    public function getUserByUsername($username)
+    public function getUserEmailByUsername($username)
     {
         return  $this->createQueryBuilder('u')
-            ->select('u.id, u.lastname, u.firstname, u.username, u.email')
+            ->select('u.email')
             ->where('u.username = :username')
             ->setParameter('username', $username)
             ->getQuery()

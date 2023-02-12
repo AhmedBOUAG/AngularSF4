@@ -18,7 +18,22 @@ class RecetteDFMRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, RecetteDFM::class);
     }
+    public function findByAuthor($creator)
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->andWhere('r.creator = :creator')
+            ->setParameter('creator', $creator);
 
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getLastThreeRecipes()
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->orderBy('r.id', 'DESC')->setMaxResults(3);
+
+        return $qb->getQuery()->getResult();
+    }
     // /**
     //  * @return RecetteDFM[] Returns an array of RecetteDFM objects
     //  */

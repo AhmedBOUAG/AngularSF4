@@ -1,0 +1,133 @@
+<div class="container" id="wrapper">
+  <div class="row col-12 shadow-sm p-3 mb-0 bg-white rounded mt-5">
+    <div class="w-100">
+      <h3 class="float-left"><i class="fas fa-list"></i> Mes recettes</h3>
+      <button class="btn btn-success float-right" (click)="goToCreateForm()">
+        <i class="fas fa-plus"></i> Créer une recette
+      </button>
+    </div>
+  </div>
+  <div
+    class="row col-12 alert {{ messageHandler.typeOperation }} p-2 mt-3"
+    *ngIf="messageHandler.messageOperation !== ''"
+  >
+    <i
+      class="fas {{ messageHandler.iconOperation }}"
+      style="margin-top: 0.29rem"
+    ></i
+    ><span class="pl-2">{{ messageHandler.messageOperation }}</span>
+  </div>
+  <div class="row col-12 mt-0 shadow-sm mb-5 bg-white rounded mr-5">
+    <div class="col-12 mb-3 mt-2 nb title-nb-recette">
+      Recettes créées (<b>{{ recipes.length }}</b
+      >)
+    </div>
+    <hr />
+    <div
+      id="#cardRecette"
+      class="col-sm-12 col-md-6 col-lg-4 mb-5"
+      *ngFor="let recipe of recipes; let i = index"
+    >
+      <div class="card w-100 mh-100" style="min-height: 560px">
+        <img
+          src="{{ uploadImage }}{{ recipe.images[0].name }}"
+          [ngStyle]="{ 'max-height.px': '190' }"
+          class="card-img-top"
+          alt=""
+        />
+        <div class="card-body">
+          <h5 class="card-title font-weight-bold">
+            {{ recipe.title | slice : 0 : 20 }}...
+          </h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ recipe.subtitle }}</h6>
+          <p class="card-text">{{ recipe.description | slice : 0 : 85 }}...</p>
+          <hr />
+          <strong>Crée par:</strong> <br />
+          <strong>Catégorie:</strong> {{ recipe.category }}<br />
+          <strong>Lieu:</strong> {{ recipe.city }} ({{ recipe.zip }})<br />
+          <strong>Prix:</strong> {{ recipe.price }} €<br />
+          <div class="tools-btn-recette">
+            <hr style="border: 1px dashed rgb(236, 236, 236)" />
+            <button
+              class="btn btn-danger text-white"
+              (click)="deleteRecipe(recipe.id)"
+            >
+              <i class="fas fa-trash-alt"></i> Supprimer
+            </button>
+            <button
+              class="btn btn-primary float-right"
+              (click)="preEditRecipe(recipe.id)"
+            >
+              <i class="fas fa-edit"></i> Editer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- La modal de confirmation -->
+  <div
+    class="modal fade"
+    id="modalConfirmation"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalConfirmationLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalConfirmationLabel">
+            Confirmer cette action
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Vous êtes sur le point de <b>supprimer</b> cette recette. Cette
+            action est définitive et irréversible. <br />
+            <br />
+            Vous souhaitez continuer quand même?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Annuler
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="confirmDelete()"
+          >
+            Continuer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal édition d'une recette -->
+  <!-- <div class="modal fade" id="modalEditRecette" tabindex="-1" role="dialog" aria-labelledby="modalEditRecetteLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <app-sharing
+                [recipeToUpdate]="recipeToUpdate"
+                (handleRecipeForm)="saveEditRecipe($event)"
+                (handleImageForm)= "handleFileInput($event)"
+                [thumbnails]="thumbnails"
+                (deleteImg)="deleteThumbnailRecipe($event)"
+                >
+                </app-sharing>
+            </div>
+        </div>
+    </div> -->
+</div>

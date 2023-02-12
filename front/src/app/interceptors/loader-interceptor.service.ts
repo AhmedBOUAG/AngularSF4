@@ -1,4 +1,3 @@
-// loader-interceptor.service.ts
 import { Injectable } from '@angular/core';
 import {
   HttpResponse,
@@ -9,12 +8,16 @@ import {
 } from '@angular/common/http';
 import { EMPTY, Observable } from 'rxjs';
 import { LoaderService } from '../services/loader.service';
+import { CommonUtils } from '../Utils/CommonUtils';
 
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
   private requests: HttpRequest<any>[] = [];
+  private excludesRoutes: string[] = CommonUtils.EXCLUDES_ROUTES_FROM_LOADER;
 
-  constructor(private loaderService: LoaderService) { }
+  constructor(
+    private loaderService: LoaderService
+  ) { }
 
   removeRequest(req: HttpRequest<any>) {
     const i = this.requests.indexOf(req);
@@ -26,14 +29,13 @@ export class LoaderInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log('intercept Loader');
+    console.log(this.excludesRoutes);
     const calledApiName = req.url.split('/').slice(-1)[0];
-    this.requests.push(req);
-
-    //  console.log(this.requests.length); // numero de la requete
-
-    if ('login_check' !== calledApiName) {
+    if (!this.excludesRoutes.includes(calledApiName)) {
       this.loaderService.isLoading.next(true);
+      this.requests.push(req);
     }
+
     return new Observable((observer: any) => {
       const subscription = next.handle(req).subscribe(event => {
         if (event instanceof HttpResponse) {
@@ -41,7 +43,7 @@ export class LoaderInterceptor implements HttpInterceptor {
           observer.next(event);
         }
       }, err => {
-        //alert('error' + err);
+        console.log(err);
         this.removeRequest(req);
         observer.error(err);
       },
@@ -49,7 +51,7 @@ export class LoaderInterceptor implements HttpInterceptor {
           this.removeRequest(req);
           observer.complete();
         });
-      // remove request from queue when cancelled
+      
       return () => {
         this.removeRequest(req);
         subscription.unsubscribe();

@@ -54,8 +54,6 @@ class Image
 
     /**
      * @ORM\ManyToOne(targetEntity="RecetteDFM", inversedBy="images")
-     * 
-     * 
      */
     private $recette;
 

@@ -24,6 +24,10 @@ import { SharingComponent } from './sharing/forms/sharing.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor'
 import { TokenStorageService } from './services/token-storage.service';
+import { LastRecipesComponent } from './home/last-recipes/last-recipes.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -35,7 +39,8 @@ import { TokenStorageService } from './services/token-storage.service';
     FooterComponent,
     LoaderComponent,
     RegistrationComponent,
-    LoginComponent
+    LoginComponent,
+    LastRecipesComponent
   ],
   imports: [
     BrowserModule,
@@ -49,8 +54,10 @@ import { TokenStorageService } from './services/token-storage.service';
     RecipeModule,
     OverlayModule,
     MatDialogModule,
-    BrowserAnimationsModule
-
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatButtonModule
   ],
   providers: [
     LoaderService,

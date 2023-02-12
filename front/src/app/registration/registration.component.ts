@@ -32,7 +32,7 @@ export class RegistrationComponent implements OnInit {
 
   onUserRegistration(f: any) {
     // let birthdate = f.form.value.birthdate;
-    console.log(typeof f.form.value.birthdate);
+    console.log(f.form.value.birthdate);
     // birthdate = f.form.value.birthdate !== 'undefined' ? f.form.value.birthdate : birthdate;
     f.form.value.birthdate = this.parseDate.formatDB(f.form.value.birthdate);
     this.regUser.registration(f.form.value).subscribe(

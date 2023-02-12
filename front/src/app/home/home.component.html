@@ -1,22 +1,28 @@
 <div class="container" id="wrapper">
-    <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded">
-        <div class="w-100 p-3" style="border: 1px solid #e3eaed; border-radius: 5px; background: #f7f7f7;">
-            <div class="row">
-                <div class="col-sm-4 col-md-4">
-                    <img src="./assets/svg/svg_mister_chef.svg" width="100%">
-                </div>
-                <div class="col-sm-8 col-md-8 mt-30">
-                    <div class="typewrite-home">
-                        <ngtypewriter [StringList]='list' [speed]='1000'></ngtypewriter>
-                    </div>
-                    <div class="mb-0">
-                        <button class="btn btn-success float-right" routerLink="/create-recipe">
-                            <i class="fas fa-plus"></i> Créer une recette
-                        </button>
-                    </div>
-
-                </div>
-            </div>
+  <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded">
+    <div
+      class="w-100 p-3"
+      style="border: 1px solid #e3eaed; border-radius: 5px; background: #f7f7f7"
+    >
+      <div class="row">
+        <div class="col-sm-4 col-md-4">
+          <img src="./assets/svg/svg_mister_chef.svg" width="100%" />
         </div>
+        <div class="col-sm-8 col-md-8 mt-30">
+          <div class="typewrite-home">
+            <ngtypewriter [StringList]="list" [speed]="1000"></ngtypewriter>
+          </div>
+          <div class="mb-0">
+            <button
+              class="btn btn-success float-right"
+              routerLink="/create-recipe"
+            >
+              <i class="fas fa-plus"></i> Partager une recette
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+  <app-last-recipes></app-last-recipes>
 </div>
