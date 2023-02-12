@@ -15,19 +15,18 @@ class RecipeListener
     {
         $this->loggedInUser = $security->getUser();
     }
-    public function postPersist(LifecycleEventArgs $event)
+    public function prePersist(LifecycleEventArgs $event)
     {
         $entity = $event->getObject();
-
         if (!$entity instanceof RecetteDFM) {
             return;
         }
         $entity->setCreator(creator: $this->loggedInUser);
     }
-    public function postUpdate(LifecycleEventArgs $event)
+    public function preUpdate(LifecycleEventArgs $event)
     {
         $entity = $event->getObject();
-        if (!$entity->getObject() instanceof RecetteDFM) {
+        if (!$entity instanceof RecetteDFM) {
             return;
         }
         $entity->setUpdatedAt(new \DateTime('now'));
