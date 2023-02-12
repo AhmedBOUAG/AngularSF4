@@ -10,7 +10,11 @@
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
+<<<<<<< HEAD
         "doctrine/orm": "^2.11",
+=======
+        "doctrine/orm": "^2.8",
+>>>>>>> master
         "lexik/jwt-authentication-bundle": "^2.16",
         "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.2",

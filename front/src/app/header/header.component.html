@@ -20,6 +20,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
+<<<<<<< HEAD
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto" id="menu-links">
         <li *ngIf="isLogged" class="nav-item">
@@ -74,6 +75,28 @@
           </div>
         </li>
       </ul>
+=======
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto" id="menu-links">
+                <li class="nav-item">
+                    <a class="nav-link-title" routerLink="/my-recipes" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }">Mes recettes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-title" routerLink="/inscription" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }"> S'inscrire</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link-title dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Administration
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Tableau de bord</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" href="#">Déconnexion</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+>>>>>>> master
     </div>
   </div>
 </nav>

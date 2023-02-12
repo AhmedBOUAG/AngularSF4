@@ -55,7 +55,11 @@ class JwtTokenAuthenticator extends AbstractGuardAuthenticator
             return null;
         }
         $data = $this->jwtEncoder->decode($credentials);
+<<<<<<< HEAD
         $user = $this->em->getRepository(User::class)->getUserEmailByUsername($data['username']);
+=======
+        $user = $this->em->getRepository(User::class)->getUserByUsername($data['username']);
+>>>>>>> master
 
         return $userProvider->loadUserByUsername($user['email']);
     }

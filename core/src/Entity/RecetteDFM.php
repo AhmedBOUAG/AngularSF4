@@ -7,18 +7,26 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+<<<<<<< HEAD
 use App\Controller\Api\Recipe\CreateRecetteAction;
 use App\Controller\Api\Recipe\EditRecetteAction;
+=======
+use App\Controller\Api\CreateRecetteAction;
+use App\Controller\Api\EditRecetteAction;
+>>>>>>> master
 use App\Traits\ResourceIdTrait;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
+<<<<<<< HEAD
  * @ApiResource(
+=======
+ * @ApiResource(iri="http://schema.org/RecetteDFM",
+>>>>>>> master
  * normalizationContext={"groups"={"recette:read"}},
  * denormalizationContext={"groups"={"recette:write"}},
  *    collectionOperations={
@@ -139,6 +147,7 @@ class RecetteDFM
      * @ORM\OneToMany(targetEntity="Image", mappedBy="recette", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ApiSubresource()
      * @Groups({"recette:read", "recette:write"})
+<<<<<<< HEAD
      */
     private $images = [];
 
@@ -148,6 +157,11 @@ class RecetteDFM
      * @MaxDepth(1)
      */
     private $creator;
+=======
+     * @ApiProperty(iri="http://schema.org/Image")
+     */
+    private $images = [];
+>>>>>>> master
 
 
     public function __construct()
@@ -281,6 +295,7 @@ class RecetteDFM
                 $image->setRecette(null);
             }
         }
+<<<<<<< HEAD
 
         return $this;
     }
@@ -293,6 +308,8 @@ class RecetteDFM
     public function setCreator(?User $creator): self
     {
         $this->creator = $creator;
+=======
+>>>>>>> master
 
         return $this;
     }

@@ -6,7 +6,7 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { EMPTY, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { LoaderService } from '../services/loader.service';
 import { CommonUtils } from '../Utils/CommonUtils';
 
@@ -28,8 +28,6 @@ export class LoaderInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('intercept Loader');
-    console.log(this.excludesRoutes);
     const calledApiName = req.url.split('/').slice(-1)[0];
     if (!this.excludesRoutes.includes(calledApiName)) {
       this.loaderService.isLoading.next(true);
@@ -51,7 +49,6 @@ export class LoaderInterceptor implements HttpInterceptor {
           this.removeRequest(req);
           observer.complete();
         });
-      
       return () => {
         this.removeRequest(req);
         subscription.unsubscribe();

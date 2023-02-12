@@ -10,7 +10,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+<<<<<<< HEAD:core/src/Controller/Api/UserController.php
 class UserController extends AbstractController
+=======
+
+class UserController
+>>>>>>> master:core/src/Controller/Api/CreateUserController.php
 {
 
     public function __construct(
@@ -30,6 +35,7 @@ class UserController extends AbstractController
         $data->setPassword($this->passwordEncoder->encodePassword($data, $data->getPassword()));
 
         return $data;
+<<<<<<< HEAD:core/src/Controller/Api/UserController.php
     }
 
     public function getClaimsCurrentUser()
@@ -40,5 +46,7 @@ class UserController extends AbstractController
         }
 
         return $this->json(['username' => $user->getUsername(), 'roles' => $user->getRoles()]);
+=======
+>>>>>>> master:core/src/Controller/Api/CreateUserController.php
     }
 }

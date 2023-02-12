@@ -20,6 +20,10 @@ class RecipeSubscriber implements EventSubscriberInterface
     public function onEditAttributesType(RequestEvent $event)
     {
         $request = $event->getRequest();
+<<<<<<< HEAD
+=======
+        //dd($request);
+>>>>>>> master
         if (in_array($request->getMethod(), ['POST', 'PUT'])) {
             $price = (float) $request->get('price');
             $category = trim($request->get('category'), '"');
