@@ -23,7 +23,6 @@ class RecetteDFMRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('r');
         $qb->andWhere('r.creator = :creator')
             ->setParameter('creator', $creator);
-
         return $qb->getQuery()->getResult();
     }
 

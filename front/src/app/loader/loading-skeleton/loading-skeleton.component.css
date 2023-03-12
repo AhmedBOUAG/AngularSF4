@@ -1,0 +1,25 @@
+.skeleton-container {
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+.skeleton-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.skeleton-header-title,
+.skeleton-header-date {
+  background-color: #e6e6e6;
+  height: 15px;
+  width: 40%;
+  margin-right: 20px;
+}
+
+.skeleton-body-content {
+  background-color: #e6e6e6;
+  height: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}

@@ -9,11 +9,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class RecipeListener
 {
-    private UserInterface $loggedInUser;
-
-    public function __construct(Security $security)
+    public function __construct(private Security $security)
     {
-        $this->loggedInUser = $security->getUser();
     }
     public function prePersist(LifecycleEventArgs $event)
     {
@@ -21,7 +18,7 @@ class RecipeListener
         if (!$entity instanceof RecetteDFM) {
             return;
         }
-        $entity->setCreator(creator: $this->loggedInUser);
+        $entity->setCreator(creator: $this->security->getUser());
     }
     public function preUpdate(LifecycleEventArgs $event)
     {

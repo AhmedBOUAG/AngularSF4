@@ -1,0 +1,26 @@
+
+<h1 mat-dialog-title>Confirmation</h1>
+<div mat-dialog-content [innerHTML]="data.message">
+</div>
+<div class="modal-footer" mat-dialog-actions>
+    <button
+      pButton
+      pRipple
+      mat-dialog-close
+      type="button"
+      class="mr-5 p-button-raised p-button-secondary"
+      data-dismiss="modal"
+    >
+      Annuler
+    </button>
+    <button
+      pButton
+      pRipple
+      (click) = "confirmAction()"
+      class="p-button-raised p-button-success float-end"
+    >
+      <i class="pi pi-check" style="font-size: 1rem; margin-right: 7px"></i>
+
+      {{data.confirmButton}}
+    </button>
+  </div>

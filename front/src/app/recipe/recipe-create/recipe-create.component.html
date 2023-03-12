@@ -1,79 +1,153 @@
-<div class="container" id="wrapper">
-    <div class="row col-12 shadow-sm p-3 bg-white rounded mt-5">
-        <h3 style="text-align: center;"><i class="fas fa-pen"></i> Saisissez votre recipe</h3>
-    </div>
-    <div class="row col-12 alert {{ messageHandler.typeOperation }} p-2 mt-3"
-        *ngIf="messageHandler.messageOperation !== '' ">
-        <i class="fas {{messageHandler.iconOperation}}" style="margin-top:.29rem"></i><span
-            class="pl-2">{{messageHandler.messageOperation}}</span>
-    </div>
-    <form #f="ngForm" (ngSubmit)="onSubmitDataFormCreate(f)">
-        <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded mt-2">
-
-            <div class="col-md-6">
-                <label for="title">Titre :</label>
-                <input type="text" class="form-control" name="title" [(ngModel)]="recipe.title" #trackTitle="ngModel"
-                    #recipeTile="ngModel" required>
-                <p class="alert" *ngIf="!trackTitle.valid && trackTitle.touched">Le titre est obligatoire!</p>
-            </div>
-            <div class="col-md-6">
-                <label for="subtitle"><i>Sous titre :</i></label>
-                <input type="text" class="form-control" name="subtitle" [(ngModel)]="recipe.subtitle"
-                    #recipeSubtitle="ngModel" required>
-            </div>
-            <div class="col-md-12 mt-3">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Catégorie :</label>
-                    </div>
-                    <select class="custom-select" id="inputGroupSelect01" name="category" [(ngModel)]="recipe.category"
-                        #recipeCategory="ngModel" required>
-                        <option> ----- Séléctionnez -------</option>
-                        <option value="1">Gateau Anniversaire</option>
-                        <option value="2">Pâtisserie</option>
-                        <option value="3">Variété</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-md-12">
-                <label for="description">Description</label>
-                <textarea class="form-control" placeholder="Décrivez ici votre produit" id="floatingTextarea2"
-                    name="description" style="height: 100px" [(ngModel)]="recipe.description"
-                    #recipeDescription="ngModel" required></textarea>
-            </div>
-            <div class="col-md-6">
-                <label for="city">Ville :</label>
-                <input type="text" class="form-control" name="city" [(ngModel)]="recipe.city" #recipeCity="ngModel"
-                    required>
-            </div>
-            <div class="col-md-6">
-                <label for="zip">Code Postal :</label>
-                <input type="text" class="form-control" name="zip" [(ngModel)]="recipe.zip" #recipeZip="ngModel"
-                    required>
-            </div>
-            <hr />
-            <div class="input-group mt-3 col-md-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><strong>Prix: </strong></span>
-                </div>
-                <input type="number" class="form-control" style="font-weight: bold;" dir="rtl" name="price"
-                    aria-label="Prix en euro" [(ngModel)]="recipe.price" #recipePrice="ngModel" required>
-                <div class="input-group-append">
-                    <span class="input-group-text">€</span>
-                </div>
-            </div>
-
-            <div class="col-md-6 mt-3 custom-file ">
-                <input type="file" name="images" id="file" multiple (change)="handleFileInput($event)"
-                    class="custom-file-input">
-                <label for="file" class="custom-file-label">Choississez des fichiers</label>
-            </div>
-
-            <div style="float:left;" class="col-12 mt-3">
-                <button class="btn btn-primary float-right" type="submit" [disabled]="f.invalid">Enregistrer</button>
-            </div>
+<!--
+  <form #f="ngForm" (ngSubmit)="onSubmitDataFormCreate(f)">
+      <div class="col-md-6">
+        <label for="title">Titre :</label>
+        <input
+          type="text"
+          class="form-control"
+          name="title"
+          [(ngModel)]="recipe.title"
+          #trackTitle="ngModel"
+          #recipeTile="ngModel"
+          required
+        />
+        <p class="alert" *ngIf="!trackTitle.valid && trackTitle.touched">
+          Le titre est obligatoire!
+        </p>
+      </div>
+      <div class="col-md-6">
+        <label for="subtitle"><i>Sous titre :</i></label>
+        <input
+          type="text"
+          class="form-control"
+          name="subtitle"
+          [(ngModel)]="recipe.subtitle"
+          #recipeSubtitle="ngModel"
+          required
+        />
+      </div>
+      <div class="col-md-12 mt-3">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01"
+              >Catégorie :</label
+            >
+          </div>
+          <select
+            class="form-select custom-select"
+            id="inputGroupSelect01"
+            name="category"
+            [(ngModel)]="recipe.category"
+            #recipeCategory="ngModel"
+            required
+          >
+            <option>----- Séléctionnez -------</option>
+            <option value="1">Gateau Anniversaire</option>
+            <option value="2">Pâtisserie</option>
+            <option value="3">Variété</option>
+          </select>
         </div>
-        {{f.value | json}}
-    </form>
+      </div>
+
+      <div class="col-md-12">
+        <label for="description">Description</label>
+        <textarea
+          class="form-control"
+          placeholder="Décrivez ici votre produit"
+          id="floatingTextarea2"
+          name="description"
+          style="height: 100px"
+          [(ngModel)]="recipe.description"
+          #recipeDescription="ngModel"
+          required
+        ></textarea>
+      </div>
+      <div class="col-md-6">
+        <label for="city">Ville :</label>
+        <input
+          type="text"
+          class="form-control"
+          name="city"
+          [(ngModel)]="recipe.city"
+          #recipeCity="ngModel"
+          required
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="zip">Code Postal :</label>
+        <input
+          type="text"
+          class="form-control"
+          name="zip"
+          [(ngModel)]="recipe.zip"
+          #recipeZip="ngModel"
+          required
+        />
+      </div>
+      <hr />
+      <div class="input-group mt-3 col-md-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><strong>Prix: </strong></span>
+        </div>
+        <input
+          type="number"
+          class="form-control"
+          style="font-weight: bold"
+          dir="rtl"
+          name="price"
+          aria-label="Prix en euro"
+          [(ngModel)]="recipe.price"
+          #recipePrice="ngModel"
+          required
+        />
+        <div class="input-group-append">
+          <span class="input-group-text">€</span>
+        </div>
+      </div>
+
+      <div class="col-md-6 mt-3 custom-file">
+        <input
+          type="file"
+          name="images"
+          id="file"
+          multiple
+          (change)="handleFileInput($event)"
+          class="custom-file-input"
+        />
+        <label for="file" class="custom-file-label"
+          >Choississez des fichiers</label
+        >
+      </div>
+
+      <div style="float: left" class="col-12 mt-3">
+        <button
+          class="btn btn-primary float-end"
+          type="submit"
+          [disabled]="f.invalid"
+        >
+          Enregistrer
+        </button>
+      </div>
+    </div>
+  </form>
+</div> -->
+<div class="container" id="wrapper">
+  <div class="row col-12 shadow-sm p-3 bg-white rounded mt-5">
+    <h3 style="margin: 0 !important">
+      <i class="fas fa-pen"></i> Saisie de la recette
+    </h3>
+  </div>
+  <div
+    class="row col-12 alert {{ messageHandler.typeOperation }} p-2 mt-3"
+    *ngIf="messageHandler.messageOperation !== ''"
+  >
+    <i
+      class="fas {{ messageHandler.iconOperation }}"
+      style="margin-top: 0.29rem"
+    ></i
+    ><span class="pl-2">{{ messageHandler.messageOperation }}</span>
+  </div>
+  <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded mt-2">
+    <app-sharing></app-sharing>
+  </div>
 </div>

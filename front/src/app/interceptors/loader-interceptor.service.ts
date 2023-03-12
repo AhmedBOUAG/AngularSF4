@@ -13,7 +13,7 @@ import { CommonUtils } from '../Utils/CommonUtils';
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
   private requests: HttpRequest<any>[] = [];
-  private excludesRoutes: string[] = CommonUtils.EXCLUDES_ROUTES_FROM_LOADER;
+  private excludedRoutes: string[] = CommonUtils.EXCLUDED_ROUTES_FROM_LOADER;
 
   constructor(
     private loaderService: LoaderService
@@ -29,7 +29,7 @@ export class LoaderInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const calledApiName = req.url.split('/').slice(-1)[0];
-    if (!this.excludesRoutes.includes(calledApiName)) {
+    if (!this.excludedRoutes.includes(calledApiName)) {
       this.loaderService.isLoading.next(true);
       this.requests.push(req);
     }

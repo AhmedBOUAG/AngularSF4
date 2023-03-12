@@ -17,7 +17,6 @@ export class LastRecipesComponent implements OnInit {
 
   ngOnInit(): void {
     this.recipeService.getLastThreeRecipies().subscribe((recipe:any) => {
-      console.log(recipe);
       this.recipes = recipe;
     });
   }

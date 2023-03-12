@@ -5,7 +5,6 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { TokenStorageService } from '../services/token-storage.service';
 import { UserService } from '../services/user.service';
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
