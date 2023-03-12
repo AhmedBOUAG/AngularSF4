@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first, takeUntil } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
@@ -15,16 +15,17 @@ import { Subject } from 'rxjs';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
-  form: FormGroup;
-  loading = false;
-  submitted = false;
-  isLoggedIn = false;
+  form: UntypedFormGroup;
+  loading: boolean = false;
+  submitted: boolean = false;
+  isLoggedIn: boolean = false;
+  expired: boolean = false
   roles: string[] = [];
   loggedInFailed: boolean = false;
   formNotifyMessage: string = '';
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private auth: AuthService,
     private tokenStorage: TokenStorageService,
     private router: Router,
@@ -32,6 +33,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.auth.isLogged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(expired => {
+        this.expired = expired;
+        console.log(expired);
+      });
+
     this.form = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]

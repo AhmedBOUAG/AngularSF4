@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
@@ -17,7 +18,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @Gedmo\Loggable
+ * 
  * @ApiResource(
+ * shortName="recipe",
  * normalizationContext={"groups"={"recette:read"}},
  * denormalizationContext={"groups"={"recette:write"}},
  *    collectionOperations={
@@ -44,7 +48,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                     }
  *                 }
  *             }
- *         }
+ *         },
+ *          "get",
  *     },
  *     itemOperations={
  *         "get",
@@ -81,24 +86,28 @@ class RecetteDFM
     use ResourceIdTrait;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255)
      * @Groups({"recette:read", "recette:write"})
      */
     private string $title;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255)
      * @Groups({"recette:read", "recette:write"})
      */
     private ?string $subtitle = null;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="integer", length=30)
      * @Groups({"recette:read", "recette:write"})
      */
     private int $category = 0;
 
     /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="string", length=255)
      * @Groups({"recette:read", "recette:write"})
      */

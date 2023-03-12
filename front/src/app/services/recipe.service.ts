@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 export class RecipeService {
 
   //isSingleResult = false;
-  private apiUrl = environment.apiBaseUrl + 'api/recette_d_f_ms';
+  private apiUrl = environment.apiBaseUrl + 'api/recipes';
   private ownRecipes = environment.apiBaseUrl + 'api/own_recipes';
   private lastThreeRecipes = environment.apiBaseUrl + 'api/last_three_recipes'
   recipes!: Recipe[];

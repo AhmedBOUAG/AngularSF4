@@ -7,8 +7,8 @@ export abstract class CommonUtils {
   };
   static readonly LOGGED_IN_MESSAGE_ERROR = 'Vos identifiants sont incorrectes.';
   static readonly SERVER_MESSAGE_ERROR = 'Une erreur est survenue lors de l\'opération.';
-  static readonly EXCLUDES_ROUTES_FROM_LOADER = ['last_three_recipes', 'login_check', 'current_user'];
-  static readonly NOT_REQUIRE_TOKEN_ROUTES = ['last_three_recipes', 'login_check'];
+  static readonly EXCLUDED_ROUTES_FROM_LOADER = ['last_three_recipes', 'login_check', 'current_user'];
+  static readonly TOKEN_LESS_ROUTES = ['last_three_recipes', 'login_check'];
 }
 
 

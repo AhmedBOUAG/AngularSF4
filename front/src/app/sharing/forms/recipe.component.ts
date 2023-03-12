@@ -1,19 +1,19 @@
+import { Image } from './../../models/image';
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Recipe } from '../../recipe/recipe';
 import { CommonUtils } from '../../Utils/CommonUtils';
 import { RecipeService } from '../../services/recipe.service';
 import { MessageHandlerService } from '../../services/message-handler.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Image } from '../../models/image';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-sharing',
-  templateUrl: './sharing.component.html',
-  styleUrls: ['./sharing.component.css']
+  templateUrl: './recipe.component.html',
+  styleUrls: ['./recipe.component.css']
 })
-export class SharingComponent implements OnInit {
-
+export class RecipeComponent implements OnInit {
   @Input() recipeToUpdate: Recipe = new Recipe;
 
   @Output('handleRecipeForm') handleFormEvent = new EventEmitter<any>();
@@ -21,38 +21,41 @@ export class SharingComponent implements OnInit {
   @Output() deleteImg = new EventEmitter<number>();
   isEdit: boolean = false;
   thumbnails: Array<Image> = [];
-  deletedThumbnails: Array<number> = [];
-  public operationTitle: string = 'Ajouter une nouvelle recette';
+  deletedThumbnails: number[] = [];
+  public operationTitle: string = 'Informations de la recette:';
   recipeForm = new FormGroup({
     title: new FormControl('', [Validators.required, Validators.minLength(15)]),
     subtitle: new FormControl('', [Validators.required]),
-    category: new FormControl('', [Validators.required, Validators.minLength(15)]),
+    category: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required, Validators.minLength(15)]),
     city: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    zip: new FormControl('', [Validators.required, Validators.minLength(5)]),
+    zip: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{5}$/)]),
     price: new FormControl('', [Validators.required]),
     images: new FormControl([], [Validators.required]),
-    deletedThumbnails: new FormControl([])
+    deletedThumbnails: new FormControl<number[]>([])
   });
   uploadImagesDir = CommonUtils.UPLOAD_IMAGES_DIRECTORY;
   constructor(
-      public dialogRef: MatDialogRef<SharingComponent>,
+      public dialogRef: MatDialogRef<RecipeComponent>,
       @Inject(MAT_DIALOG_DATA) public data: any,
       private RecipeService: RecipeService,
       private mhs: MessageHandlerService
     ) {
-    if (data) {
+    if (Object.keys(data).length !== 0) {
+      console.log(data);
       this.recipeToUpdate = data.recipe;
       this.thumbnails = data.recipe.images;
       data.recipe.images = [];
       this.recipeForm.patchValue(data.recipe);
+      this.operationTitle = 'Modifier cette recette';
       this.isEdit = true;
     }
    }
 
   ngOnInit(): void {
-    if (this.isEdit) {
-      this.operationTitle = 'Modifier cette recette'
+    if (this.recipeForm.get('images') && this.isEdit) {      
+      this.recipeForm.get('images')!.clearValidators();
+      this.recipeForm.get('images')!.updateValueAndValidity();
     }
   }
 
@@ -65,10 +68,10 @@ export class SharingComponent implements OnInit {
   createRecipe() {
     this.RecipeService.create(this.recipeForm.value).subscribe(
       (res: Recipe[]) => {
-        this.dialogRef.close('create');
+        ///this.dialogRef.close('create');
       },
       (err) => {
-        //this.errorHandler(err);
+        this.errorHandler(err);
       }
     );
   }
@@ -81,6 +84,7 @@ export class SharingComponent implements OnInit {
   }
 
   saveEditRecipe(): any {
+    this.dialogRef.close('modif');
     if (this.deletedThumbnails) {
       this.recipeForm.patchValue({
         deletedThumbnails: this.deletedThumbnails
@@ -88,10 +92,9 @@ export class SharingComponent implements OnInit {
     }
     this.RecipeService.update(this.recipeToUpdate.id, this.recipeForm.value).subscribe(
       (res: Recipe[]) => {
-        this.dialogRef.close('modif');
       },
       (err) => {
-        //this.errorHandler(err);
+        this.errorHandler(err);
       }
     );
   }
@@ -107,7 +110,9 @@ export class SharingComponent implements OnInit {
       images: event.target.files
     });
   }
-
+  errorHandler(err: any) {
+    console.log(err);
+  }
   closeModal() {
     this.dialogRef.close();
   }

@@ -9,12 +9,14 @@
           <img src="./assets/svg/svg_mister_chef.svg" width="100%" />
         </div>
         <div class="col-sm-8 col-md-8 mt-30">
-          <div class="typewrite-home">
-            <ngtypewriter [StringList]="list" [speed]="1000"></ngtypewriter>
+          <div class="anim-home">
+            <div class="container-animation">
+              <div class="animed-text"></div>
+            </div>
           </div>
           <div class="mb-0">
             <button
-              class="btn btn-success float-right"
+              class="btn btn-success float-end"
               routerLink="/create-recipe"
             >
               <i class="fas fa-plus"></i> Partager une recette

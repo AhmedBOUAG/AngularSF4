@@ -8,7 +8,7 @@ a {
 }
 
 ul>.nav-item>a {
-    padding: 18px 19px;
+    padding: 14px 19px;
 }
 
 a.nav-link-title {
@@ -29,4 +29,8 @@ li.nav-item a:hover {
 }
 #menu-links>.nav-item>a.selected {
   background-color: #fcfcfc26;
+}
+.bg-bluegray-900 {
+  background: #518fa4 !important;
+  color: #a4e1ff !important;
 }
