@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Routing\Annotation\Route;
+
 
 class EditRecetteAction
 {
@@ -19,12 +21,21 @@ class EditRecetteAction
     {
         $this->em = $em;
     }
-
+    /*    #[Route(
+        name: 'RecetteDFM_recipe_edit',
+        path: '/recipes/{id}',
+        methods: ['POST'],
+        defaults: [
+            '_api_resource_class' => RecetteDFM::class,
+            '_api_operation_name' => '_api_/recipes/{id}',
+        ],
+    )]*/
     public function __invoke(RecetteDFM $data, Request $request, SerializerInterface $serializer)
     {
         $uploadedFiles = $request->files->get('images');
         $recetteToUpdate = $request->request->all();
-        $deletedThumbnails = !empty($recetteToUpdate['deletedThumbnails']) ? explode(',', $recetteToUpdate['deletedThumbnails']) : array();
+        //dd($recetteToUpdate, $uploadedFiles);
+        $deletedThumbnails = empty($recetteToUpdate['deletedThumbnails']) ? array() : explode(',', $recetteToUpdate['deletedThumbnails']);
         unset($recetteToUpdate['deletedThumbnails']);
 
         if (
@@ -37,7 +48,7 @@ class EditRecetteAction
             return new Response();
         }
 
-        if ($deletedThumbnails) {
+        if ($deletedThumbnails !== []) {
             foreach ($deletedThumbnails as $img_id) {
                 $imgToDelete = $this->em->getRepository(Image::class)->find($img_id);
                 $data->removeImages($imgToDelete);
@@ -49,6 +60,7 @@ class EditRecetteAction
             foreach ($uploadedFiles as $uploadedFile) {
                 $image = new Image();
                 $image->setFile($uploadedFile);
+                //dd($image);
                 $recetteUpdated->addImages($image);
             }
         }

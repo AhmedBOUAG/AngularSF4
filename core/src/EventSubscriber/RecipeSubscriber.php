@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class RecipeSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => [
@@ -24,7 +24,7 @@ class RecipeSubscriber implements EventSubscriberInterface
             $price = (float) $request->get('price');
             $category = trim($request->get('category'), '"');
             $request->request->set('price', $price);
-            $request->request->set('category', intval($category));
+            $request->request->set('category', (int) $category);
         }
     }
 }

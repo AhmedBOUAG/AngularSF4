@@ -18,7 +18,7 @@ class RecetteDFMRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, RecetteDFM::class);
     }
-    public function findByAuthor($creator)
+    public function findByCreator($creator)
     {
         $qb = $this->createQueryBuilder('r');
         $qb->andWhere('r.creator = :creator')

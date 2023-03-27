@@ -6,7 +6,7 @@ import { NgbDateParserFormatter, NgbDatepickerI18n, NgbDateStruct } from '@ng-bo
 import { RegistrationService } from '../services/registration.service';
 import { NgbDateFRParserFormatter } from '../datepicker/ngb-date-fr-parser-formatter';
 import { DatePipe } from '@angular/common';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-registration',
@@ -31,7 +31,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   onUserRegistration(f: any) {
-    f.form.value.birthdate = this.parseDate.formatDB(f.form.value.birthdate);
+    f.form.value.birthdate = moment(f.form.value.birthdate).format("YYYY-MM-DD");//this.parseDate.formatDB(f.form.value.birthdate);
     this.regUser.registration(f.form.value).subscribe(
       (data: UserRegistration[]) => {
         let message = "Votre inscription a été effectuée avec succès."

@@ -2,67 +2,64 @@
 
 namespace App\Security\JWT;
 
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Security\UserProvider;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
-use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\AuthorizationHeaderTokenExtractor;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\TokenExtractorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class JwtTokenAuthenticator extends AbstractGuardAuthenticator
+class JwtTokenAuthenticator extends AbstractAuthenticator
 {
+
+
     public function __construct(
         private JWTEncoderInterface $jwtEncoder,
-        private EntityManagerInterface $em
+        private JWTTokenManagerInterface $jwtManager,
+        private EventDispatcherInterface $dispatcher,
+        private TokenExtractorInterface $tokenExtractor,
+        private UserProvider $userProvider,
     ) {
     }
 
     public function supports(Request $request): bool
     {
-        if ($request->headers->has('authorization')) {
-            $authorization = $request->headers->get('authorization');
-            $authSplited = explode(' ', $authorization);
-
-            return $authSplited[0] === 'Bearer' ?? false;
-        }
-
-        return false;
+        return $request->headers->has('authorization')
+            && 0 === strpos($request->headers->get('authorization'), 'Bearer ');
     }
 
-    public function getCredentials(Request $request)
+    public function getToken(Request $request)
     {
-        $extractor = new AuthorizationHeaderTokenExtractor(
-            'Bearer',
-            'Authorization'
-        );
-        $token = $extractor->extract($request);
-        if (!$token) {
-            return;
-        }
-
-        return $token;
+        return $this->tokenExtractor->extract($request);
     }
 
-    public function getUser($credentials, UserProviderInterface $userProvider): ?UserInterface
+    public function authenticate(Request $request): ?Passport
     {
-        if (null === $credentials) {
+        $token = $this->getToken($request);
+        if (null === $token) {
+            throw new CustomUserMessageAuthenticationException('No API token provided');
+        }
+        $claims = $this->jwtEncoder->decode($token);
+        if (!$claims) {
             return null;
         }
-        $data = $this->jwtEncoder->decode($credentials);
-        $user = $this->em->getRepository(User::class)->getUserEmailByUsername($data['username']);
+        $userIdentifier = $claims[$this->jwtManager->getUserIdClaim()];
 
-        return $userProvider->loadUserByUsername($user['email']);
-    }
+        return new SelfValidatingPassport(
+            new UserBadge($userIdentifier, function () use ($userIdentifier) {
 
-    public function checkCredentials($credentials, UserInterface $user)
-    {
-        return true;
+                return $this->userProvider->loadUserByIdentifier($userIdentifier);
+            })
+        );
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
@@ -79,17 +76,8 @@ class JwtTokenAuthenticator extends AbstractGuardAuthenticator
         return null;
     }
 
-    public function supportsRememberMe()
+    public function supportsRememberMe(): bool
     {
         return false;
-    }
-
-    public function start(Request $request, ?AuthenticationException $authException = null)
-    {
-        $data = [
-            'message' => 'Authentication Required'
-        ];
-
-        return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 }
