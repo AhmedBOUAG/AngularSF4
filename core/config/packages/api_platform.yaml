@@ -1,4 +1,8 @@
 api_platform:
+  metadata_backward_compatibility_layer: false
+  defaults:
+    normalization_context:
+      skip_null_values: true
   mapping:
     paths: ["%kernel.project_dir%/src/Entity"]
   patch_formats:

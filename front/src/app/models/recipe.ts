@@ -7,5 +7,6 @@ interface IRecipe{
     zip: string;
     price: any;
     images: any[];
+    creator: IUser[];
     deletedThumbnails: any[];
   }

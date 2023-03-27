@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\Api\User;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,7 +15,7 @@ class UserController extends AbstractController
 {
 
     public function __construct(
-        private UserPasswordEncoderInterface $passwordEncoder,
+        private UserPasswordHasherInterface $passwordHasher,
         private EntityManagerInterface $em,
         private ValidatorInterface $validator
     ) {
@@ -27,18 +28,23 @@ class UserController extends AbstractController
 
             return new Response($errorsString);
         }
-        $data->setPassword($this->passwordEncoder->encodePassword($data, $data->getPassword()));
+        $hashedPassword = $this->passwordHasher->hashPassword(
+            $data,
+            $data->getPassword()
+        );
+        $data->setPassword($hashedPassword);
 
         return $data;
     }
 
     public function getClaimsCurrentUser()
     {
+        /** @var User */
         $user = $this->getUser();
-        if (!$user) {
+        if (!$user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             return;
         }
 
-        return $this->json(['username' => $user->getUsername(), 'roles' => $user->getRoles()]);
+        return $this->json($user->getClaims());
     }
 }

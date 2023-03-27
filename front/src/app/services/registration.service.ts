@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { UserRegistration } from '../registration/registration';
 import { environment } from 'src/environments/environment';
-
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,8 @@ export class RegistrationService {
   constructor(private http: HttpClient) { }
 
   registration(userReg: UserRegistration): Observable<UserRegistration[]>{
+    console.log(userReg.birthdate);
+
     return this.http.post(`${this.createUser}`, userReg).pipe(
       map((res) => {
         return this.user;

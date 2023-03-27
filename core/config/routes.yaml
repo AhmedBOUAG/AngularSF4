@@ -16,4 +16,4 @@ swagger_ui:
 current_user:
   path: /api/user/current_user
   methods: ["GET"]
-  controller: App\Controller\Api\UserController::getClaimsCurrentUser
+  controller: App\Controller\Api\User\UserController::getClaimsCurrentUser

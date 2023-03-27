@@ -48,7 +48,7 @@
           <h6 class="card-subtitle mb-2 text-muted">{{ recipe.subtitle| slice : 0 : 60}}<span *ngIf="recipe.subtitle.length > 60">...</span></h6>
           <p class="card-text">{{ recipe.description | slice : 0 : 85 }}...</p>
           <hr />
-          <strong>Crée par:</strong> <br />
+          <strong>Crée par:</strong> {{ recipe.creator.username }} <br />
           <strong>Catégorie:</strong> {{ recipe.category }}<br />
           <strong>Lieu:</strong> {{ recipe.city }} ({{ recipe.zip }})<br />
           <strong>Prix:</strong> {{ recipe.price }} €<br />
@@ -77,21 +77,4 @@
       </div>
     </div>
   </div>
-
-  <!-- Modal édition d'une recette -->
-  <!-- <div class="modal fade" id="modalEditRecette" tabindex="-1" role="dialog" aria-labelledby="modalEditRecetteLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <app-sharing
-                [recipeToUpdate]="recipeToUpdate"
-                (handleRecipeForm)="saveEditRecipe($event)"
-                (handleImageForm)= "handleFileInput($event)"
-                [thumbnails]="thumbnails"
-                (deleteImg)="deleteThumbnailRecipe($event)"
-                >
-                </app-sharing>
-            </div>
-        </div>
-    </div> -->
 </div>

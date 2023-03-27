@@ -3,6 +3,7 @@
 namespace App\Controller\Api\Recipe;
 
 use App\Entity\RecetteDFM;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
@@ -13,31 +14,19 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class RecipeController extends AbstractController
 {
 
-    public function __construct(private AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(private EntityManagerInterface $entityManager, private AuthorizationCheckerInterface $authorizationChecker)
     {
     }
 
-    /**
-     * @Route("/api/own_recipes", methods={"GET"})
-     */
+    #[Route(path: '/api/own_recipes', methods: ['GET'])]
     public function getUserRecipes(Security $security): Response
     {
         if (!$this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw new AccessDeniedHttpException();
         }
 
-        return $this->json($this->getDoctrine()
+        return $this->json($this->entityManager
             ->getRepository(RecetteDFM::class)
-            ->findByAuthor($security->getUser()));
-    }
-
-    /**
-     * @Route("/api/last_three_recipes", methods={"GET"})
-     */
-    public function getLastThreeRecipes(): Response
-    {
-        return $this->json($this->getDoctrine()
-            ->getRepository(RecetteDFM::class)
-            ->getLastThreeRecipes());
+            ->findByCreator($security->getUser()), 200, [], ['groups' => ['recette:read']]);
     }
 }
