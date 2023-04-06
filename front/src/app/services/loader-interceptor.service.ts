@@ -41,7 +41,6 @@ export class LoaderInterceptor implements HttpInterceptor {
           observer.next(event);
         }
       }, err => {
-        console.log(err);
         this.removeRequest(req);
         observer.error(err);
       },

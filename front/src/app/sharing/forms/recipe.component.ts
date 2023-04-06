@@ -19,6 +19,8 @@ export class RecipeComponent implements OnInit {
   @Output('handleRecipeForm') handleFormEvent = new EventEmitter<any>();
   @Output() handleFileInput = new EventEmitter();
   @Output() deleteImg = new EventEmitter<number>();
+  publishIt: boolean = true;
+  state: string;
   isEdit: boolean = false;
   thumbnails: Array<Image> = [];
   deletedThumbnails: number[] = [];
@@ -32,33 +34,40 @@ export class RecipeComponent implements OnInit {
     zip: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{5}$/)]),
     price: new FormControl('', [Validators.required]),
     images: new FormControl([], [Validators.required]),
-    deletedThumbnails: new FormControl<number[]>([])
+    deletedThumbnails: new FormControl<number[]>([]),
+    state: new FormControl('')
   });
   uploadImagesDir = CommonUtils.UPLOAD_IMAGES_DIRECTORY;
+  warning_last_image = CommonUtils.LAST_IMAGE_WARNING;
   constructor(
-      public dialogRef: MatDialogRef<RecipeComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: any,
-      private RecipeService: RecipeService,
-      private mhs: MessageHandlerService
-    ) {
+    public dialogRef: MatDialogRef<RecipeComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private RecipeService: RecipeService,
+    private mhs: MessageHandlerService
+  ) {
     if (Object.keys(data).length !== 0) {
-      console.log(data);
       this.recipeToUpdate = data.recipe;
       this.thumbnails = data.recipe.images;
       data.recipe.images = [];
       this.recipeForm.patchValue(data.recipe);
       this.operationTitle = 'Modifier cette recette';
       this.isEdit = true;
-    }
-   }
-
-  ngOnInit(): void {
-    if (this.recipeForm.get('images') && this.isEdit) {      
-      this.recipeForm.get('images')!.clearValidators();
-      this.recipeForm.get('images')!.updateValueAndValidity();
+      this.publishIt = CommonUtils.PUBLISHED === data.recipe.state ?? false;
     }
   }
 
+  ngOnInit(): void {
+    // Remove validator to uploadFile (images field) in edit case
+    if (this.recipeForm.get('images') && this.isEdit) {
+      this.recipeForm.get('images')!.clearValidators();
+      this.recipeForm.get('images')!.updateValueAndValidity();
+    }
+
+  }
+
+  onChangeState(event: boolean) {
+    this.recipeForm.patchValue({ state: event ? CommonUtils.PUBLISHED : CommonUtils.DRAFT })
+  }
   get f() {
     return this.recipeForm.controls;
   }

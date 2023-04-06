@@ -148,14 +148,23 @@
           <span class="input-group-text">€</span>
         </div>
       </div>
+      <div class="toggle-state">
+        <label for="title">Publier? </label>
+        <mat-slide-toggle
+        [(ngModel)]="publishIt" 
+        name="status" 
+        (change) = "onChangeState($event.checked)"
+        ngDefaultControl 
+        [ngModelOptions]="{standalone: true}">{{publishIt ? 'Oui' : 'Non'}}
+        </mat-slide-toggle>
+      </div>
     </div>
     <div
-      class="row mt-2"
-      style="background-color: rgb(238, 238, 238)"
+      class="row mt-2 thumbnails-strip"
       *ngIf="isEdit"
     >
-      <div *ngFor="let image of thumbnails" class="col-lg-2 col-md-2">
-        <div class="d-flex align-items-center">
+      <div *ngFor="let image of thumbnails" class="col-lg-2 col-md-2 dfm-thumbnails-edition">
+        <div class="align-items-center">
           <a
             id="btn-delete-image"
             class="btn btn-danger btn-delete-image"
@@ -166,8 +175,7 @@
           <img
             src="{{ uploadImagesDir }}{{ image.name }}"
             id="img{{ image.id }}"
-            class="rounded mx-1"
-            style="width: 80px; height: 45px; border: 1px solid gray"
+            class="rounded mx-1 img-thumbnails"
             alt=""
           />
         </div>
@@ -175,13 +183,11 @@
     </div>
     <br />
     <div
-      *ngIf="thumbnails.length === 1 && isEdit"
+      *ngIf="thumbnails.length === 1 && isEdit && true === publishIt"
       class="alert alert-warning"
       style="font-size: 0.9em"
+      [innerHTML] = "warning_last_image"
     >
-      <strong>Attention:</strong> Votre recette ne contient qu'une seule image.
-      Si vous décidez de supprimer cette dernière <u>sans</u> en chargeant une
-      autre, votre recette sera définitivement supprimée.
     </div>
   </div>
 

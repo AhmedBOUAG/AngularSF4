@@ -42,6 +42,7 @@ class Image
     private ?string $type = null;
 
     #[ORM\ManyToOne(targetEntity: RecetteDFM::class, inversedBy: 'images')]
+    #[ORM\JoinColumn(nullable: true)]
     private $recette;
 
     public function getName(): ?string
@@ -71,7 +72,7 @@ class Image
         $this->type = $type;
         return $this;
     }
-    public function getRecette(): RecetteDFM
+    public function getRecette(): ?RecetteDFM
     {
         return $this->recette;
     }

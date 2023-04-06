@@ -9,18 +9,16 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoaderComponent } from './loader/loader/loader.component';
-import { LoaderInterceptor } from './interceptors/loader-interceptor.service';
+import { LoaderInterceptor } from './services/loader-interceptor.service';
 import { LoaderService } from './services/loader.service';
 import { RegistrationComponent } from './registration/registration.component';
-import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDateFRParserFormatter } from './datepicker/ngb-date-fr-parser-formatter';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 
 import { RecipeModule } from './recipe/recipe.module';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RecipeComponent } from './sharing/forms/recipe.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor'
 import { TokenStorageService } from './services/token-storage.service';
@@ -33,6 +31,7 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ConfirmationMatModalComponent } from './sharing/confirmation-mat-modal/confirmation-mat-modal.component';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
     declarations: [
@@ -45,7 +44,7 @@ import { ConfirmationMatModalComponent } from './sharing/confirmation-mat-modal/
         LoginComponent,
         LastRecipesComponent,
         LoadingSkeletonComponent,
-        ConfirmationMatModalComponent,
+        ConfirmationMatModalComponent
     ],
     imports: [
         BrowserModule,
@@ -64,7 +63,8 @@ import { ConfirmationMatModalComponent } from './sharing/confirmation-mat-modal/
         MatButtonModule,
         ButtonModule,
         RippleModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        CalendarModule
     ],
     providers: [
         LoaderService,

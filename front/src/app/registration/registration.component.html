@@ -1,6 +1,6 @@
 <div class="container" id="wrapper">
   <div class="row col-12 shadow-sm p-3 bg-white rounded mt-5">
-    <h3 style="text-align: center">
+    <h3>
       <i class="fas fa-pen"></i> Devenir membre
     </h3>
   </div>
@@ -16,7 +16,7 @@
   </div>
   <form #formUser="ngForm" (ngSubmit)="onUserRegistration(formUser)">
     <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded mt-2">
-      <div class="col-md-6">
+      <div class="col-md-6 mt-2">
         <label for="nom"><i>Nom :</i></label>
         <input
           type="text"
@@ -30,7 +30,7 @@
           Le Nom est obligatoire!
         </p>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 mt-2">
         <label for="prenom">Prénom:</label>
         <input
           type="text"
@@ -48,7 +48,7 @@
           Le Prénom est obligatoire!
         </p>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 mt-2">
         <label for="pseudo">Pseudo:</label>
         <input
           type="text"
@@ -63,7 +63,7 @@
           Le pseudo est obligatoire!
         </p>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 mt-2">
         <label for="email">Adresse Email:</label>
         <input
           type="text"
@@ -78,28 +78,22 @@
           L'Email est obligatoire!
         </p>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 mt-2">
         <label for="bithdate"><i>Date de naissance :</i></label>
         <div class="input-group">
-          <input
-            class="form-control"
-            placeholder="jj-mm-aaaa"
+          <p-calendar 
+            placeholder="jj/mm/aaaa" 
+            [(ngModel)]="newUser.birthdate" 
+            [showIcon]="true"
+            dateFormat="dd/mm/yy"
             name="birthdate"
-            [(ngModel)]="newUser.birthdate"
-            ngbDatepicker
-            #d="ngbDatepicker"
-          />
-          <div class="input-group-append">
-            <button
-              class="btn btn-outline-secondary far fa-calendar-alt"
-              (click)="d.toggle()"
-              type="button"
-            ></button>
-          </div>
+            class="form-control p-0"
+            [style]="{'width':'100%'}"
+          >
+          </p-calendar>
         </div>
-        <!--  <input class="form-control" placeholder="jj-mm-aaaa" name="birthdate" ngbDatepicker [(ngModel)]="newUser.birthDate" #birthDate="ngModel" required> -->
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 mt-2">
         <label for="nom"><i>Mot de passe :</i></label>
         <input
           type="password"
@@ -114,11 +108,16 @@
         </p>
       </div>
       <div style="float: right" class="col-12 mt-3">
-        <button class="btn btn-success float-end" type="submit">
+        <button 
+          class="btn btn-success float-end" 
+          [disabled]="loading" 
+          type="submit"
+        >
+          <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
           Enregistrer
         </button>
       </div>
     </div>
-    {{ formUser.value | json }}
+    <!-- {{ formUser.value | json }} -->
   </form>
 </div>

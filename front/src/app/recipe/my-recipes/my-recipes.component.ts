@@ -1,16 +1,12 @@
 import { LoaderService } from './../../services/loader.service';
-import { element } from 'protractor';
-import { AppComponent } from '../../app.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../recipe';
 import { MessageHandlerService } from '../../services/message-handler.service';
 import { takeUntil } from 'rxjs/operators';
-import * as $ from 'jquery';
 import { CommonUtils } from 'src/app/Utils/CommonUtils';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RecipeComponent } from 'src/app/sharing/forms/recipe.component';
 import { ConfirmationMatModalComponent } from '../../sharing/confirmation-mat-modal/confirmation-mat-modal.component';
@@ -30,7 +26,7 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
   recipes: Recipe[] = [];
   recipeToUpdate: Recipe = new Recipe();
   uploadImage = CommonUtils.UPLOAD_IMAGES_DIRECTORY;
-
+  //{{ uploadImage }}{{ recipe.images.length !== 0 ? recipe.images[0].name : 'no_image_available.png'}}
   constructor(
     private RecipeService: RecipeService,
     private mhs: MessageHandlerService,
@@ -60,7 +56,7 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
       },
       () => {
         const dialogRef = this.dialog.open(RecipeComponent, {
-          width: '800px',
+          panelClass: 'dfm-dialog-container',
           data: {
             recipe: this.recipeToUpdate
           },
@@ -73,7 +69,19 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
 
   getRecipes(operationType = 'undefined'): void {
     this.RecipeService.getOwnRecipes().pipe(takeUntil(this.destroy$)).subscribe(
-      (res: Recipe[]) => this.recipes = res,
+      (res: Recipe[]) => {
+        this.recipes = res.map(recipe => {
+          if (!Boolean(recipe.images.length)) {
+            recipe.coverage = this.uploadImage + CommonUtils.NO_AVAILABLE_IMAGE;
+          } else {
+            recipe.coverage = this.uploadImage + recipe.images[0].name;
+          }
+          recipe.state = CommonUtils.recipeStatus[recipe.state];
+
+
+          return recipe;
+        });
+      },
       (err) => this.errorHandler(err),
       () => {
         if ('undefined' !== operationType) {

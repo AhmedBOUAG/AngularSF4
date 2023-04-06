@@ -1,1 +1,22 @@
+span.state-pills {
+    display: inline-block;
+    padding: 0px 13px;
+    border-radius: 50px;
+    margin-left: 5px;
+    border-bottom: 1px solid #929292;
+}
 
+span.published {
+    background: #689f38;
+    color: #FFFFFF;
+}
+
+span.draft {
+    background: #ed6363;
+    color: #FFFFFF;
+}
+
+span.rejected {
+    background: silver;
+    color: #696969;
+}

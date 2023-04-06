@@ -11,10 +11,11 @@ class LatestRecipesAction extends AbstractController
     public function __construct(private EntityManagerInterface $entityMananger)
     {
     }
+
     public function __invoke()
     {
         $repository = $this->entityMananger->getRepository(RecetteDFM::class);
 
-        return $repository->findBy([], ['createdAt' => 'DESC'], 4);
+        return $repository->findBy(['state' => 'published'], ['createdAt' => 'DESC'], 5);
     }
 }

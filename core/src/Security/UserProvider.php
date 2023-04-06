@@ -37,7 +37,7 @@ class UserProvider implements UserProviderInterface
     public function refreshUser(UserInterface $user): UserInterface
     {
         if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported', get_class($user)));
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported', $user::class));
         }
 
         $refreshedUser = $this->userRepository->find($user->getId());

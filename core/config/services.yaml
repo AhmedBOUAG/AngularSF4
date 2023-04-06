@@ -27,6 +27,8 @@ services:
     resource: "../src/Controller/"
     tags: ["controller.service_arguments"]
 
+  dfm.recipe.workflow.service:
+    class: App\Service\Workflow\RecipeWorkflow
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
   # user_provider:
@@ -42,17 +44,25 @@ services:
       - { name: doctrine.event_listener, event: prePersist }
   dfm.user_provider:
     class: App\Security\UserProvider
-    
+  # App\Controller\Api\Recipe\CreateRecetteAction:
+  #   arguments: ["@dfm.recipe.workflow.service"]
+  #   tags: ["controller.service_arguments"]
+
+  # App\Controller\Api\Recipe\EditRecetteAction:
+  #   arguments:
+  #     ["@doctrine.orm.default_entity_manager", "@dfm.recipe.workflow.service"]
+  #   tags: ["controller.service_arguments"]
+
   # dfm.jwt_token_authenticator:
   #   class: App\Security\JWT\JwtTokenAuthenticator
   #   parent: lexik_jwt_authentication.security.jwt_authenticator
-    # arguments: ['@dfm.user_provider']
-    # arguments:
-    #   - '@lexik_jwt_authentication.jwt_manager'
-    #   - '@debug.event_dispatcher'
-    #   - '@lexik_jwt_authentication.extractor.chain_extractor'
-    #   - '@user_provider'
-    #   - '@App\Repository\UserRepository'
+  # arguments: ['@dfm.user_provider']
+  # arguments:
+  #   - '@lexik_jwt_authentication.jwt_manager'
+  #   - '@debug.event_dispatcher'
+  #   - '@lexik_jwt_authentication.extractor.chain_extractor'
+  #   - '@user_provider'
+  #   - '@App\Repository\UserRepository'
 
   #dfm.on_authentifcation_successful:
   #  class: App\EventListener\LoginSuccessListener
