@@ -27,3 +27,42 @@ div#cardRecette {
 div#cardRecette:hover {
   box-shadow: 0 0 11px rgba(33, 33, 33, .2);
 }
+
+.thumbnails-strip {
+  background-color: rgb(238, 238, 238);
+  padding: 0 0 10px 0px;
+}
+
+.toggle-state {
+  width: 100%;
+  margin: 15px 0;
+  background: #e8ecef;
+  border: 1px solid #c2c2c2;
+  border-radius: 5px;
+  padding: 5px 19px;
+}
+
+.toggle-state>label {
+  font-weight: 600;
+  margin-right: 5px;
+  letter-spacing: 1px;
+}
+
+.dfm-dialog-container {
+  width: 800px;
+}
+
+::ng-deep.mat-dialog-container {
+  height: auto !important;
+}
+
+.img-thumbnails {
+  width: 80px;
+  height: 45px;
+  border: 1px solid gray;
+}
+
+.dfm-thumbnails-edition {
+  margin-top: 10px;
+  width: auto !important;
+}

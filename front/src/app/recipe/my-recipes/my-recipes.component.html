@@ -36,7 +36,7 @@
     >
       <div class="card w-100 mh-100" style="min-height: 474px">
         <img
-          src="{{ uploadImage }}{{ recipe.images[0].name }}"
+          src="{{ recipe.coverage }}"
           [ngStyle]="{ 'max-height.px': '190' }"
           class="card-img-top"
           alt=""
@@ -48,10 +48,10 @@
           <h6 class="card-subtitle mb-2 text-muted">{{ recipe.subtitle| slice : 0 : 60}}<span *ngIf="recipe.subtitle.length > 60">...</span></h6>
           <p class="card-text">{{ recipe.description | slice : 0 : 85 }}...</p>
           <hr />
-          <strong>Crée par:</strong> {{ recipe.creator.username }} <br />
           <strong>Catégorie:</strong> {{ recipe.category }}<br />
           <strong>Lieu:</strong> {{ recipe.city }} ({{ recipe.zip }})<br />
           <strong>Prix:</strong> {{ recipe.price }} €<br />
+          <strong>Statut:</strong> <span class="state-pills {{ recipe.state| filterStatus}}">{{ recipe.state }}</span><br />
           <div class="tools-btn-recette">
             <hr style="border: 1px dashed rgb(236, 236, 236)" />
             <button

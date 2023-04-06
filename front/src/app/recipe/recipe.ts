@@ -1,4 +1,4 @@
-import { ICreator } from  '../models/interfaces/creator';
+import { ICreator } from '../models/interfaces/creator';
 import { IImageRecipe } from '../models/interfaces/imageRecipe';
 export class Recipe {
   id?: any; // type 'number' provoque une erreur dans la console. a voir plus tard
@@ -12,4 +12,6 @@ export class Recipe {
   images: IImageRecipe[];
   deletedThumbnails?: any = [];
   creator: ICreator;
+  state: string;
+  coverage: string;
 }

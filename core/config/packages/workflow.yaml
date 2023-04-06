@@ -1,0 +1,26 @@
+framework:
+    workflows:
+        recipe_dfm:
+            type: "state_machine"
+            audit_trail:
+                enabled: "%kernel.debug%"
+            marking_store:
+                type: method
+                property: "state"
+            supports:
+                - App\Entity\RecetteDFM
+            initial_marking: draft
+            places:
+                - draft
+                - rejected
+                - published
+            transitions:
+                to_draft:
+                    from: ["published", "rejected"]
+                    to: draft
+                publish:
+                    from: draft
+                    to: published
+                reject:
+                    from: ["published"]
+                    to: rejected

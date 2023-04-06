@@ -13,14 +13,17 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use App\Controller\Api\Recipe\CreateRecetteAction;
 use App\Controller\Api\Recipe\EditRecetteAction;
 use App\Controller\Api\Recipe\LatestRecipesAction;
+use App\Repository\RecetteDFMRepository;
 use App\Traits\ResourceIdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Migrations\Version\State;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[Gedmo\Loggable]
-#[ORM\Entity(repositoryClass: "App\Repository\RecetteDFMRepository")]
+#[ORM\Entity(repositoryClass: RecetteDFMRepository::class)]
 #[ApiResource(
     types: ['https://schema.org/RecetteDFM'],
     operations: [
@@ -150,6 +153,10 @@ class RecetteDFM
     #[Groups(['recette:read'])]
     private $creator;
 
+    #[ORM\Column(length: 255, options: ['default' => 'draft'])]
+    #[Groups(["recette:read", "recette:write"])]
+    private ?string $state = 'draft';
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -247,7 +254,6 @@ class RecetteDFM
     {
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);
-            // set the owning side to null (unless already changed)
             if ($image->getRecette() === $this) {
                 $image->setRecette(null);
             }
@@ -261,6 +267,17 @@ class RecetteDFM
     public function setCreator(?User $creator): self
     {
         $this->creator = $creator;
+        return $this;
+    }
+
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state = 'draft'): self
+    {
+        $this->state = $state;
         return $this;
     }
 }

@@ -28,7 +28,7 @@ class RecipeSubscriberTest extends TestCase
         $this->assertSame(3, $request->get('category'));
     }
 
-    protected function coveredMethods()
+    public static function coveredMethods(): array
     {
         return [['PUT'], ['POST']];
     }

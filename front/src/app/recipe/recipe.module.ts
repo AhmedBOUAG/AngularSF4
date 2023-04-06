@@ -8,6 +8,9 @@ import { RecipeCreateComponent } from './recipe-create/recipe-create.component';
 import { RecipeRoutingModule } from './recipe-routing.module';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FilterStatusPipe } from '../pipe/filter-status.pipe';
+
 
 @NgModule({
   imports: [
@@ -16,14 +19,16 @@ import { RippleModule } from 'primeng/ripple';
     ReactiveFormsModule,
     CommonModule,
     ButtonModule,
-    RippleModule
+    RippleModule,
+    MatSlideToggleModule,
   ],
   providers: [RecipeService],
   declarations: [
     MyRecipesComponent,
     RecipeCreateComponent,
-    RecipeComponent
+    RecipeComponent,
+    FilterStatusPipe
   ],
-  bootstrap: []
+  bootstrap: [RecipeComponent]
 })
 export class RecipeModule { }

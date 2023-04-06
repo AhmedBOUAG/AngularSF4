@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Un utilisateur est déjà enregistré sous cet adresse email')]
@@ -85,10 +85,10 @@ class User implements UserInterface
         $this->firstname = $firstname;
         return $this;
     }
-    /* public function getLastname(): ?string
-       {
-           return $this->lastname;
-       }*/
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
@@ -141,10 +141,7 @@ class User implements UserInterface
     {
         return $this->createdAt;
     }
-    /**
-     * 
-     * @return (Role|string)[] the user roles
-     */
+
     public function getRoles(): array
     {
         return $this->roles;
@@ -154,28 +151,15 @@ class User implements UserInterface
         $this->roles = $roles;
         return $this;
     }
-    /*
-     * 
-     * @return string|null the salt     
-     */
-    public function getSalt()
+
+    public function getSalt(): ?string
     {
         return null;
     }
     public function eraseCredentials()
     {
     }
-    public function __serialize()
-    {
-        return serialize([$this->id, $this->username, $this->password]);
-    }
-    public function __unserialize($serialized)
-    {
-        list($this->id, $this->username, $this->password) = unserialize($serialized, ['allowed_classes' => false]);
-    }
-    /**
-     * @return Collection<int, RecetteDFM>
-     */
+
     public function getRecetteDFMs(): Collection
     {
         return $this->recetteDFMs;
@@ -191,7 +175,10 @@ class User implements UserInterface
     }
     public function removeRecetteDFM(RecetteDFM $recetteDFM): self
     {
-        if ($this->recetteDFMs->removeElement($recetteDFM) && $recetteDFM->getCreator() === $this) {
+        if (
+            $this->recetteDFMs->removeElement($recetteDFM) &&
+            $recetteDFM->getCreator() === $this
+        ) {
             $recetteDFM->setCreator(null);
         }
 
