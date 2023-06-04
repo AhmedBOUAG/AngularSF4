@@ -4,20 +4,13 @@
       <i class="fas fa-pen"></i> Devenir membre
     </h3>
   </div>
-  <div
-    *ngIf="messageHandler !== ''"
-    class="row col-12 alert {{ messageHandler.typeOperation }} p-2 mt-3"
-  >
-    <i
-      class="fas {{ messageHandler.iconOperation }}"
-      style="margin-top: 0.29rem"
-    ></i
-    ><span class="pl-2">{{ messageHandler.messageOperation }}</span>
-  </div>
+
   <form #formUser="ngForm" (ngSubmit)="onUserRegistration(formUser)">
     <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded mt-2">
+      <h4>Saisissez vos informations d'inscription:</h4>
+      <hr />
       <div class="col-md-6 mt-2">
-        <label for="nom"><i>Nom :</i></label>
+        <label for="nom">Nom :</label>
         <input
           type="text"
           class="form-control"
@@ -79,7 +72,7 @@
         </p>
       </div>
       <div class="col-md-6 mt-2">
-        <label for="bithdate"><i>Date de naissance :</i></label>
+        <label for="bithdate">Date de naissance :</label>
         <div class="input-group">
           <p-calendar 
             placeholder="jj/mm/aaaa" 
@@ -89,23 +82,26 @@
             name="birthdate"
             class="form-control p-0"
             [style]="{'width':'100%'}"
+            styleClass="dfm-btn"
           >
           </p-calendar>
         </div>
       </div>
       <div class="col-md-6 mt-2">
-        <label for="nom"><i>Mot de passe :</i></label>
-        <input
-          type="password"
-          class="form-control"
-          name="password"
-          [(ngModel)]="newUser.password"
-          #trackPassword="ngModel"
-          required
-        />
-        <p class="alert" *ngIf="!trackPassword.valid && trackPassword.touched">
-          Le mot de passe est obligatoire!
-        </p>
+        <label for="nom">Mot de passe :</label><br/>
+        <div class="card flex justify-content-center">
+          <p-password
+            [style]="{'width':'100%'}"
+            [inputStyle] = "{'width':'100%'}"
+            [(ngModel)]="newUser.password"
+            name="password" 
+            #trackPassword="ngModel" 
+          ></p-password>
+          <p class="alert" *ngIf="!trackPassword.valid && trackPassword.touched">
+            Le mot de passe est obligatoire!
+          </p>
+        </div>
+
       </div>
       <div style="float: right" class="col-12 mt-3">
         <button 
@@ -121,3 +117,4 @@
     <!-- {{ formUser.value | json }} -->
   </form>
 </div>
+<app-toast></app-toast>

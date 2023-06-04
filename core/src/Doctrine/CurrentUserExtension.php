@@ -21,26 +21,29 @@ final class CurrentUserExtension implements QueryCollectionExtensionInterface, Q
 
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void
     {
-        // $this->addWhere($queryBuilder, $resourceClass);
+        if ('_api_/recipes_get_collection' === $operation->getName()) {
+            return;
+        }
+        $this->addWhere($queryBuilder, $resourceClass);
     }
 
     public function applyToItem(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, array $identifiers, Operation $operation = null, array $context = []): void
     {
-        //$this->addWhere($queryBuilder, $resourceClass);
+        $this->addWhere($queryBuilder, $resourceClass);
     }
 
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
         if (
-            RecetteDFM::class !== $resourceClass ||
-            $this->security->isGranted('ROLE_ADMIN') ||
-            null === $user = $this->security->getUser()
+            RecetteDFM::class !== $resourceClass
+            || $this->security->isGranted('ROLE_ADMIN')
+            || null === $this->security->getUser()
         ) {
             return;
         }
 
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->andWhere(sprintf('%s.user = :current_user', $rootAlias));
-        $queryBuilder->setParameter('current_user', $user->getId());
+        $queryBuilder->andWhere(sprintf('%s.creator = :current_user', $rootAlias));
+        $queryBuilder->setParameter('current_user', $this->security->getUser());
     }
 }

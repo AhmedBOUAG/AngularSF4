@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,7 +14,6 @@ import { LoaderService } from './services/loader.service';
 import { RegistrationComponent } from './registration/registration.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
-
 import { RecipeModule } from './recipe/recipe.module';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -32,8 +31,16 @@ import { RippleModule } from 'primeng/ripple';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ConfirmationMatModalComponent } from './sharing/confirmation-mat-modal/confirmation-mat-modal.component';
 import { CalendarModule } from 'primeng/calendar';
+import { PasswordModule } from 'primeng/password';
+import { DividerModule } from 'primeng/divider';
+import { CardModule } from 'primeng/card';
+import { MessageService } from 'primeng/api';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { TagModule } from 'primeng/tag';
+import { AvatarModule } from 'primeng/avatar';
 
 @NgModule({
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     declarations: [
         AppComponent,
         HeaderComponent,
@@ -45,6 +52,7 @@ import { CalendarModule } from 'primeng/calendar';
         LastRecipesComponent,
         LoadingSkeletonComponent,
         ConfirmationMatModalComponent
+
     ],
     imports: [
         BrowserModule,
@@ -64,10 +72,17 @@ import { CalendarModule } from 'primeng/calendar';
         ButtonModule,
         RippleModule,
         FontAwesomeModule,
-        CalendarModule
+        CalendarModule,
+        PasswordModule,
+        DividerModule,
+        CardModule,
+        SpeedDialModule,
+        TagModule,
+        AvatarModule
     ],
     providers: [
         LoaderService,
+        MessageService,
         { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },

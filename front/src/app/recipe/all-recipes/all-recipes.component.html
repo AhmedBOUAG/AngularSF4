@@ -1,0 +1,114 @@
+ <div class="container" id="wrapper">
+    <app-breadcrumb [items]="breadcrumbMenuItems"></app-breadcrumb>
+    <div class="row col-12 shadow-sm p-3 mb-0 bg-white rounded mt-5">
+        <div class="w-100 text-lg">
+          <h3 class="float-start"><i class="pi pi-globe"></i> Explorer les recettes des autres</h3>
+        </div>
+      </div>
+    <div class="row col-12 shadow-sm p-3 mb-0 bg-white rounded mt-5">
+        <div class="card" style="padding-left: 0px !important; padding-right: 0px !important">
+            <p-dataView #dv 
+            [value]="recipes" 
+            [layout]="layout" 
+            [sortField]="sortField" 
+            [sortOrder]="sortOrder"
+            [rows]="nbItemPerPage" 
+            [paginator]="false"
+            >
+                <ng-template pTemplate="header">
+                    <div style="float:left;" class="flex flex-column md:flex-row md:justify-content-between">
+                        <p-dropdown [options]="sortOptions" ngDefaultControl placeholder="Trier par prix" (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0">
+                            <ng-template let-item pTemplate="selectedItem">
+                                <i class="{{item.icon}}"></i> {{item.label}}
+                           </ng-template>
+                           <ng-template let-object pTemplate="item">
+                                <i class="{{object.icon}}"></i> {{object.label}}
+                           </ng-template>
+                        </p-dropdown>
+                    </div>
+                    <div class="flex justify-content-end">
+                        <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
+                    </div>
+                </ng-template>
+                <ng-template let-recipe pTemplate="listItem">
+                    <div class="col-12">
+                        <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                            <img width="260px" height="110px" class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" [src]=recipe.coverage [alt]=recipe.subtitle />
+                            <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                                <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                                    <div class="text-base font-bold text-900">{{ recipe.title }}</div>
+                                    <div class="text-sm	text-[#757575]">{{ recipe.subtitle }}</div>
+                                    <p-rating [ngModel]="3" ngDefaultControl [readonly]="true" [cancel]="false"></p-rating>
+                                    <div class="flex align-items-center gap-3">
+                                        <span class="flex align-items-center gap-2">
+                                            <i class="pi pi-images" alt="Nombre d'images"></i>
+                                            <span class="text-xs" style="color: #a7a7a7;">x{{ recipe.images.length }}</span>
+                                        </span>
+
+                                        <span class="flex align-items-center gap-2">
+                                            <i class="pi pi-tag"></i>
+                                            <span class="state-pills text-xs" style="color: #a7a7a7;">{{ getCategory(recipe.category) }}</span>
+                                        </span>
+
+                                        <span class="flex align-items-center gap-2">
+                                            <i class="pi pi-user"></i>
+                                            <span class="text-xs" style="color: #a7a7a7;">{{ recipe.creator.username }}</span>
+                                        </span>
+
+                                        <span class="flex align-items-center gap-2">
+                                            <i class="pi pi-map-marker"></i>
+                                            <span class="text-xs" style="color: #a7a7a7;">{{ getLocality(recipe.locality) }}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                                    <span class="text-base font-semibold">{{ recipe.price + '€' }}</span>
+                                   <p-speedDial (click)="selectedItemId = recipe.id" class="float-end btn-options" [radius]="120" [model]="getItems(recipe)" direction="left" buttonClassName="p-button dfm-btn dfm-btn-left"></p-speedDial>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                 <ng-template let-recipe pTemplate="gridItem">
+                    <div class="col-12 sm:col-6 lg:col-12 xl:col-4 p-2">
+                        <div class="p-4 border-1 surface-border surface-card border-round">
+                            <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+                                <span class="flex align-items-center gap-2">
+                                    <i class="pi pi-tag"></i>
+                                    <span class="state-pills text-xs" style="color: #a7a7a7;">{{ getCategory(recipe.category) }}</span>
+                                </span>
+                                <span class="flex align-items-center gap-2">
+                                    <i class="pi pi-map-marker"></i>
+                                    <span class="text-xs" style="color: #a7a7a7;">{{ getLocality(recipe.locality) }}</span>
+                                </span>
+                            </div>
+                            <div class="flex flex-column align-items-center gap-3 py-5">
+                                <img width="260px" height="173px" class="w-9 shadow-2 border-round" [src]="recipe.coverage" [alt]=recipe.subtitle />
+                                <div class="text-base font-bold">{{ recipe.title }}</div>
+                                <div class="text-sm	text-[#757575]">{{ recipe.subtitle }}</div>
+                                <p-rating [ngModel]="3" ngDefaultControl [readonly]="true" [cancel]="false"></p-rating>
+                            </div>
+                            <div style="height: 10px; position: relative;" class="flex align-items-center justify-content-between">
+                                <span class="rounded" style="border: 1px dashed rgb(130, 184, 255); padding: 2px 5px; background: #d9e5ff"><i class="pi pi-wallet"></i>&nbsp;<span class="text-base font-semibold">{{ recipe.price + '€' }}</span></span>
+                                <span class="flex align-items-center gap-2">
+                                    <i class="pi pi-images"></i>
+                                    <span class="text-xs" style="color: #a7a7a7;">x{{ recipe.images.length }}</span>
+                                </span>
+                                <span class="flex align-items-center gap-2">
+                                    <i class="pi pi-user"></i>
+                                    <span class="text-xs" style="color: #a7a7a7;">{{ recipe.creator.username }}</span>
+                                </span>
+                                <p-speedDial className="speeddial-right" (click)="selectedItemId = recipe.id" [radius]="120" [model]="getItems(recipe)" direction="up" buttonClassName="p-button dfm-btn dfm-btn-up"></p-speedDial>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template> 
+
+            </p-dataView>
+            <div class="flex-1">
+                <p-paginator (onPageChange)="onPageChange($event)" [first]="1" [rows]="nbItemPerPage" [totalRecords]="nbItem" [rowsPerPageOptions]="[10, 20, 30]" [showFirstLastIcon]="false"></p-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+<app-toast></app-toast>

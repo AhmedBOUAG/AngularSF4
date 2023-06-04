@@ -6,7 +6,7 @@ framework:
                 enabled: "%kernel.debug%"
             marking_store:
                 type: method
-                property: "state"
+                property: "status"
             supports:
                 - App\Entity\RecetteDFM
             initial_marking: draft
@@ -19,7 +19,7 @@ framework:
                     from: ["published", "rejected"]
                     to: draft
                 publish:
-                    from: draft
+                    from: ["draft", "rejected"]
                     to: published
                 reject:
                     from: ["published"]

@@ -1,3 +1,4 @@
+import { Locality } from '../models/Locality';
 import { ICreator } from '../models/interfaces/creator';
 import { IImageRecipe } from '../models/interfaces/imageRecipe';
 export class Recipe {
@@ -5,13 +6,12 @@ export class Recipe {
   title!: string;
   subtitle!: string;
   category!: string;
-  city!: string;
-  zip!: string;
+  locality!: Locality;
   price!: string;
   description?: any; // type 'text' provoque une erreur dans la console. a voir plus tard
   images: IImageRecipe[];
   deletedThumbnails?: any = [];
   creator: ICreator;
-  state: string;
+  status: string;
   coverage: string;
 }

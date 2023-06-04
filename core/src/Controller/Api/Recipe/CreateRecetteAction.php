@@ -2,25 +2,31 @@
 
 namespace App\Controller\Api\Recipe;
 
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Entity\Image;
+use App\Entity\Locality;
 use App\Entity\RecetteDFM;
 use App\Service\Workflow\RecipeWorkflow;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 final class CreateRecetteAction
 {
-    public function __construct(private RecipeWorkflow $recipeWorkflow)
+    public function __construct(private RecipeWorkflow $recipeWorkflow, private EntityManagerInterface $entityManagerInterface)
     {
     }
+
     public function __invoke(Request $request): RecetteDFM
     {
         $normalizer = new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter());
         $uploadedFiles = $request->files->get('images');
         $recette = $request->request->all();
-        $state = $recette['state'];
+        $status = $recette['status'];
+        if ($locality_id = $recette['locality']) {
+            $recette['locality'] = $this->entityManagerInterface->getRepository(Locality::class)->find(intval($locality_id));
+        }
         $recette = $normalizer->denormalize($recette, RecetteDFM::class);
 
         if (!$uploadedFiles) {
@@ -33,7 +39,7 @@ final class CreateRecetteAction
             $recette->addImages($image);
         }
 
-        $this->recipeWorkflow->process($recette, $state);
+        $this->recipeWorkflow->process($recette, $status);
 
         return $recette;
     }

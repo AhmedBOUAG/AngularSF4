@@ -1,4 +1,4 @@
-<div *ngIf="expired">Session expirée!</div>
+<!-- <div *ngIf="expired">Session expirée!</div>
 <div class="card mt-5" *ngIf="!isLoggedIn">
   <h5 class="title-login"><strong>Se connecter</strong></h5>
   <hr />
@@ -58,12 +58,74 @@
         >
           <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
         </button>
-        <!--<button [disabled]="loading" class="btn btn-primary btn-block mb-4">
-          <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
-          Se connecter
-        </button>-->
         <a routerLink="../inscription" class="btn btn-link">S'inscrire</a>
       </div>
     </form>
   </div>
 </div>
+-->
+
+<div *ngIf="expired">Session expirée!</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div
+    *ngIf="loggedInFailed"
+    class="alert alert-danger alert-dismissible fade show"
+    role="alert"
+    >
+    {{ formNotifyMessage }}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    >
+    </button>
+  </div>
+  <div class="card" *ngIf="!isLoggedIn">
+    <div class="grid">
+      <div class="col-5 align-items-center justify-content-center">
+        <h3>Se connecter</h3>
+        <hr>  
+        <div class="p-fluid">
+              <div class="field">
+                  <label for="Email">Email</label>
+                  <input
+                  type="text"
+                  formControlName="email"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                />
+              </div>
+              <div class="field">
+                  <label for="password">Mot de passe</label>
+                  <input
+                  type="password"
+                  formControlName="password"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+                />
+              </div>
+              <button
+              [disabled]="loading"
+              pButton
+              pRipple
+              label="Se connecter"
+              icon="pi pi-user"
+              class="w-full"
+            >
+              <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+            </button>
+          </div>
+      </div>
+      <div class="col-2">
+          <p-divider layout="vertical">
+              <b>OU</b>
+          </p-divider>
+      </div>
+      <div class="col-5 flex align-items-center justify-content-center">
+          <p-button routerLink="../inscription" label="S'inscrire" icon="pi pi-user-plus" styleClass="p-button-success"></p-button>
+      </div>
+    </div>
+  </div>
+</form>

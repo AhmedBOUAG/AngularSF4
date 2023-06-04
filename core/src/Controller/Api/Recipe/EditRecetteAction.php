@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-
 class EditRecetteAction
 {
     public const EDIT_OPERATION = 'put_operation';
@@ -25,7 +24,7 @@ class EditRecetteAction
     {
         $uploadedFiles = $request->files->get('images');
         $requestData = $request->request->all();
-        $deletedThumbnails = empty($requestData['deletedThumbnails']) ? array() : explode(',', $requestData['deletedThumbnails']);
+        $deletedThumbnails = empty($requestData['deletedThumbnails']) ? [] : explode(',', $requestData['deletedThumbnails']);
         unset($requestData['deletedThumbnails']);
 
         if ($deletedThumbnails) {
@@ -36,8 +35,11 @@ class EditRecetteAction
         }
         $options = [
             AbstractNormalizer::OBJECT_TO_POPULATE => $data,
-            'ignored_attributes' => ['state']
+            'ignored_attributes' => ['status'],
         ];
+        if ($locality_id = $requestData['locality']) {
+            $requestData['locality'] = "/api/localities/$locality_id";
+        }
         $recetteUpdated = $serializer->deserialize(json_encode($requestData), RecetteDFM::class, 'json', $options);
         if (isset($uploadedFiles)) {
             foreach ($uploadedFiles as $uploadedFile) {
@@ -46,7 +48,7 @@ class EditRecetteAction
                 $recetteUpdated->addImages($image);
             }
         }
-        $this->recipeWorkflow->process(recipe: $recetteUpdated, place: $requestData['state']);
+        $this->recipeWorkflow->process(recipe: $recetteUpdated, place: $requestData['status']);
 
         return $recetteUpdated;
     }

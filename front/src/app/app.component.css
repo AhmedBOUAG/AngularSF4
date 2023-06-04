@@ -1,0 +1,33 @@
+::ng-deep.dfm-btn,
+::ng-deep.p-datepicker-trigger {
+    background: #518fa4;
+    border-color: #2094bb;
+}
+
+::ng-deep.dfm-btn:enabled:active,
+::ng-deep.p-datepicker-trigger:active {
+    background: #0f6582;
+    border-color: #518fa4;
+}
+
+::ng-deep.dfm-btn:enabled:hover,
+::ng-deep.p-datepicker-trigger:hover {
+    background: #5ea9c2;
+    border-color: #50bbe0;
+}
+
+::ng-deep.p-speeddial-action {
+    background: #0f6b86;
+}
+
+::ng-deep.p-speeddial-action:hover {
+    background: #0aa6d6;
+}
+
+::ng-deep.p-speeddial-action:nth-child(3) {
+    background: blue;
+}
+
+::ng-deep.p-speeddial-action:nth-child(2) {
+    background: red !important;
+}

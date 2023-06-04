@@ -11,6 +11,7 @@ class RecipeListener
     public function __construct(private Security $security)
     {
     }
+
     public function prePersist(LifecycleEventArgs $event): void
     {
         $entity = $event->getObject();
@@ -19,6 +20,7 @@ class RecipeListener
         }
         $entity->setCreator(creator: $this->security->getUser());
     }
+
     public function preUpdate(LifecycleEventArgs $event): void
     {
         $entity = $event->getObject();

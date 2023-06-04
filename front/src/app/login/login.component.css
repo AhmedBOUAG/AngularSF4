@@ -1,19 +1,26 @@
-form{
-  max-width: 400px;
-  margin: 0 auto;
+form {
+  max-width: 850px;
+  margin: 100px auto;
 }
+
 .form-login {
   padding: 0 15px;
 }
-.card{
-  max-width: 600px;
+
+.card {
   margin: 0 auto;
   margin-bottom: 15%;
   box-shadow: #e1e1e1 4px 4px 20px 0px;
 }
-.title-login{
+
+.title-login {
   padding: 25px 0 0 15px;
 }
+
 .spinner-border {
   vertical-align: middle !important;
+}
+
+.grid {
+  padding: 20px;
 }

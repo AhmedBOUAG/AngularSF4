@@ -34,14 +34,14 @@ class RecipeWorkflow
 
     private function toPlace(RecetteDFM $recipe, string $transitionName): void
     {
-        $oldPlace = $recipe->getState();
+        $oldPlace = $recipe->getStatus();
 
         if (0 === $recipe->getImages()->count()) {
             $transitionName = RecipeTransition::Reject->value;
         }
         if (
-            in_array($recipe->getState(), RecipeStatus::getValues()) &&
-            $this->recipeDfmStateMachine->can($recipe, $transitionName)
+            in_array($recipe->getStatus(), RecipeStatus::getValues())
+            && $this->recipeDfmStateMachine->can($recipe, $transitionName)
         ) {
             try {
                 $this->recipeDfmStateMachine->apply($recipe, $transitionName, [Workflow::DISABLE_ANNOUNCE_EVENT => true]);

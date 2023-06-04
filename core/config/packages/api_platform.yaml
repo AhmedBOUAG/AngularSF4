@@ -1,6 +1,7 @@
 api_platform:
   metadata_backward_compatibility_layer: false
   defaults:
+    pagination_client_items_per_page: true
     normalization_context:
       skip_null_values: true
   mapping:
@@ -14,3 +15,8 @@ api_platform:
         type: header
     versions: [3]
   enable_swagger_ui: false
+  collection:
+    order_parameter_name: _order
+    pagination:
+      page_parameter_name: _page
+      items_per_page_parameter_name: itemsPerPage

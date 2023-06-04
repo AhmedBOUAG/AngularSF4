@@ -1,22 +1,20 @@
-span.state-pills {
-    display: inline-block;
-    padding: 0px 13px;
-    border-radius: 50px;
-    margin-left: 5px;
-    border-bottom: 1px solid #929292;
+.btn-options {
+    left: -53px;
+    position: relative;
+    bottom: 15px;
 }
 
-span.published {
-    background: #689f38;
-    color: #FFFFFF;
+.tools-btn-recette {
+    width: 100%;
+    position: absolute;
+    bottom: 55px;
+    right: 18px;
 }
 
-span.draft {
-    background: #ed6363;
-    color: #FFFFFF;
+::ng-deep .p-speeddial-action {
+    text-decoration: none !important;
 }
 
-span.rejected {
-    background: silver;
-    color: #696969;
+::ng-deep .edit-badge {
+    background-color: rgb(17, 65, 138);
 }

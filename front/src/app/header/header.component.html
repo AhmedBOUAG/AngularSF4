@@ -1,5 +1,5 @@
-<div
-  class="bg-bluegray-900 text-gray-100 p-3 flex justify-content-between lg:justify-content-center align-items-center flex-wrap"
+<div *ngIf="displayBanner"
+  class="banner-top bg-bluegray-900 text-gray-100 p-3 flex justify-content-between lg:justify-content-center align-items-center flex-wrap"
 >
   <div class="font-bold mr-8">🔥 Hot Deals!</div>
   <div class="align-items-center hidden lg:flex">
@@ -16,6 +16,7 @@
     pRipple
     class="flex align-items-center no-underline justify-content-center border-circle text-gray-50 hover:bg-bluegray-700 cursor-pointer transition-colors transition-duration-150"
     style="width: 2rem; height: 2rem"
+    (click)="closeBanner()"
   >
     <i class="pi pi-times"></i>
   </a>
@@ -44,15 +45,6 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto" id="menu-links">
-        <li *ngIf="isLogged" class="nav-item">
-          <a
-            class="nav-link-title"
-            routerLink="/my-recipes"
-            routerLinkActive="selected"
-            [routerLinkActiveOptions]="{ exact: true }"
-            >Mes recettes</a
-          >
-        </li>
         <li *ngIf="!isLogged" class="nav-item">
           <a
             class="nav-link-title"
@@ -71,6 +63,15 @@
             Se connecter</a
           >
         </li>
+        <li style="padding-top:5px">
+          <a *ngIf="isLogged"
+            class="nav-link-title" 
+            routerLink="/recipe/"
+            routerLinkActive="selected"
+            [routerLinkActiveOptions]="{ exact: true }">
+              <i class="pi pi-search"></i> Explorer
+              </a>
+        </li>
         <li *ngIf="isLogged" class="nav-item dropdown">
           <a
             class="nav-link-title dropdown-toggle"
@@ -81,12 +82,25 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
+            <p-avatar 
+              icon="pi pi-user" 
+              styleClass="mr-2" 
+              [style]="{'background-color': 'rgb(81 143 164)', 'color': '#ffffff'}" 
+              shape="circle">
+            </p-avatar>
             {{ username }}
           </a>
           <div
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="dropdownMenu"
           >
+            <a *ngIf="isLogged"
+            class="dropdown-item" 
+            routerLink="/recipe/my-recipes"
+            routerLinkActive="selected"
+            [routerLinkActiveOptions]="{ exact: true }">
+              Mes recettes
+            </a>
             <a class="dropdown-item" href="#">Mon tableau de bord</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item text-danger" (click)="logout()"

@@ -1,10 +1,11 @@
 import { Recipe } from '../recipe/recipe';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { __core_private_testing_placeholder__ } from '@angular/core/testing';
 import { environment } from 'src/environments/environment';
+import { IFilter } from '../models/interfaces/IFilter';
+import { FilterService } from './filter.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,15 +19,16 @@ export class RecipeService {
   recipes!: Recipe[];
   images = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private filterService: FilterService) { }
 
   /**
    * Fonction qui récupère, via l'API, toutes les recettes
    */
-  getAll(): Observable<Recipe[]> {
+  getAll(filter: IFilter = {}): Observable<Recipe[]> {
     const uri = `${this.apiUrl}`;
+    let params = this.filterService.handlerParamFilter(filter);
 
-    return this.getRecipe(uri);
+    return this.getRecipe(uri, params);
   }
 
   getOwnRecipes(): Observable<Recipe[]> {
@@ -41,7 +43,6 @@ export class RecipeService {
    * @param id
    */
   getRecipeById(id: number): any {
-    //this.isSingleResult = true;
     const uri = `${this.apiUrl}/${id}`;
     return this.getRecipe(uri);
   }
@@ -50,12 +51,10 @@ export class RecipeService {
    * Fonction générique pour récupérer les data de recette
    * @param uri // uri de l'API
    */
-  getRecipe(uri: string): any {
-    return this.http.get<Recipe[]>(uri).pipe(
+  getRecipe(uri: string, params: any = {}): any {
+    return this.http.get<Recipe[]>(uri, { params: params }).pipe(
       map((res: any) => {
         this.recipes = res;
-        //this.recipes = this.isSingleResult ? res : res['hydra:member'];
-        //this.isSingleResult = false;
         return this.recipes;
       }),
       catchError(this.handleError));
@@ -95,14 +94,20 @@ export class RecipeService {
     );
   }
 
-  private formDataHydrate(recipe: any)
-  {
+  private formDataHydrate(recipe: any) {
     const formData = new FormData();
 
     Object.keys(recipe).forEach(key => {
-      if ('images' !== key ) {
+      if ('images' !== key) {
         formData.append(key, recipe[key]);
       }
+      if ('locality' === key) {
+        const id = recipe[key].id;
+        const name = key;
+        formData.delete(key);
+        formData.append(name, id);
+      }
+
     });
 
     if (recipe.images.length) {
