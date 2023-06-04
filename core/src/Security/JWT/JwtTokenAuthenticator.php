@@ -20,8 +20,6 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class JwtTokenAuthenticator extends AbstractAuthenticator
 {
-
-
     public function __construct(
         private JWTEncoderInterface $jwtEncoder,
         private JWTTokenManagerInterface $jwtManager,
@@ -56,7 +54,6 @@ class JwtTokenAuthenticator extends AbstractAuthenticator
 
         return new SelfValidatingPassport(
             new UserBadge($userIdentifier, function () use ($userIdentifier) {
-
                 return $this->userProvider->loadUserByIdentifier($userIdentifier);
             })
         );
@@ -65,7 +62,7 @@ class JwtTokenAuthenticator extends AbstractAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         $data = [
-            'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
+            'message' => strtr($exception->getMessageKey(), $exception->getMessageData()),
         ];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);

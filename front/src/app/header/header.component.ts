@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   title = 'Du Fait Maison';
   isLogged = false;
+  displayBanner: boolean = true;
   username = '';
 
 
@@ -35,7 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.username = username;
         }
       });
-   }
+  }
 
   ngOnInit(): void {
     const token = this.ts.getToken();
@@ -48,7 +49,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onClick() {
     this.isDisabled = false;
   }
-
+  closeBanner() {
+    this.displayBanner = false;
+  }
   logout() {
     this.auth.logout();
   }

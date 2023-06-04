@@ -1,0 +1,43 @@
+.btn-options {
+    left: 11px;
+    position: relative;
+    bottom: -15px;
+}
+
+.tools-btn-recette {
+    width: 100%;
+    position: absolute;
+    bottom: 55px;
+    right: 18px;
+}
+
+::ng-deep .p-speeddial-action {
+    text-decoration: none !important;
+}
+
+::ng-deep .dfm-btn {
+    box-shadow: 0px 1px 5px 2px #8a8a8a8c;
+}
+
+::ng-deep .p-speeddial-direction-left {
+    position: relative !important;
+}
+
+::ng-deep .edit-badge {
+    background-color: rgb(17, 65, 138);
+}
+
+::ng-deep .p-speeddial-button.p-button.p-button-icon-only {
+    width: 3rem;
+    height: 3rem;
+}
+
+::ng-deep .p-speeddial-direction-up {
+    bottom: -15px;
+    right: -15px;
+}
+
+::ng-deep .p-selectbutton .p-button.p-highlight {
+    background: #0f5f7e;
+    border-color: #518fa4;
+}

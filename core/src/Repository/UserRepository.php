@@ -19,9 +19,10 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     {
         parent::__construct($registry, User::class);
     }
+
     public function getUserEmailByUsername($username): ?array
     {
-        return  $this->createQueryBuilder('u')
+        return $this->createQueryBuilder('u')
             ->select('u.email')
             ->where('u.username = :username')
             ->setParameter('username', $username)

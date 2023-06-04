@@ -7,9 +7,13 @@ import { MessageHandlerService } from '../../services/message-handler.service';
 import { takeUntil } from 'rxjs/operators';
 import { CommonUtils } from 'src/app/Utils/CommonUtils';
 import { Router } from '@angular/router';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { RecipeComponent } from 'src/app/sharing/forms/recipe.component';
 import { ConfirmationMatModalComponent } from '../../sharing/confirmation-mat-modal/confirmation-mat-modal.component';
+import { MenuItem, MessageService } from 'primeng/api';
+import { IUserInfo } from '../../models/interfaces/IUserInfo';
+import { ILocality } from 'src/app/models/interfaces/ILocality';
+
 @Component({
   selector: 'app-my-recipes',
   templateUrl: './my-recipes.component.html',
@@ -17,6 +21,7 @@ import { ConfirmationMatModalComponent } from '../../sharing/confirmation-mat-mo
 })
 export class MyRecipesComponent implements OnInit, OnDestroy {
   destroy$: Subject<void> = new Subject<void>();
+  user_info: IUserInfo = JSON.parse(localStorage.getItem(CommonUtils.KEY_LOCALSTORAGE_CURRENT_USER)!);
   tmpData: any;
   isLoad = true;
   isLoading: boolean = false;
@@ -26,24 +31,51 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
   recipes: Recipe[] = [];
   recipeToUpdate: Recipe = new Recipe();
   uploadImage = CommonUtils.UPLOAD_IMAGES_DIRECTORY;
-  //{{ uploadImage }}{{ recipe.images.length !== 0 ? recipe.images[0].name : 'no_image_available.png'}}
+  items: MenuItem[];
+  selectedItemId: any = null;
+  breadcrumbMenuItems: MenuItem[];
+
   constructor(
     private RecipeService: RecipeService,
     private mhs: MessageHandlerService,
     private router: Router,
     private dialog: MatDialog,
-    private LoaderService: LoaderService
+    private LoaderService: LoaderService,
+    private messageService: MessageService
 
   ) {
   }
 
   ngOnInit(): void {
+    this.breadcrumbMenuItems = [{ label: 'Recipe', routerLink: '/recipe' }, { label: 'Mes recettes' }];
     this.getRecipes();
     this.LoaderService.isLoading.subscribe((loaded) => {
       this.isLoading = loaded;
     });
+    this.items = [
+      {
+        tabindex: 'edit',
+        icon: 'pi pi-pencil',
+        command: () => {
+          this.preEditRecipe(this.selectedItemId);
+        }
+      },
+      {
+        tabindex: 'access_to',
+        icon: 'pi pi-eye',
+        command: () => {
+          this.messageService.add({ severity: 'success', summary: 'Favoris', detail: 'Rien à voir, circule' })
+        }
+      },
+      {
+        tabindex: 'delete',
+        icon: 'pi pi-trash',
+        command: () => {
+          this.openDeleteConfirmationModal(this.selectedItemId);
+        }
+      }
+    ];
   }
-
   preEditRecipe(id: number): void {
     this.RecipeService.getRecipeById(id).pipe(takeUntil(this.destroy$)).subscribe(
       (res: Recipe) => {
@@ -62,22 +94,24 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
           },
         });
 
-        dialogRef.afterClosed().subscribe(operationType => this.getRecipes(operationType));
+        dialogRef.afterClosed().subscribe(operationType => {
+          this.getRecipes(operationType)
+        });
       }
     );
   }
 
   getRecipes(operationType = 'undefined'): void {
     this.RecipeService.getOwnRecipes().pipe(takeUntil(this.destroy$)).subscribe(
-      (res: Recipe[]) => {
-        this.recipes = res.map(recipe => {
+      (res: any) => {
+        this.recipes = res['hydra:member'].map((recipe: any) => {
           if (!Boolean(recipe.images.length)) {
             recipe.coverage = this.uploadImage + CommonUtils.NO_AVAILABLE_IMAGE;
           } else {
             recipe.coverage = this.uploadImage + recipe.images[0].name;
           }
-          recipe.state = CommonUtils.recipeStatus[recipe.state];
-
+          recipe.status = CommonUtils.recipeStatus[recipe.status];
+          console.log(recipe.locality.toString())
 
           return recipe;
         });
@@ -95,7 +129,7 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
     const dialog = this.dialog.open(ConfirmationMatModalComponent, {
       width: '680px',
       data: {
-        message: 'Vous êtes sur le point de <b>supprimer</b> cette recette. Cette action est définitive et irréversible. <br /><br />Vous souhaitez continuer quand même?',
+        message: CommonUtils.POPIN_RECIPE_DELETE_MSG,
         confirmButton: 'Oui'
       }
     });
@@ -109,7 +143,7 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
   deleteConfirmed(id: number): void {
     this.RecipeService.delete(id).pipe(takeUntil(this.destroy$)).subscribe(
       () => {
-        this.displayMessage('delete');
+        this.displayMessage(CommonUtils.DELETE);
         this.getRecipes();
       },
       (err) => {
@@ -117,16 +151,17 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
       }
     );
   }
-
+  getLocality(locality: ILocality) {
+    return CommonUtils.localityToString(locality);
+  }
   goToCreateForm() {
     this.router.navigate(['/create']);
   }
   displayMessage(type: string) {
-    this.messageHandler = this.mhs.display(type.toUpperCase());
-    setTimeout(() => this.messageHandler = {}, 7000);
+    this.messageService.add(this.mhs.display(type.toUpperCase()));
   }
   errorHandler(err: any) {
-    this.messageHandler = this.mhs.display(err, '', true);
+    this.messageService.add(this.mhs.display(err, '', true));
   }
 
   ngOnDestroy(): void {

@@ -82,36 +82,16 @@
         </div>
       </div>
 
-      <div class="col-md-6 mt-3">
+      <div class="col-md-12">
         <label for="city">Ville :</label>
-        <input
-          type="text"
-          class="form-control"
-          name="city"
-          formControlName="city"
-          required
-        />
-        <div class="info-validation" *ngIf="f.city.errors && f.city.errors.minlength">
-          La ville doit contenir au moins 3 caractères
-        </div>
-      </div>
-      <div class="col-md-6 mt-3">
-        <label for="zip">Code Postal :</label>
-        <input
-          max="5"
-          min="5"
-          type="text"
-          class="form-control"
-          name="zip"
-          formControlName="zip"
-          required
-        />
-        <div class="info-validation" *ngIf="f.zip.errors && f.zip.errors.required">
-          Le code postale doit contenir 5 caractères
-        </div>
-        <div class="info-validation" *ngIf="f.zip.errors && f.zip.errors.minlength">
-          Le code postale doit contenir 5 caractères
-        </div>
+        <ng-select 
+          [items]="cities$ | async" 
+          bindLabel="libelle" 
+          [minTermLength]="minLengthTerm" 
+          [loading]="citiesLoading"
+          typeToSearchText="Please enter {{minLengthTerm}} or more characters" [typeahead]="citiesInput$"
+          formControlName="locality">
+        </ng-select>
       </div>
 
       <div class="input-group mt-3">
@@ -153,7 +133,7 @@
         <mat-slide-toggle
         [(ngModel)]="publishIt" 
         name="status" 
-        (change) = "onChangeState($event.checked)"
+        (change) = "onChangeStatus($event.checked)"
         ngDefaultControl 
         [ngModelOptions]="{standalone: true}">{{publishIt ? 'Oui' : 'Non'}}
         </mat-slide-toggle>
@@ -216,5 +196,6 @@
       Valider
     </button>
   </div>
-<!--   {{recipeForm.value | json}}-->
+<!--   {{recipeForm.value | json}} -->
+
 </form>

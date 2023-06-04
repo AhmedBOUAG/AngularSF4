@@ -1,15 +1,15 @@
-import { ICreator } from './interfaces/creator';
+import { ILocality } from './ILocality';
+import { ICreator } from './creator';
 interface IRecipe {
   title: string;
   subtitle?: string;
   category: number;
   description?: any;
-  city: string;
-  zip: string;
+  locality: ILocality;
   price: any;
   images?: any[];
   creator: ICreator;
   deletedThumbnails?: any[];
-  state?: string;
+  status?: string;
   coverage?: string;
 }

@@ -37,7 +37,7 @@ class RecipeWorkflowTest extends TestCase
         $nextPlaceName
     ): void {
         $recipe = new RecetteDFM();
-        $recipe->setState($currentPlace);
+        $recipe->setStatus($currentPlace);
         if ($hasImage) {
             $recipe->addImages($this->image);
         }
@@ -56,7 +56,7 @@ class RecipeWorkflowTest extends TestCase
         $this->logger
             ->expects($this->once())
             ->method('info')
-            ->with(sprintf('The "%s" transition of the workflow from "%s" to "%s" has been successfully completed', $transition, $recipe->getState(), $nextPlaceName));
+            ->with(sprintf('The "%s" transition of the workflow from "%s" to "%s" has been successfully completed', $transition, $recipe->getStatus(), $nextPlaceName));
 
         $this->recipeWorkflow->process($recipe, $nextPlaceName);
     }

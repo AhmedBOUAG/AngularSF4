@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 import { MessageHandlerService } from '../services/message-handler.service';
@@ -7,6 +8,7 @@ import { NgbDateFRParserFormatter } from '../datepicker/ngb-date-fr-parser-forma
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { CommonUtils } from '../Utils/CommonUtils';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-registration',
@@ -14,7 +16,6 @@ import { CommonUtils } from '../Utils/CommonUtils';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
-  messageHandler: any = {};
   parseDate = new NgbDateFRParserFormatter();
   loading: boolean = false;
 
@@ -24,7 +25,9 @@ export class RegistrationComponent implements OnInit {
     private mhs: MessageHandlerService,
     private regUser: RegistrationService,
     public datePipe: DatePipe,
-    private config: PrimeNGConfig
+    private config: PrimeNGConfig,
+    private messageService: MessageService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -36,15 +39,15 @@ export class RegistrationComponent implements OnInit {
     f.form.value.birthdate = moment(f.form.value.birthdate).format(CommonUtils.BD_DATE_FORMAT);
     this.regUser.registration(f.form.value).subscribe(
       (data: UserRegistration[]) => {
-        let message = "Votre inscription a été effectuée avec succès."
-        console.log(data);
-        this.messageHandler = this.mhs.display('CREATE', message, false);
         this.loading = false;
-        setTimeout(() => this.messageHandler = {}, 7000);
+        this.messageService.add(this.mhs.display(CommonUtils.CREATE, CommonUtils.messageToast.userRegistrationSuccess, false));
         f.reset();
+        setTimeout(() => {
+          this.router.navigate(['login']);
+        }, 3000);
       },
       (err) => {
-        this.messageHandler = this.mhs.display(err, '', true);
+        this.messageService.add(this.mhs.display(err, '', true));
         this.loading = false;
       },
       () => { this.loading = false; }

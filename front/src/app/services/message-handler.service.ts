@@ -1,40 +1,42 @@
 import { Injectable } from '@angular/core';
+import { IToast } from '../models/interfaces/IToast';
+import { CommonUtils } from '../Utils/CommonUtils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageHandlerService {
-  message = {};
+  message: IToast;
 
   constructor() { }
 
   display(mess: string, message: string = '', error = false): any {
     if (error) {
       this.message = {
-        'iconOperation': 'fa-exclamation-triangle',
-        'typeOperation': 'alert-warning',
-        'messageOperation': mess
+        severity: 'warn',
+        summary: 'Important',
+        detail: mess
       }
     }
-    if (mess === 'DELETE') {
+    if (mess === CommonUtils.DELETE) {
       this.message = {
-        'iconOperation': 'fa-trash-alt',
-        'typeOperation': 'alert-danger',
-        'messageOperation': 'La recette a été supprimée de manière définitive.'
+        severity: 'error',
+        summary: 'Alerte',
+        detail: CommonUtils.messageToast.recipeDeleted
       }
     }
-    if (mess === 'MODIF') {
+    if (mess === CommonUtils.MODIF) {
       this.message = {
-        'iconOperation': 'fa-check-circle',
-        'typeOperation': 'alert-success',
-        'messageOperation': 'Les modifications ont été apportées avec succès'
+        severity: 'info',
+        summary: 'Info',
+        detail: CommonUtils.messageToast.recipeUpdated
       }
     }
-    if (mess === 'CREATE') {
+    if (mess === CommonUtils.CREATE) {
       this.message = {
-        'iconOperation': 'fa-check-circle',
-        'typeOperation': 'alert-success',
-        'messageOperation': message
+        severity: 'success',
+        summary: 'Succès',
+        detail: message
       }
     }
 

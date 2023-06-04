@@ -4,17 +4,9 @@
       <i class="fas fa-pen"></i> Saisie de la recette
     </h3>
   </div>
-  <div
-    class="row col-12 alert {{ messageHandler.typeOperation }} p-2 mt-3"
-    *ngIf="messageHandler.messageOperation !== ''"
-  >
-    <i
-      class="fas {{ messageHandler.iconOperation }}"
-      style="margin-top: 0.29rem"
-    ></i
-    ><span class="pl-2">{{ messageHandler.messageOperation }}</span>
-  </div>
+  <br />
   <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded mt-2">
-    <app-sharing></app-sharing>
+    <app-recipe-form (processEvent)="resultProcess($event)"></app-recipe-form>
   </div>
 </div>
+<app-toast></app-toast>

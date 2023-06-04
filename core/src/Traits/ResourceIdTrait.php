@@ -11,8 +11,8 @@ trait ResourceIdTrait
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    #[Groups(["recette:read", "user:read"])]
+    #[ORM\Column(type: 'integer')]
+    #[Groups(['recette:read', 'user:read', 'locality:read'])]
     private $id;
 
     public function getId(): ?int

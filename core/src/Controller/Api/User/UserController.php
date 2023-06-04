@@ -8,18 +8,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-
     public function __construct(
         private UserPasswordHasherInterface $passwordHasher,
         private EntityManagerInterface $em,
         private ValidatorInterface $validator
     ) {
     }
+
     public function __invoke(User $data)
     {
         $errors = $this->validator->validate($data, null, ['registration']);

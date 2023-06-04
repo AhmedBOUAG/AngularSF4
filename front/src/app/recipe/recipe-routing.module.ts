@@ -2,24 +2,24 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { MyRecipesComponent } from "./my-recipes/my-recipes.component";
 import { RecipeCreateComponent } from "./recipe-create/recipe-create.component";
+import { AllRecipesComponent } from "./all-recipes/all-recipes.component";
 
 const routes: Routes = [
     {
-        path: "",
-        children: [
-            {
-                path: "my-recipes",
-                component: MyRecipesComponent
-            },
-            {
-                path: "create",
-                component: RecipeCreateComponent
-            },
-            {
-                path: "**",
-                redirectTo: "my-recipes"
-            }
-        ]
+        path: '',
+        component: AllRecipesComponent
+    },
+    {
+        path: 'my-recipes',
+        component: MyRecipesComponent
+    },
+    {
+        path: 'create',
+        component: RecipeCreateComponent
+    },
+    {
+        path: '**',
+        component: AllRecipesComponent
     }
 ];
 

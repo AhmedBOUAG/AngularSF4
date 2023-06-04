@@ -1,3 +1,8 @@
+.navbar-nav li {
+    display: inline-block;
+    bottom: 2px;
+}
+
 a {
     list-style: none;
     margin-right: 50px;
@@ -15,7 +20,6 @@ a.nav-link-title {
     color: #fff !important;
 }
 
-
 /* li a:hover {
     border-radius: 5px;
     text-decoration: none;
@@ -27,10 +31,16 @@ li.nav-item a:hover {
     font-weight: 400;
     color: rgb(191, 220, 253) !important;
 }
+
 #menu-links>.nav-item>a.selected {
-  background-color: #fcfcfc26;
+    background-color: #fcfcfc26;
 }
+
 .bg-bluegray-900 {
-  background: #518fa4 !important;
-  color: #a4e1ff !important;
+    background: #518fa4 !important;
+    color: #a4e1ff !important;
+}
+
+a.nav-link-title {
+    text-decoration: none;
 }

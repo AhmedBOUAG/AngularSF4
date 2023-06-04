@@ -3,6 +3,7 @@
 namespace App\Controller\Api\Recipe;
 
 use App\Entity\RecetteDFM;
+use App\Repository\RecetteDFMRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -14,8 +15,9 @@ class LatestRecipesAction extends AbstractController
 
     public function __invoke()
     {
+        /** @var RecetteDFMRepository $repository */
         $repository = $this->entityMananger->getRepository(RecetteDFM::class);
 
-        return $repository->findBy(['state' => 'published'], ['createdAt' => 'DESC'], 5);
+        return $repository->findBy(['status' => 'published'], ['createdAt' => 'DESC'], 5);
     }
 }

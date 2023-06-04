@@ -105,7 +105,7 @@ class UserTest extends TestCase
     public function testGetClaims()
     {
         $this->user->setUsername('foo');
-        $this->assertEquals(['username' => 'Foo', 'roles' => ['ROLE_USER']], $this->user->getClaims());
+        $this->assertEquals(['username' => 'Foo', 'roles' => ['ROLE_USER'], 'id' => null], $this->user->getClaims());
     }
 
     public function testGetUserIdentifier()
