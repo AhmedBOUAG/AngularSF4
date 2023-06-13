@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventListener;
 
 use App\Entity\RecetteDFM;
@@ -15,7 +17,7 @@ class RecipeListener
     public function prePersist(LifecycleEventArgs $event): void
     {
         $entity = $event->getObject();
-        if (!$entity instanceof RecetteDFM) {
+        if ( ! $entity instanceof RecetteDFM) {
             return;
         }
         $entity->setCreator(creator: $this->security->getUser());
@@ -24,7 +26,7 @@ class RecipeListener
     public function preUpdate(LifecycleEventArgs $event): void
     {
         $entity = $event->getObject();
-        if (!$entity instanceof RecetteDFM) {
+        if ( ! $entity instanceof RecetteDFM) {
             return;
         }
         $entity->setUpdatedAt(new \DateTime('now'));

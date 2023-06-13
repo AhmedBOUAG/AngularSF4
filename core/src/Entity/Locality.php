@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
@@ -119,7 +121,7 @@ class Locality
 
     public function addRecetteDFM(RecetteDFM $recetteDFM): self
     {
-        if (!$this->recetteDFMs->contains($recetteDFM)) {
+        if ( ! $this->recetteDFMs->contains($recetteDFM)) {
             $this->recetteDFMs->add($recetteDFM);
             $recetteDFM->setLocality($this);
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Api\User;
 
 use App\Entity\User;
@@ -39,7 +41,7 @@ class UserController extends AbstractController
     {
         /** @var User */
         $user = $this->getUser();
-        if (!$user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
+        if ( ! $user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             return;
         }
 

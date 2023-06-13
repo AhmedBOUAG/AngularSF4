@@ -21,8 +21,7 @@
                 "@schematics/angular:interceptor": {
                     "skipTests": true
                 },
-                "@schematics/angular:module": {
-                },
+                "@schematics/angular:module": {},
                 "@schematics/angular:pipe": {
                     "skipTests": true
                 },
@@ -57,7 +56,9 @@
                             "node_modules/primeflex/primeflex.css",
                             "node_modules/primeicons/primeicons.css"
                         ],
-                        "scripts": [],
+                        "scripts": [
+                            "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+                        ],
                         "vendorChunk": true,
                         "extractLicenses": false,
                         "buildOptimizer": false,
@@ -67,10 +68,12 @@
                     },
                     "configurations": {
                         "production": {
-                            "fileReplacements": [{
-                                "replace": "src/environments/environment.ts",
-                                "with": "src/environments/environment.prod.ts"
-                            }],
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
                             "optimization": true,
                             "outputHashing": "all",
                             "sourceMap": false,
@@ -78,7 +81,8 @@
                             "extractLicenses": true,
                             "vendorChunk": false,
                             "buildOptimizer": true,
-                            "budgets": [{
+                            "budgets": [
+                                {
                                     "type": "initial",
                                     "maximumWarning": "500kb",
                                     "maximumError": "1mb"

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Api\User;
 
 use App\Entity\User;
@@ -21,7 +23,7 @@ class UserFavorisRecipeController extends AbstractController
     {
         $recetteId = json_decode($request->getContent(), true)['recette_id'];
         $recette = $this->recipeRepository->find($recetteId);
-        if (!$recette) {
+        if ( ! $recette) {
             return new NotFoundHttpException('Not found Recipe.');
         }
         if ($recipeManager->isRecipeOwner($recette)) {

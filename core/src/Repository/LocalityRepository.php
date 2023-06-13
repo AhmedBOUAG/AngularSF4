@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Locality;
@@ -11,8 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method Locality|null find($id, $lockMode = null, $lockVersion = null)
  * @method Locality|null findOneBy(array $criteria, array $orderBy = null)
- * @method Locality[]    findAll()
- * @method Locality[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Locality[] findAll()
+ * @method Locality[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class LocalityRepository extends ServiceEntityRepository
 {

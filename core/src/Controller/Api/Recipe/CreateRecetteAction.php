@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Api\Recipe;
 
 use App\Entity\Image;
@@ -29,7 +31,7 @@ final class CreateRecetteAction
         }
         $recette = $normalizer->denormalize($recette, RecetteDFM::class);
 
-        if (!$uploadedFiles) {
+        if ( ! $uploadedFiles) {
             throw new BadRequestHttpException('"file" is required');
         }
 

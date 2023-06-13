@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventSubscriber;
 
 use App\Controller\Api\Recipe\CreateRecetteAction;
@@ -28,11 +30,11 @@ class RecipeSubscriber implements EventSubscriberInterface
         $controller = $event->getController();
 
         $affectedControllers = [CreateRecetteAction::class, EditRecetteAction::class];
-        if (!is_array($controller) && !in_array($controller::class, $affectedControllers)) {
+        if ( ! is_array($controller) && ! in_array($controller::class, $affectedControllers, true)) {
             return;
         }
 
-        if (in_array($request->getMethod(), ['POST', 'PUT'])) {
+        if (in_array($request->getMethod(), ['POST', 'PUT'], true)) {
             $price = (float) $request->get('price');
             $category = trim($request->get('category'), '"');
             $request->request->set('price', $price);
