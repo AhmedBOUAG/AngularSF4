@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\RecetteDFM;
@@ -9,8 +11,8 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @method RecetteDFM|null find($id, $lockMode = null, $lockVersion = null)
  * @method RecetteDFM|null findOneBy(array $criteria, array $orderBy = null)
- * @method RecetteDFM[]    findAll()
- * @method RecetteDFM[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method RecetteDFM[] findAll()
+ * @method RecetteDFM[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class RecetteDFMRepository extends ServiceEntityRepository
 {

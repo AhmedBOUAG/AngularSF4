@@ -84,7 +84,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
     order: ['id' => 'DESC']
 )]
 #[ApiFilter(OrderFilter::class, properties: ['id', 'price'])]
-
 class RecetteDFM
 {
     use ResourceIdTrait;
@@ -230,7 +229,7 @@ class RecetteDFM
 
     public function addImages(Image $image): self
     {
-        if (!$this->images->contains($image)) {
+        if ( ! $this->images->contains($image)) {
             $this->images[] = $image;
             $image->setRecette($this);
         }
@@ -284,7 +283,7 @@ class RecetteDFM
 
     public function addUser(User $user): self
     {
-        if (!$this->users->contains($user)) {
+        if ( ! $this->users->contains($user)) {
             $this->users->add($user);
             $user->addFavoris($this);
         }

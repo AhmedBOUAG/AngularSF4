@@ -41,3 +41,20 @@
     background: #0f5f7e;
     border-color: #518fa4;
 }
+
+::ng-deep .p-dataview-content {
+    clear: both;
+}
+
+::ng-deep .p-dataview .p-dataview-header {
+    min-height: 70px;
+}
+
+.btn-outline-secondary {
+    border: 1px solid #dfdfdf;
+}
+
+.form-search {
+    float: left;
+    min-width: 50%;
+}

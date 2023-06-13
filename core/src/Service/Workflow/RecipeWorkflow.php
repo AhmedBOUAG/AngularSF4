@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\Workflow;
 
 use App\Config\RecipeStatus;
@@ -23,9 +25,11 @@ class RecipeWorkflow
         switch ($place) {
             case RecipeStatus::Draft->value:
                 $this->toPlace($recipe, RecipeTransition::ToDraft->value);
+
                 break;
             case RecipeStatus::Published->value:
                 $this->toPlace($recipe, RecipeTransition::Publish->value);
+
                 break;
             default:
                 $this->toPlace($recipe, RecipeTransition::Reject->value);
@@ -40,7 +44,7 @@ class RecipeWorkflow
             $transitionName = RecipeTransition::Reject->value;
         }
         if (
-            in_array($recipe->getStatus(), RecipeStatus::getValues())
+            in_array($recipe->getStatus(), RecipeStatus::getValues(), true)
             && $this->recipeDfmStateMachine->can($recipe, $transitionName)
         ) {
             try {

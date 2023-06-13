@@ -16,7 +16,7 @@
             [paginator]="false"
             >
                 <ng-template pTemplate="header">
-                    <div style="float:left;" class="flex flex-column md:flex-row md:justify-content-between">
+                    <div style="float:left;" class="flex flex-column md:flex-row mr-5 md:justify-content-between">
                         <p-dropdown [options]="sortOptions" ngDefaultControl placeholder="Trier par prix" (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0">
                             <ng-template let-item pTemplate="selectedItem">
                                 <i class="{{item.icon}}"></i> {{item.label}}
@@ -26,7 +26,15 @@
                            </ng-template>
                         </p-dropdown>
                     </div>
-                    <div class="flex justify-content-end">
+                    <div class="form-search">
+                        <form>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control form-control-sm" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                <button class="btn btn-outline-secondary" type="button" id="button-addon2"><span class="pi pi-search"></span></button>
+                              </div>
+                        </form>
+                    </div>
+                    <div class="justify-content-end" style="float:right;">
                         <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
                     </div>
                 </ng-template>

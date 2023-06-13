@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\JWT;
 
 use App\Security\UserProvider;
@@ -32,7 +34,7 @@ class JwtTokenAuthenticator extends AbstractAuthenticator
     public function supports(Request $request): bool
     {
         return $request->headers->has('authorization')
-            && 0 === strpos($request->headers->get('authorization'), 'Bearer ');
+            && 0 === mb_strpos($request->headers->get('authorization'), 'Bearer ');
     }
 
     public function getToken(Request $request)
@@ -47,7 +49,7 @@ class JwtTokenAuthenticator extends AbstractAuthenticator
             throw new CustomUserMessageAuthenticationException('No API token provided');
         }
         $claims = $this->jwtEncoder->decode($token);
-        if (!$claims) {
+        if ( ! $claims) {
             return null;
         }
         $userIdentifier = $claims[$this->jwtManager->getUserIdClaim()];

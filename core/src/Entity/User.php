@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
@@ -212,7 +214,7 @@ class User implements UserInterface
 
     public function addRecetteDFM(RecetteDFM $recetteDFM): self
     {
-        if (!$this->recetteDFMs->contains($recetteDFM)) {
+        if ( ! $this->recetteDFMs->contains($recetteDFM)) {
             $this->recetteDFMs[] = $recetteDFM;
             $recetteDFM->setCreator($this);
         }
@@ -247,7 +249,7 @@ class User implements UserInterface
 
     public function addFavoris(RecetteDFM $recette): self
     {
-        if (!$this->favoris->contains($recette)) {
+        if ( ! $this->favoris->contains($recette)) {
             $this->favoris->add($recette);
         }
 

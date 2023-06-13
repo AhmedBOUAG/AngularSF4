@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security;
 
 use App\Entity\User;
@@ -22,7 +24,7 @@ class UserProvider implements UserProviderInterface
     {
         $user = $this->userRepository->loadUserByIdentifier($identifier);
 
-        if (!$user) {
+        if ( ! $user) {
             throw new UserNotFoundException(sprintf('User with email "%s" not found', $identifier));
         }
 
@@ -36,13 +38,13 @@ class UserProvider implements UserProviderInterface
 
     public function refreshUser(UserInterface $user): UserInterface
     {
-        if (!$user instanceof User) {
+        if ( ! $user instanceof User) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported', $user::class));
         }
 
         $refreshedUser = $this->userRepository->find($user->getId());
 
-        if (!$refreshedUser) {
+        if ( ! $refreshedUser) {
             throw new UserNotFoundException(sprintf('User with ID "%s" not found', $user->getId()));
         }
 
