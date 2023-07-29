@@ -18,6 +18,7 @@ import { DataViewModule } from 'primeng/dataview';
 import { DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
 import { SharingModule } from '../sharing/sharing.module';
+import { BadgeModule } from 'primeng/badge';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { SharingModule } from '../sharing/sharing.module';
     DropdownModule,
     TagModule,
     SharingModule,
-    PaginatorModule
+    PaginatorModule,
+    BadgeModule
   ],
   providers: [RecipeService, MessageService],
   declarations: [

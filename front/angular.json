@@ -57,7 +57,8 @@
                             "node_modules/primeicons/primeicons.css"
                         ],
                         "scripts": [
-                            "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+                            "node_modules/jquery/dist/jquery.slim.min.js",
+                            "node_modules/popper.js/dist/umd/popper.js"
                         ],
                         "vendorChunk": true,
                         "extractLicenses": false,

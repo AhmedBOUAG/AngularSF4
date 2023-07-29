@@ -21,6 +21,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use App\Filter\CategoryFilter;
 
 #[Gedmo\Loggable]
 #[ORM\Entity(repositoryClass: RecetteDFMRepository::class)]
@@ -84,6 +86,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
     order: ['id' => 'DESC']
 )]
 #[ApiFilter(OrderFilter::class, properties: ['id', 'price'])]
+#[ApiFilter(SearchFilter::class, properties: ['title' => 'partial', 'locality.libelle' => 'partial', 'subtitle' => 'partial', 'description' => 'partial', 'creator.username' => 'partial'])]
+#[ApiFilter(CategoryFilter::class)]
 class RecetteDFM
 {
     use ResourceIdTrait;
@@ -229,7 +233,7 @@ class RecetteDFM
 
     public function addImages(Image $image): self
     {
-        if ( ! $this->images->contains($image)) {
+        if (!$this->images->contains($image)) {
             $this->images[] = $image;
             $image->setRecette($this);
         }
@@ -283,7 +287,7 @@ class RecetteDFM
 
     public function addUser(User $user): self
     {
-        if ( ! $this->users->contains($user)) {
+        if (!$this->users->contains($user)) {
             $this->users->add($user);
             $user->addFavoris($this);
         }
