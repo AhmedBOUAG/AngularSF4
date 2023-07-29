@@ -58,3 +58,10 @@
     float: left;
     min-width: 50%;
 }
+
+.dfm-dialog-container {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    min-width: 480px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

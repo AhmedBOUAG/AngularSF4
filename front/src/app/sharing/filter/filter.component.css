@@ -1,0 +1,25 @@
+/* Styles personnalisés pour la modal */
+.custom-dialog-container {
+    max-width: 800px;
+    /* Définir une largeur maximale pour la modal */
+}
+
+.custom-modal-content {
+    padding: 20px;
+    /* Ajouter un peu d'espace interne au contenu de la modal */
+}
+
+.custom-modal-title {
+    color: #007bff;
+    /* Couleur du titre de la modal */
+    font-size: 24px;
+    /* Taille de police du titre de la modal */
+    font-weight: bold;
+    /* Gras pour le titre de la modal */
+}
+
+.custom-modal-footer {
+    text-align: right;
+    margin: 15px 0 0 0;
+    /* Aligner les boutons à droite dans le pied de la modal */
+}

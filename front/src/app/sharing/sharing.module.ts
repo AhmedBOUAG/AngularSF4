@@ -4,8 +4,11 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ToastComponent } from './toast/toast.component';
 import { ToastModule } from 'primeng/toast';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { FilterComponent } from './filter/filter.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 
 
@@ -13,7 +16,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     BreadcrumbComponent,
-    ToastComponent
+    ToastComponent,
+    FilterComponent,
   ],
   exports: [
     BreadcrumbComponent,
@@ -25,7 +29,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FormsModule,
     BreadcrumbModule,
     ToastModule,
-    NgSelectModule
+    NgSelectModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    MultiSelectModule
   ]
 })
 export class SharingModule { }

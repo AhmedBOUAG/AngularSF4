@@ -10,9 +10,6 @@ type RecipeStatus = {
 export abstract class CommonUtils {
   static readonly UPLOAD_IMAGES_DIRECTORY = "http://127.0.0.1/images/";
   static readonly recipeCategory =
-    /*'BD_CAKE': 'Gâteau Anniversaire',
-    'PASTRIES': 'Pâtesserie',
-    'VARIETY': 'Variété'*/
     [
       { "type": "Gâteau Anniversaire", "id": 1 },
       { "type": "Pâtesserie", "id": 2 },
@@ -24,6 +21,7 @@ export abstract class CommonUtils {
   static readonly CREATE = 'CREATE';
   static readonly DELETE = 'DELETE';
   static readonly ERROR = 'ERROR';
+  static readonly FILTER_MODAL_TITLE = 'Filtrer les recettes';
   static readonly EDIT_RECIPE_TITLE = 'Modifier cette recette';
   static readonly POPIN_RECIPE_DELETE_MSG = 'Vous êtes sur le point de <b>supprimer</b> cette recette. Cette action est définitive et irréversible. <br /><br />Souhaitez-vous continuer?'
   static readonly LOGGED_IN_MESSAGE_ERROR = 'Vos identifiants sont incorrectes.';

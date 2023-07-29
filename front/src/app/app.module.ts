@@ -52,7 +52,6 @@ import { AvatarModule } from 'primeng/avatar';
         LastRecipesComponent,
         LoadingSkeletonComponent,
         ConfirmationMatModalComponent
-
     ],
     imports: [
         BrowserModule,
@@ -63,7 +62,6 @@ import { AvatarModule } from 'primeng/avatar';
         ReactiveFormsModule,
         MatProgressSpinnerModule,
         NgbModule,
-        RecipeModule,
         OverlayModule,
         MatDialogModule,
         MatCardModule,

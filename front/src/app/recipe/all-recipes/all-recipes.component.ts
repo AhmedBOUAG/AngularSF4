@@ -11,6 +11,9 @@ import { ILocality } from 'src/app/models/interfaces/ILocality';
 import { IPaginate } from 'src/app/models/interfaces/IPaginate';
 import { Filter } from 'src/app/models/Filter';
 import { IFilter } from 'src/app/models/interfaces/IFilter';
+import { MatDialog } from '@angular/material/dialog';
+import { FilterComponent } from 'src/app/sharing/filter/filter.component';
+import { IFilterSearch } from 'src/app/models/interfaces/IFilterSearch';
 
 @Component({
   selector: 'app-all-recipes',
@@ -34,11 +37,13 @@ export class AllRecipesComponent implements OnInit {
   nbItemPerPage = CommonUtils.NB_ITEM_PER_PAGE;
   nbItem = 0;
   filter: IFilter = {};
+  filterCount: string;
 
   constructor(
     private RecipeService: RecipeService,
     private messageService: MessageService,
     private mhs: MessageHandlerService,
+    private modalDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -68,6 +73,15 @@ export class AllRecipesComponent implements OnInit {
     ];
   }
 
+  onFilterCount() {
+    let filterCount = 0;
+    filterCount = Object.keys(this.filter.criteria ?? {}).filter((key) => {
+      const value = this.filter.criteria?.[key as keyof IFilterSearch];
+      return value !== undefined && value !== null && value !== '';
+    }).length;
+    filterCount += this.filter.order !== undefined ? 1 : 0;
+    this.filterCount = filterCount.toString();
+  }
   calculateItemsMenu(creatorId: number) {
     for (let index = 0; index < this.allItems.length; index++) {
       if (this.currentUser.id === creatorId) {
@@ -112,21 +126,9 @@ export class AllRecipesComponent implements OnInit {
     return CommonUtils.recipeCategory.find(cat => cat.id === id)?.type;
   }
 
-  onSortChange(event: any) {
-    let value = event.value;
-    if (value.indexOf('!') === 0) {
-      this.sortOrder = -1;
-      this.sortField = value.substring(1, value.length);
-    } else {
-      this.sortOrder = 1;
-      this.sortField = value;
-    }
-    this.filter.order = CommonUtils.ORDER_ITEM[this.sortOrder === 1 ? '1' : '-1'];
-    this.filter.orderBy = this.sortField;
-    let paginator = { page: 0, first: 0, rows: this.nbItemPerPage }
-
-    this.onPageChange(paginator);
-
+  paginateToFirstSortedPage() {
+    this.filter.paginator = { page: 0, first: 0, rows: this.nbItemPerPage };
+    this.getRecipes(this.filter);
   }
 
   getLocality(locality: ILocality) {
@@ -137,6 +139,30 @@ export class AllRecipesComponent implements OnInit {
     this.nbItemPerPage = event.rows;
     this.filter.paginator = event;
     this.getRecipes(this.filter);
+  }
+
+  onModalFilter() {
+    const dialogRef = this.modalDialog.open(FilterComponent, {
+      panelClass: '',
+      minWidth: '50%',
+      minHeight: '50%',
+      data: {
+        filter: this.filter
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(filteredItem => {
+      if (!filteredItem) return;
+      if ('' !== filteredItem?.price && null !== filteredItem?.price && undefined !== filteredItem?.price) {
+        this.filter.order = filteredItem.price.toUpperCase();
+        this.filter.orderBy = 'price';
+        delete filteredItem.price;
+      }
+
+      this.filter.criteria = filteredItem;
+      this.onFilterCount();
+      this.paginateToFirstSortedPage();
+    });
   }
 
   displayMessage(type: string) {

@@ -121,7 +121,7 @@ class Locality
 
     public function addRecetteDFM(RecetteDFM $recetteDFM): self
     {
-        if ( ! $this->recetteDFMs->contains($recetteDFM)) {
+        if (!$this->recetteDFMs->contains($recetteDFM)) {
             $this->recetteDFMs->add($recetteDFM);
             $recetteDFM->setLocality($this);
         }
@@ -139,5 +139,10 @@ class Locality
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->libelle;
     }
 }
