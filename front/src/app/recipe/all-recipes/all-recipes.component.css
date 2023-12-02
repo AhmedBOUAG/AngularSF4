@@ -65,3 +65,8 @@
     min-width: 480px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+:host ::ng-deep .p-speeddial-action-icon.unlike::before {
+    content: '\1F494' !important;
+    filter: sepia(1);
+}

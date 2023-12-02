@@ -9,8 +9,9 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\Api\User\UserConnected;
 use App\Controller\Api\User\UserController;
-use App\Controller\Api\User\UserFavorisRecipeController;
+use App\Controller\Api\User\UserFavoriteRecipesController;
 use App\Repository\UserRepository;
 use App\Traits\ResourceIdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -29,7 +30,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Put(),
         new GetCollection(),
         new Post(controller: UserController::class, uriTemplate: 'user/create'),
-        new Post(controller: UserFavorisRecipeController::class, uriTemplate: 'user/{id}/favoris'),
+        new Post(
+            controller: UserFavoriteRecipesController::class,
+            uriTemplate: 'user/recipe/favorites'
+        ),
     ],
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write']]
@@ -214,7 +218,7 @@ class User implements UserInterface
 
     public function addRecetteDFM(RecetteDFM $recetteDFM): self
     {
-        if ( ! $this->recetteDFMs->contains($recetteDFM)) {
+        if (!$this->recetteDFMs->contains($recetteDFM)) {
             $this->recetteDFMs[] = $recetteDFM;
             $recetteDFM->setCreator($this);
         }
@@ -249,7 +253,7 @@ class User implements UserInterface
 
     public function addFavoris(RecetteDFM $recette): self
     {
-        if ( ! $this->favoris->contains($recette)) {
+        if (!$this->favoris->contains($recette)) {
             $this->favoris->add($recette);
         }
 

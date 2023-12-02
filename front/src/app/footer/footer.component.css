@@ -6,3 +6,24 @@
     position: relative;
     bottom: -3px;
 }
+
+.wavy-footer {
+    background-color: #333;
+    /* Couleur de fond du footer */
+    padding: 20px 0;
+    /* Espace interne dans le footer */
+
+    /* Position relative pour les pseudos-éléments */
+    position: relative;
+}
+
+.dfm-wavy {
+    width: 100%;
+}
+
+
+
+.footer-curvy {
+    width: 100%;
+    margin-bottom: -15px;
+}

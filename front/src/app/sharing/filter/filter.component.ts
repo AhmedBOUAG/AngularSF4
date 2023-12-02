@@ -22,20 +22,14 @@ export class FilterComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder
   ) {
-    this.filterForm = this.formBuilder.group({
-      price: new FormControl(''),
-      title: new FormControl(''),
-      subtitle: new FormControl(''),
-      city: new FormControl(''),
-      category: new FormControl(''),
-    });
+    this.initForm();
     if (Object.keys(data.filter).length !== 0) {
       this.filterForm = this.formBuilder.group({
-        price: new FormControl(data.filter.order),
-        title: new FormControl(data.filter.criteria.title),
-        subtitle: new FormControl(data.filter.criteria.subtitle),
-        city: new FormControl(data.filter.criteria.city),
-        category: new FormControl(data.filter.criteria.category),
+        price: new FormControl(data.filter?.order),
+        title: new FormControl(data.filter?.criteria?.title),
+        subtitle: new FormControl(data.filter?.criteria?.subtitle),
+        city: new FormControl(data.filter?.criteria?.city),
+        category: new FormControl(data.filter?.criteria?.category),
       });
     }
   }
@@ -51,6 +45,23 @@ export class FilterComponent implements OnInit {
       value: 'DESC',
     }];
     this.orderPrice = this.orders.price;
+  }
+
+  initForm() {
+    this.filterForm = this.formBuilder.group({
+      price: new FormControl(''),
+      title: new FormControl(''),
+      subtitle: new FormControl(''),
+      city: new FormControl(''),
+      category: new FormControl([]),
+    });
+  }
+
+  resetFilter() {
+    this.initForm();
+    this.orders.price = [];
+    this.orderPrice = [];
+    this.orders = {};
   }
 
   onSubmit() {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  @ViewChild('dropdownZone') dorpdownZone: ElementRef;
   destroy$: Subject<boolean> = new Subject<boolean>();
   title = 'Du Fait Maison';
   isLogged = false;
@@ -37,7 +38,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       });
   }
-
   ngOnInit(): void {
     const token = this.ts.getToken();
     if (token) {
@@ -49,6 +49,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onClick() {
     this.isDisabled = false;
   }
+
+  openCloseDD() {
+    const element = this.dorpdownZone.nativeElement;
+    element.classList.toggle('hidden');
+
+  }
+
   closeBanner() {
     this.displayBanner = false;
   }

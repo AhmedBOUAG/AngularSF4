@@ -48,10 +48,6 @@ div#cardRecette:hover {
   letter-spacing: 1px;
 }
 
-.dfm-dialog-container {
-  width: 800px;
-}
-
 ::ng-deep.mat-dialog-container {
   height: auto !important;
 }

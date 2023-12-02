@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(expired => {
         this.expired = expired;
-        console.log(expired);
       });
 
     this.form = this.formBuilder.group({

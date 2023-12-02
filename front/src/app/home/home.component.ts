@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { gsap, Power3 } from 'gsap';
+import ScrollToPlugin from 'gsap/ScrollToPlugin';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
+  @ViewChild('iconSVG') iconSVG: ElementRef;
+  @ViewChild('lastRecipes') lastRecipes: ElementRef;
   list = ["Bienvenue sur <b>DuFaitMaison.com</b>,",
     "Premier site de partage de recette entre particulier.",
     "Proposez vos recettes à d'autres internautes à travers le web!"
@@ -18,7 +23,7 @@ export class HomeComponent implements OnInit {
   frameRequest: any;
   resolve: any;
   constructor() {
-
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
   }
   setText(newText: any) {
     const oldText = this.el.innerText
@@ -37,7 +42,7 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.update()
     }, 2000);
-    
+
     return promise
   }
   update() {
@@ -72,12 +77,11 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit(): void {
-
     const el = document.querySelector('.animed-text')
     this.el = el
     this.chars = '!<>-_\\/[]{}—=+*^?#________'
     this.update = this.update.bind(this)
-    
+
     let counter = 0
     const next = () => {
       this.setText(this.list[counter]).then(() => {
@@ -85,7 +89,28 @@ export class HomeComponent implements OnInit {
       })
       counter = (counter + 1) % this.list.length
     }
-    
+
     next()
+  }
+
+  ngAfterViewInit() {
+    this.animateImage();
+    gsap.from(this.lastRecipes.nativeElement, {
+      scrollTrigger: this.lastRecipes.nativeElement,
+      x: 0,
+      ease: 'elastic',
+      duration: 1,
+      delay: 1
+    });
+  }
+
+  animateImage() {
+    gsap.from(this.iconSVG.nativeElement, {
+      opacity: 0,
+      y: -200,
+      ease: 'power3.out',
+      duration: 2,
+      delay: 1
+    });
   }
 }

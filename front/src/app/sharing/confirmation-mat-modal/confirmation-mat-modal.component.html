@@ -17,10 +17,10 @@
       pButton
       pRipple
       (click) = "confirmAction()"
-      class="p-button-raised p-button-success float-end"
+      class="p-button-raised p-button-{{data.button.type}} float-end"
     >
-      <i class="pi pi-check" style="font-size: 1rem; margin-right: 7px"></i>
+      <i class="pi {{data.button.icon}}" style="font-size: 1rem; margin-right: 7px"></i>
 
-      {{data.confirmButton}}
+      {{data.button.libelle}}
     </button>
   </div>

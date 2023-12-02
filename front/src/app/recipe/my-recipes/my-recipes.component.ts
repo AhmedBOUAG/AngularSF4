@@ -13,6 +13,7 @@ import { ConfirmationMatModalComponent } from '../../sharing/confirmation-mat-mo
 import { MenuItem, MessageService } from 'primeng/api';
 import { IUserInfo } from '../../models/interfaces/IUserInfo';
 import { ILocality } from 'src/app/models/interfaces/ILocality';
+import { IButton } from 'src/app/models/interfaces/IButton';
 
 @Component({
   selector: 'app-my-recipes',
@@ -34,6 +35,7 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
   items: MenuItem[];
   selectedItemId: any = null;
   breadcrumbMenuItems: MenuItem[];
+  infosButton: IButton;
 
   constructor(
     private RecipeService: RecipeService,
@@ -64,7 +66,7 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
         tabindex: 'access_to',
         icon: 'pi pi-eye',
         command: () => {
-          this.messageService.add({ severity: 'success', summary: 'Favoris', detail: 'Rien à voir, circule' })
+          this.router.navigate(['/recipe/details', this.selectedItemId]);
         }
       },
       {
@@ -88,7 +90,8 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
       },
       () => {
         const dialogRef = this.dialog.open(RecipeComponent, {
-          panelClass: 'dfm-dialog-container',
+          minWidth: '95%',
+          minHeight: '80%',
           data: {
             recipe: this.recipeToUpdate
           },
@@ -111,7 +114,6 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
             recipe.coverage = this.uploadImage + recipe.images[0].name;
           }
           recipe.status = CommonUtils.recipeStatus[recipe.status];
-          console.log(recipe.locality.toString())
 
           return recipe;
         });
@@ -126,11 +128,16 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
   }
 
   openDeleteConfirmationModal(id: number): any {
+    this.infosButton = {
+      icon: 'pi-trash',
+      libelle: 'Supprimer',
+      type: 'danger'
+    }
     const dialog = this.dialog.open(ConfirmationMatModalComponent, {
       width: '680px',
       data: {
         message: CommonUtils.POPIN_RECIPE_DELETE_MSG,
-        confirmButton: 'Oui'
+        button: this.infosButton
       }
     });
     dialog.afterClosed().subscribe(result => {

@@ -9,11 +9,12 @@ import { SelectItem } from 'primeng/api';
 import { IUserInfo } from 'src/app/models/interfaces/IUserInfo';
 import { ILocality } from 'src/app/models/interfaces/ILocality';
 import { IPaginate } from 'src/app/models/interfaces/IPaginate';
-import { Filter } from 'src/app/models/Filter';
 import { IFilter } from 'src/app/models/interfaces/IFilter';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterComponent } from 'src/app/sharing/filter/filter.component';
-import { IFilterSearch } from 'src/app/models/interfaces/IFilterSearch';
+import { FilterService } from 'src/app/services/filter.service';
+import { FavoriteService } from 'src/app/services/favorite.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-recipes',
@@ -37,16 +38,22 @@ export class AllRecipesComponent implements OnInit {
   nbItemPerPage = CommonUtils.NB_ITEM_PER_PAGE;
   nbItem = 0;
   filter: IFilter = {};
+  favoriteRecipeIds: number[] = [];
   filterCount: string;
+  heartBrokenIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heartbreak-fill" viewBox="0 0 16 16"><path d="M8.931.586 7 3l1.5 4-2 3L8 15C22.534 5.396 13.757-2.21 8.931.586ZM7.358.77 5.5 3 7 7l-1.5 3 1.815 4.537C-6.533 4.96 2.685-2.467 7.358.77Z"/></svg>';
 
   constructor(
     private RecipeService: RecipeService,
     private messageService: MessageService,
     private mhs: MessageHandlerService,
-    private modalDialog: MatDialog
+    private modalDialog: MatDialog,
+    private filterService: FilterService,
+    private favoriteService: FavoriteService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    this.loadRecipeFavoriteIds();
     this.breadcrumbMenuItems = [{ label: 'Recipe', routerLink: '/recipe' }];
     this.getRecipes();
     this.sortOptions = [
@@ -57,6 +64,9 @@ export class AllRecipesComponent implements OnInit {
       {
         tabindex: 'access_to',
         icon: 'pi pi-eye',
+        command: () => {
+          this.router.navigate(['/recipe/details', this.selectedItemId]);
+        }
       },
       {
         tabindex: 'send_msg',
@@ -67,33 +77,64 @@ export class AllRecipesComponent implements OnInit {
         tabindex: 'like',
         icon: 'pi pi-heart',
         command: () => {
-          this.messageService.add({ severity: 'success', summary: 'Favoris', detail: 'Recette ajoutée à mes favoris.' });
+          this.favoriteService.addToFavorite(this.selectedItemId)
+            .subscribe(
+              (res: any) => {
+                this.loadRecipeFavoriteIds();
+                this.getRecipes()
+              },
+              (err) => this.errorHandler(err),
+              () => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Favoris',
+                  detail: 'Recette ajoutée à mes favoris.'
+                });
+              });
         }
+      },
+      {
+        tabindex: 'unlike',
+        icon: 'pi pi-heart-fill',
+        command: () => {
+          this.favoriteService.removeFromFavorite(this.selectedItemId)
+            .subscribe(
+              (res: any) => {
+                this.loadRecipeFavoriteIds();
+                this.getRecipes()
+              },
+              (err) => this.errorHandler(err),
+              () => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Favoris',
+                  detail: 'Recette retirée de mes favoris.'
+                });
+              });
+        }
+
       }
     ];
   }
 
-  onFilterCount() {
-    let filterCount = 0;
-    filterCount = Object.keys(this.filter.criteria ?? {}).filter((key) => {
-      const value = this.filter.criteria?.[key as keyof IFilterSearch];
-      return value !== undefined && value !== null && value !== '';
-    }).length;
-    filterCount += this.filter.order !== undefined ? 1 : 0;
-    this.filterCount = filterCount.toString();
-  }
-  calculateItemsMenu(creatorId: number) {
+  calculateItemsMenu(recipe: Recipe) {
     for (let index = 0; index < this.allItems.length; index++) {
-      if (this.currentUser.id === creatorId) {
+      if (this.currentUser.id === recipe.creator.id) {
         this.items = this.allItems.filter(item => ['edit', 'access_to'].includes(item.tabindex));
       } else {
         this.items = this.allItems.filter(item => item.tabindex !== 'edit');
       }
-    };
+
+      if (this.favoriteRecipeIds.includes(recipe.id)) {
+        this.items = this.items.filter(item => item.tabindex !== 'like');
+      } else {
+        this.items = this.items.filter(item => item.tabindex !== 'unlike');
+      }
+    }
   }
 
   getItems(recipe: any) {
-    this.calculateItemsMenu(recipe.creator.id);
+    this.calculateItemsMenu(recipe);
 
     return this.items;
   }
@@ -122,6 +163,19 @@ export class AllRecipesComponent implements OnInit {
     );
   }
 
+  loadRecipeFavoriteIds() {
+    this.favoriteService.getFavoriteRecipeIds()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (res: any) => {
+          this.favoriteRecipeIds = res;
+        },
+        (err) => this.errorHandler(err),
+        () => {
+          this.getRecipes();
+        }
+      );
+  }
   getCategory(id: number) {
     return CommonUtils.recipeCategory.find(cat => cat.id === id)?.type;
   }
@@ -144,7 +198,7 @@ export class AllRecipesComponent implements OnInit {
   onModalFilter() {
     const dialogRef = this.modalDialog.open(FilterComponent, {
       panelClass: '',
-      minWidth: '50%',
+      minWidth: '80%',
       minHeight: '50%',
       data: {
         filter: this.filter
@@ -152,6 +206,8 @@ export class AllRecipesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(filteredItem => {
+      this.filter.order = '';
+      this.filter.orderBy = '';
       if (!filteredItem) return;
       if ('' !== filteredItem?.price && null !== filteredItem?.price && undefined !== filteredItem?.price) {
         this.filter.order = filteredItem.price.toUpperCase();
@@ -160,7 +216,7 @@ export class AllRecipesComponent implements OnInit {
       }
 
       this.filter.criteria = filteredItem;
-      this.onFilterCount();
+      this.filterCount = this.filterService.onFilterCount(this.filter);
       this.paginateToFirstSortedPage();
     });
   }
