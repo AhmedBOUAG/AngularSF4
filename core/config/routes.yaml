@@ -17,3 +17,25 @@ current_user:
   path: /api/user/current_user
   methods: ["GET"]
   controller: App\Controller\Api\User\UserController::getClaimsCurrentUser
+
+owner_favorites:
+  path: /api/user/recipe/favorites
+  methods: ["GET"]
+  controller: App\Controller\Api\User\UserFavoriteRecipesController::getLoggedInUserFavorites
+
+get_favorite_recipes_ids:
+  path: /api/user/recipe/favorites/ids
+  methods: ["GET"]
+  controller: App\Controller\Api\User\UserFavoriteRecipesController::getUserFavoriteRecipeIds
+
+remove_favorite_recipe:
+  path: /api/user/recipe/favorites/{id}
+  requirements:
+    id: \d+
+  methods: ["DELETE"]
+  controller: App\Controller\Api\User\UserFavoriteRecipesController::removeFavoriteRecipe
+
+user_status:
+  path: /api/user/status
+  controller: App\Controller\Api\User\UserAuthenticatedController::userAuthenticated
+  methods: [GET]

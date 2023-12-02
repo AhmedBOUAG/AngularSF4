@@ -3,13 +3,13 @@
 
   <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
     <div class="row">
-    <div class="col-6">
+    <div class="col-4">
     <div class="form-group">
       <label for="prix">Prix:</label> <br />
       <p-dropdown [options]="orderPrice" formControlName="price" optionValue="value" optionLabel="label" [showClear]="true" placeholder="Choisissez un ordre"></p-dropdown>
     </div>
   </div>
-  <div class="col-6">
+  <div class="col-8">
     <div class="form-group">
       <label for="category">Categorie:</label> <br />
       <p-multiSelect [options]="categories" formControlName="category" defaultLabel="Choisissez la/les categorie(s)" optionValue="id" optionLabel="type" display="chip"></p-multiSelect>
@@ -32,7 +32,22 @@
     </div>
   
     <div class="text-right custom-modal-footer">
-      <button type="submit" pripple pbutton class="btn btn-primary">Soumettre</button>
+      <div class="form-group">
+        <button 
+        (click)="resetFilter()"
+        pButton
+        pRipple 
+        class="p-button-raised p-button-secondary btn-reset">
+          Réinitialiser
+        </button>        
+      <button 
+      type="submit" 
+      pButton
+      pRipple 
+      class="p-button-raised p-button-success">
+        Valider
+      </button>
+      </div>
     </div>
   </form>
 </div>

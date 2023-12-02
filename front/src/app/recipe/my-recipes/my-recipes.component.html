@@ -4,7 +4,7 @@
     <div class="w-100 text-lg">
       <h3 class="float-start"><i class="pi pi-list"></i> Mes recettes</h3>
       <button
-        (click)="goToCreateForm()"
+        [routerLink]="['/', 'recipe','create']"
         pButton
         pRipple
         type="button"

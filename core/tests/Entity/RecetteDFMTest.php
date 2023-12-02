@@ -3,16 +3,19 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Image;
+use App\Entity\Locality;
 use App\Entity\RecetteDFM;
 use PHPUnit\Framework\TestCase;
 
 class RecetteDFMTest extends TestCase
 {
     private RecetteDFM $recipe;
+    private Locality $locality;
 
     protected function setUp(): void
     {
         $this->recipe = new RecetteDFM();
+        $this->locality = new Locality();
     }
 
     public function testGetAndSetTitle(): void
@@ -33,16 +36,11 @@ class RecetteDFMTest extends TestCase
         $this->assertEquals(2, $this->recipe->getCategory());
     }
 
-    public function testGetAndSetCity(): void
+    public function testGetAndSetLocality(): void
     {
-        $this->recipe->setCity('Paris');
-        $this->assertEquals('Paris', $this->recipe->getCity());
-    }
-
-    public function testGetAndSetZip(): void
-    {
-        $this->recipe->setZip('75001');
-        $this->assertEquals('75001', $this->recipe->getZip());
+        $this->locality->setCodePostal('75001');
+        $this->recipe->setLocality($this->locality);
+        $this->assertEquals('75001', $this->recipe->getLocality()->getCodePostal());
     }
 
     public function testGetAndSetPrice(): void

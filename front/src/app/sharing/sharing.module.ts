@@ -9,8 +9,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FilterComponent } from './filter/filter.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
-
-
+import { ButtonModule } from 'primeng/button';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -18,6 +18,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     BreadcrumbComponent,
     ToastComponent,
     FilterComponent,
+    ContactComponent,
   ],
   exports: [
     BreadcrumbComponent,
@@ -32,7 +33,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
     NgSelectModule,
     ReactiveFormsModule,
     DropdownModule,
-    MultiSelectModule
+    MultiSelectModule,
+    ButtonModule
   ]
 })
 export class SharingModule { }

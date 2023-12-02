@@ -5,6 +5,7 @@ namespace App\Tests\EventSubscriber;
 use App\Controller\Api\Recipe\CreateRecetteAction;
 use App\EventSubscriber\RecipeSubscriber;
 use App\Service\Workflow\RecipeWorkflow;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,7 @@ class RecipeSubscriberTest extends TestCase
     public function setUp(): void
     {
         $this->recipeWorkflow = $this->createMock(RecipeWorkflow::class);
-        $this->createRecipeController = new CreateRecetteAction($this->recipeWorkflow);
+        $this->createRecipeController = new CreateRecetteAction($this->recipeWorkflow, $this->createMock(EntityManagerInterface::class));
         $this->recipeSubscriber = new RecipeSubscriber();
     }
 
