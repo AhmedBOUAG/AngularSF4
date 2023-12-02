@@ -6,6 +6,7 @@ import { map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { IFilter } from '../models/interfaces/IFilter';
 import { FilterService } from './filter.service';
+import { CommonUtils } from '../Utils/CommonUtils';
 
 @Injectable({
   providedIn: 'root'
@@ -125,6 +126,11 @@ export class RecipeService {
     return this.getRecipe(this.lastThreeRecipes);
   }
 
+  getRecipeCategoryName(categoryId: any): string | undefined {
+    const categName = CommonUtils.recipeCategory.find((cat: any) => cat.id === categoryId);
+
+    return categName?.type;
+  }
   /**
    * la gestion d'erreur.
    */

@@ -23,7 +23,7 @@ final class CurrentUserExtension implements QueryCollectionExtensionInterface, Q
 
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void
     {
-        if ('_api_/recipes_get_collection' === $operation->getName()) {
+        if ('_api_own_recipes_get_collection' !== $operation->getName()) {
             return;
         }
         $this->addWhere($queryBuilder, $resourceClass);
@@ -31,6 +31,9 @@ final class CurrentUserExtension implements QueryCollectionExtensionInterface, Q
 
     public function applyToItem(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, array $identifiers, Operation $operation = null, array $context = []): void
     {
+        if ('_api_own_recipes_get_collection' !== $operation->getName()) {
+            return;
+        }
         $this->addWhere($queryBuilder, $resourceClass);
     }
 

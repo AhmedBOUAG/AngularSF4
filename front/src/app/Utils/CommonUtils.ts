@@ -48,7 +48,9 @@ export abstract class CommonUtils {
   static localityToString(locality: ILocality) {
     return locality.libelle + ' (' + locality.codePostal + ')';
   }
-
+  static isEmptyValue(value: any): boolean {
+    return null === value || '' === value || undefined === value || Array.isArray(value) && 0 === value.length;
+  }
   static readonly i18PrimeNg = {
     "fr": {
       "dayNames": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],

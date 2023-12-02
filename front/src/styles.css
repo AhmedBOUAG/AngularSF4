@@ -2,6 +2,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&family=Zen+Kurenaido&display=swap');
 @import "~@ng-select/ng-select/themes/default.theme.css";
+@import url('https://fonts.googleapis.com/css2?family=NTR&family=Niramit:wght@200&family=Poppins:wght@300&family=Tenor+Sans&display=swap');
 
 html,
 body {
@@ -237,4 +238,8 @@ span.rejected {
 
 h3 {
   margin: 0px !important;
+}
+
+:root {
+  --swiper-navigation-size: 10px;
 }

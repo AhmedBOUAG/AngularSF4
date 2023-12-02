@@ -6,7 +6,7 @@
     >
       <div class="row">
         <div class="col-sm-4 col-md-4">
-          <img src="./assets/svg/svg_mister_chef.svg" width="100%" />
+          <img src="./assets/svg/svg_mister_chef.svg" #iconSVG width="100%" />
         </div>
         <div class="col-sm-8 col-md-8 mt-30">
           <div class="anim-home">
@@ -16,15 +16,20 @@
           </div>
           <div class="mb-0">
             <button
-              class="btn btn-success float-end"
+              pButton
+              pRipple
+              type="button"
+              class="p-button-raised p-button-success float-end"
               [routerLink]="['/', 'recipe','create']"
             >
-              <i class="pi pi-plus"></i> Créer une recette
+              <i class="pi pi-plus"></i>&nbsp; Créer une recette
             </button>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="last-recipes-swiper" #lastRecipes>
   <app-last-recipes></app-last-recipes>
+</div>
 </div>

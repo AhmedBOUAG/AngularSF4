@@ -20,6 +20,6 @@ class LatestRecipesAction extends AbstractController
         /** @var RecetteDFMRepository $repository */
         $repository = $this->entityMananger->getRepository(RecetteDFM::class);
 
-        return $repository->findBy(['status' => 'published'], ['createdAt' => 'DESC'], 5);
+        return $repository->findBy(['status' => 'published'], ['createdAt' => 'DESC'], 10);
     }
 }

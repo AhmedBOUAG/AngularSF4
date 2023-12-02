@@ -38,6 +38,14 @@ import { MessageService } from 'primeng/api';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { TagModule } from 'primeng/tag';
 import { AvatarModule } from 'primeng/avatar';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { register } from 'swiper/element/bundle';
+import { SwiperDirective } from './directives/swiper.directive';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { AuthStatusService } from './services/auth-status.service';
+import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
+register();
 
 @NgModule({
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -51,7 +59,7 @@ import { AvatarModule } from 'primeng/avatar';
         LoginComponent,
         LastRecipesComponent,
         LoadingSkeletonComponent,
-        ConfirmationMatModalComponent
+        ConfirmationMatModalComponent,
     ],
     imports: [
         BrowserModule,
@@ -62,6 +70,7 @@ import { AvatarModule } from 'primeng/avatar';
         ReactiveFormsModule,
         MatProgressSpinnerModule,
         NgbModule,
+        NgSelectModule,
         OverlayModule,
         MatDialogModule,
         MatCardModule,
@@ -76,11 +85,17 @@ import { AvatarModule } from 'primeng/avatar';
         CardModule,
         SpeedDialModule,
         TagModule,
-        AvatarModule
+        AvatarModule,
+        SwiperDirective,
+        NgxSkeletonLoaderModule,
+        LeafletModule,
+        MdbCheckboxModule,
+
     ],
     providers: [
         LoaderService,
         MessageService,
+        AuthStatusService,
         { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },

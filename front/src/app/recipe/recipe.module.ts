@@ -19,6 +19,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
 import { SharingModule } from '../sharing/sharing.module';
 import { BadgeModule } from 'primeng/badge';
+import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
+import { GalleriaModule } from 'primeng/galleria';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { AuthStatusService } from '../services/auth-status.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   imports: [
@@ -35,15 +40,19 @@ import { BadgeModule } from 'primeng/badge';
     TagModule,
     SharingModule,
     PaginatorModule,
-    BadgeModule
+    BadgeModule,
+    GalleriaModule,
+    LeafletModule,
+    NgxSkeletonLoaderModule
   ],
-  providers: [RecipeService, MessageService],
+  providers: [RecipeService, MessageService, AuthStatusService],
   declarations: [
     MyRecipesComponent,
     RecipeCreateComponent,
     RecipeComponent,
     FilterStatusPipe,
-    AllRecipesComponent
+    AllRecipesComponent,
+    RecipeDetailsComponent
   ],
   bootstrap: [RecipeComponent, AllRecipesComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
