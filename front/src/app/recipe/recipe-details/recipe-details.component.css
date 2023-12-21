@@ -1,0 +1,51 @@
+.image-container {
+    background-color: rgb(15 101 129);
+    max-width: 780px;
+}
+
+.container {
+    background: #ffffff;
+}
+
+span>p.recipe-subtitle {
+    color: rgb(114, 114, 114);
+    font-size: .9rem;
+}
+
+.recipe-details {
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+span.price {
+    font-size: 22px;
+    font-weight: 600;
+    color: #f86436;
+    font-family: 'system-ui', sans-serif;
+
+}
+
+h1.recipe-title {
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+
+.recipe-subtitle {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333636;
+    font-family: 'Niramit', sans-serif;
+}
+
+.recipe-description {
+    padding-top: 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #111111;
+    font-family: 'Niramit', sans-serif;
+}
+
+.line-details {
+    padding-bottom: 5px;
+    border-bottom: 1px dashed #eeeeee;
+}

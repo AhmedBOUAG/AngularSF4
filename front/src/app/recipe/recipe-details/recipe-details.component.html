@@ -1,0 +1,139 @@
+<div class="container" id="wrapper">
+<div class="recipe-details row col-12 shadow-sm p-3 mb-0 bg-white rounded mt-5">
+  <div class="recipe-images col-lg-7 col-md-12">
+    
+
+      <div class="image-container" *ngIf="loadingCompleted">
+
+        <div style="background-color: rgb(15 101 129); max-width: 785px" class="card md:flex md:justify-content-center">
+          <p-galleria 
+          [value]="recipe.images"
+          [showItemNavigators]="showNavigation"
+          [changeItemOnIndicatorHover]="false"
+          [showItemNavigatorsOnHover]="false"
+          [showIndicators]="true" 
+          [showThumbnails]="false"
+          [responsiveOptions]="responsiveOptions" 
+          [containerStyle]="{ 'max-width': '780px', 'max-height': '600px' }"
+          >
+              <ng-template pTemplate="item" let-item>
+                  <img [src]="getImageUrl(item.name)" style="width: 100%; height: 480px;" />
+              </ng-template>
+          </p-galleria>
+      </div>       
+    </div>
+    <div *ngIf="!loadingCompleted">
+      <ngx-skeleton-loader
+          count="1"
+          [theme]="{
+            height: '420px',
+            width: '100%'
+          }"
+        ></ngx-skeleton-loader>
+    </div>
+  </div>
+  <div class="infos-recipe col-lg-5 col-md-12">
+    <div *ngIf="!loadingCompleted">
+      <ngx-skeleton-loader
+          count="1"
+          [theme]="{
+            height: '10px',
+            width: '100%'
+          }"
+        ></ngx-skeleton-loader>
+        <ngx-skeleton-loader
+          count="2"
+          [theme]="{
+            height: '5px',
+            width: '100%'
+          }"
+        >
+      </ngx-skeleton-loader>
+      <div style="width:30%">
+        <ngx-skeleton-loader
+          count="3"
+          [theme]="{
+            height: '10px',
+            width: '100%',
+            'line-break': 'true'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+      <div class="mb-5" *ngIf="recipe.creator && recipe.creator.id !== loggedInUser.id" role="group" aria-label="boutons de la fiche recette">
+        <ngx-skeleton-loader
+          count="1"
+          [theme]="{
+            height: '40px',
+            width: '40%'
+          }"
+        ></ngx-skeleton-loader>
+        <ngx-skeleton-loader
+          count="1"
+          [theme]="{
+            height: '40px',
+            width: '20%',
+            float: 'right'
+          }"
+        ></ngx-skeleton-loader>
+        <ngx-skeleton-loader
+        count="1"
+        [theme]="{
+          height: '210px',
+          width: '100%',
+          float: 'right'
+        }"
+      ></ngx-skeleton-loader>
+      </div>
+    </div>
+    <div *ngIf="loadingCompleted">
+    <p *ngIf="!isOwnRecipe()" style="float:right; cursor:pointer; text-decoration-line: underline;" (click)="reportRecipeOpenDialog()">
+      <i class="fa fa-flag" aria-hidden="true"></i>&nbsp;Signaler
+    </p>
+    <h1 class="recipe-title">{{ recipe.title }}</h1>
+    <span>
+      <p class="recipe-subtitle">{{ recipe.subtitle }}</p>
+    </span>
+    <p class="recipe-price line-details"><i class="fa fa-money" aria-hidden="true"></i>&nbsp;Prix:<span class="price float-end">{{ recipe.price }}€</span></p>
+    <p class="recipe-category line-details"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Catégorie: <span class="float-end text-black-50">{{ recipe.category }}</span></p>
+    <p class="recipe-status line-details" *ngIf="recipe.status !== 'published'"><i class="fa fa-recycle" aria-hidden="true"></i>&nbsp; Status: <span class="float-end text-black-50">{{ getStatusName(recipe.status) }}</span></p>
+    <p class="recipe-creator line-details" *ngIf="recipe.creator && !isOwnRecipe()"><i class="pi pi-user" aria-hidden="true"></i>&nbsp;Postée par: <span class="float-end text-black-50">{{ recipe.creator.username }}</span></p>
+    
+    <div class="mb-5" *ngIf="!isOwnRecipe()" role="group" aria-label="boutons de la fiche recette">
+      <button class="btn btn-primary" (click)="recipeOwnerContactOpenDialog()">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp;Contacter le cuisinier
+      </button>
+      <button class="btn btn-secondary" style="float:right">
+        <i class="fa fa-credit-card" aria-hidden="true"></i> Payer
+      </button>
+    </div>
+    <div id="map" style="height: 200px;">
+    </div>
+    <p class="recipe-locality" style="text-align: center;" *ngIf="recipe.locality"><i class="fa fa-map-marker" aria-hidden="true"></i>       {{ recipe.locality.libelle }}, {{ recipe.locality.codePostal }}</p>
+  </div>    
+    
+  </div>
+  <div class="describe-recipe">
+    <div *ngIf="!loadingCompleted">
+
+      <ngx-skeleton-loader
+      count="1"
+      [theme]="{
+        height: '15px',
+        width: '20%'
+      }"
+    ></ngx-skeleton-loader>
+      <ngx-skeleton-loader
+      count="3"
+      [theme]="{
+        height: '5px',
+        width: '100%'
+      }"
+    ></ngx-skeleton-loader>
+    </div>
+    <div *ngIf="loadingCompleted">
+    <h2 class="recipe-title">Description</h2>
+    <p class="recipe-description">{{ recipe.description }}</p>
+  </div>
+  </div>
+</div>
+</div>

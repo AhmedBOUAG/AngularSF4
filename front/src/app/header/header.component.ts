@@ -50,10 +50,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isDisabled = false;
   }
 
-  openCloseDD() {
+  openCloseDD(event: any) {
     const element = this.dorpdownZone.nativeElement;
     element.classList.toggle('hidden');
-
+    event.stopPropagation();
   }
 
   closeBanner() {
