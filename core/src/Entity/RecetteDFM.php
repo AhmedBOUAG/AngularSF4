@@ -64,7 +64,8 @@ use App\Filter\CategoryFilter;
                             'schema' => [
                                 'type' => 'object', 'properties' => [
                                     'images' => [
-                                        'type' => 'string', 'format' => 'binary',
+                                        'type' => 'string',
+                                        'format' => 'binary',
                                     ],
                                     'title' => [
                                         'type' => 'string',
@@ -314,5 +315,10 @@ class RecetteDFM
         $this->locality = $locality;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->title;
     }
 }

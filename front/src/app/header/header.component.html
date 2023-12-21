@@ -70,7 +70,7 @@
             href="#"
             id="navbarDropdownMenuLink"
             role="button"
-            (click)="openCloseDD()"
+            (click)="openCloseDD($event)"
             data-bs-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
@@ -79,7 +79,8 @@
               icon="pi pi-user" 
               styleClass="mr-2" 
               [style]="{'background-color': 'rgb(81 143 164)', 'color': '#ffffff'}" 
-              shape="circle">
+              shape="circle"
+              >
             </p-avatar>
             {{ username }}
           </a>

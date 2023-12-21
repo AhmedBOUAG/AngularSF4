@@ -96,6 +96,7 @@ export class RecipeDetailsComponent implements OnInit {
 
   initMap(x: any, y: any) {
     const map = Leaflet.map('map').setView([x, y], 13);
+    //Leaflet.Icon.Default.imagePath = 'assets/leaflet/images/';
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
     }).addTo(map);
@@ -121,6 +122,10 @@ export class RecipeDetailsComponent implements OnInit {
   }
   getImageUrl(name: null | string): string {
     return !null ? CommonUtils.UPLOAD_IMAGES_DIRECTORY + name : this.noFoundImage;
+  }
+
+  isOwnRecipe(): boolean {
+    return this.loggedInUser.id === this.recipe.creator.id;
   }
 
   getStatusName(status: any) {

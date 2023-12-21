@@ -26,7 +26,7 @@ class UserFavoriteRecipesController extends AbstractController
         $user = $this->getUser();
         $recetteId = json_decode($request->getContent(), true)['recipe_id'];
         $recette = $this->recipeRepository->find($recetteId);
-        if ( ! $recette) {
+        if (!$recette) {
             return new NotFoundHttpException('Not found recipe.');
         }
         if ($recipeManager->isRecipeOwner($recette)) {
@@ -48,11 +48,12 @@ class UserFavoriteRecipesController extends AbstractController
 
     public function getUserFavoriteRecipeIds(?User $user = null): JsonResponse
     {
-        if(!$user) {
+        if (!$user) {
+            /** @var User $user */
             $user = $this->getUser();
         }
 
-        return $this->json($user->getFavoris()->map(fn($recipe) => $recipe->getId()));
+        return $this->json($user->getFavoris()->map(fn ($recipe) => $recipe->getId()));
     }
 
     public function removeFavoriteRecipe(int $id): JsonResponse
@@ -61,7 +62,7 @@ class UserFavoriteRecipesController extends AbstractController
         $user = $this->getUser();
 
         $recette = $this->recipeRepository->find($id);
-        if ( ! $recette) {
+        if (!$recette) {
             return new NotFoundHttpException('Not found recipe.');
         }
         $user->removeFavoris($recette);
