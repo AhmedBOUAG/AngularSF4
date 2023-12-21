@@ -54,7 +54,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const element = this.dorpdownZone.nativeElement;
     element.classList.toggle('hidden');
     event.stopPropagation();
-
   }
 
   closeBanner() {

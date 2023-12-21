@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\Api\User\UserConnected;
 use App\Controller\Api\User\UserController;
 use App\Controller\Api\User\UserFavoriteRecipesController;
 use App\Repository\UserRepository;
