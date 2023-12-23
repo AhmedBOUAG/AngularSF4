@@ -9,12 +9,13 @@ use App\Entity\Locality;
 use App\Entity\RecetteDFM;
 use App\Service\Workflow\RecipeWorkflow;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
-final class CreateRecetteAction
+final class CreateRecetteAction extends AbstractController
 {
     public function __construct(private RecipeWorkflow $recipeWorkflow, private EntityManagerInterface $entityManagerInterface)
     {
@@ -27,11 +28,12 @@ final class CreateRecetteAction
         $recette = $request->request->all();
         $status = $recette['status'];
         if ($locality_id = $recette['locality']) {
-            $recette['locality'] = $this->entityManagerInterface->getRepository(Locality::class)->find(intval($locality_id));
+            $recette['locality'] = $this->entityManagerInterface->getRepository(Locality::class)->find($locality_id);
         }
+        /** @var RecetteDFM $recette */
         $recette = $normalizer->denormalize($recette, RecetteDFM::class);
 
-        if ( ! $uploadedFiles) {
+        if (!$uploadedFiles) {
             throw new BadRequestHttpException('"file" is required');
         }
 
@@ -40,7 +42,7 @@ final class CreateRecetteAction
             $image->setFile($uploadedFile);
             $recette->addImages($image);
         }
-
+        $recette->setCreator($this->getUser());
         $this->recipeWorkflow->process($recette, $status);
 
         return $recette;

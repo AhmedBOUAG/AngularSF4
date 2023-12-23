@@ -26,7 +26,7 @@ class LocalityDataCsvExtractor implements ExtractorInterface
         $finder = new Finder();
         $realPath = '';
         $finder->files()->in(dirname(dirname(__DIR__)) . self::IMPORT_DIR_PATH);
-        if ( ! $finder->hasResults()) {
+        if (!$finder->hasResults()) {
             throw new \Exception('No file in the import directory.');
         }
         foreach ($finder as $file) {
@@ -48,7 +48,7 @@ class LocalityDataCsvExtractor implements ExtractorInterface
             throw new \Exception('Some information is missing from the file.');
         }
         foreach ($file as $key => $row) {
-            if (0 !== $key && ! $file->eof()) {
+            if (0 !== $key && !$file->eof()) {
                 $processed = true;
                 $locality = new Locality();
                 $data = explode(';', $row[0]);

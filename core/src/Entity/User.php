@@ -90,11 +90,15 @@ class User implements UserInterface
     #[Groups(['user:read', 'user:write'])]
     private Collection $favoris;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Message::class, orphanRemoval: true)]
+    private Collection $messages;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->recetteDFMs = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getFirstname(): ?string
@@ -263,6 +267,36 @@ class User implements UserInterface
     {
         if ($this->favoris->contains($recette)) {
             $this->favoris->removeElement($recette);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getUser() === $this) {
+                $message->setUser(null);
+            }
         }
 
         return $this;
