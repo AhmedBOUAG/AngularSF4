@@ -41,7 +41,6 @@ services:
     arguments: ["@security.helper"]
     tags:
       - { name: doctrine.event_listener, event: preUpdate }
-      - { name: doctrine.event_listener, event: prePersist }
   dfm.user_provider:
     class: App\Security\UserProvider
   # App\Controller\Api\Recipe\CreateRecetteAction:

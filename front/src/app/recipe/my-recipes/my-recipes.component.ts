@@ -78,8 +78,8 @@ export class MyRecipesComponent implements OnInit, OnDestroy {
       }
     ];
   }
-  preEditRecipe(id: number): void {
-    this.RecipeService.getRecipeById(id).pipe(takeUntil(this.destroy$)).subscribe(
+  preEditRecipe(uuid: string): void {
+    this.RecipeService.getRecipeById(uuid).pipe(takeUntil(this.destroy$)).subscribe(
       (res: Recipe) => {
         this.tabIdImageToRemove.pop();
         this.recipeToUpdate = res;

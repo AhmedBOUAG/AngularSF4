@@ -40,10 +40,10 @@ export class RecipeService {
 
   /**
    * Permet de récuperer une recette
-   * @param id
+   * @param uuid
    */
-  getRecipeById(id: number): any {
-    const uri = `${this.apiUrl}/${id}`;
+  getRecipeById(uuid: string): any {
+    const uri = `${this.apiUrl}/${uuid}`;
     return this.getRecipe(uri);
   }
 
@@ -76,8 +76,8 @@ export class RecipeService {
    * Fonction de mise à jour d'une recette
    * @param Recette // Les datas de la recette modifiée
    */
-  update(id: number, recipe: any): Observable<Recipe[]> {
-    return this.http.post(`${this.apiUrl}/${id}`, this.formDataHydrate(recipe))
+  update(uuid: string, recipe: any): Observable<Recipe[]> {
+    return this.http.post(`${this.apiUrl}/${uuid}`, this.formDataHydrate(recipe))
       .pipe(map((res) => {
         return this.recipes;
       }),

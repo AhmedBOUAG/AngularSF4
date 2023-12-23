@@ -7,7 +7,6 @@ import { CommonUtils } from 'src/app/Utils/CommonUtils';
 import { Image } from 'src/app/models/image';
 import { IImageRecipe } from 'src/app/models/interfaces/imageRecipe';
 import * as Leaflet from 'leaflet';
-import { AuthStatusService } from 'src/app/services/auth-status.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ContactComponent } from 'src/app/sharing/contact/contact.component';
 import { ButtonsModule, WavesModule, CollapseModule } from 'angular-bootstrap-md'
@@ -46,26 +45,18 @@ export class RecipeDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
-    private authStatusService: AuthStatusService,
     private dialog: MatDialog
   ) {
 
   }
 
   ngOnInit(): void {
-    console.log('oui')
-    /*this.authStatusService.isloggededIn$
-      .pipe(first(), takeUntil(this.destroy$))
-      .subscribe((value: boolean) => {
-        console.log(value)
-        this.isLogged = value;
-      });*/
     const infoUser = localStorage.getItem('info_user');
     this.loggedInUser = JSON.parse(infoUser!);
-    const id = this.route.snapshot.paramMap.get('id');
-    const recipeId = null != id ? Number(id) : 0;
+    const uuid = this.route.snapshot.paramMap.get('uuid');
+    const recipeUuid = null != uuid ? uuid : '0';
 
-    this.recipeService.getRecipeById(recipeId).subscribe((recipe: Recipe) => {
+    this.recipeService.getRecipeById(recipeUuid).subscribe((recipe: Recipe) => {
       this.showNavigation = recipe.images.length > 1 ?? false;
       if (0 === recipe.images.length) {
         this.noImage = new Image(0, this.noFoundImage, this.noFoundImage, 'image/png');
@@ -96,7 +87,6 @@ export class RecipeDetailsComponent implements OnInit {
 
   initMap(x: any, y: any) {
     const map = Leaflet.map('map').setView([x, y], 13);
-    //Leaflet.Icon.Default.imagePath = 'assets/leaflet/images/';
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
     }).addTo(map);
