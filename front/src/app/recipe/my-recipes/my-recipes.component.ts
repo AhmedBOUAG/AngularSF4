@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { CommonUtils } from 'src/app/Utils/CommonUtils';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { RecipeComponent } from 'src/app/sharing/forms/recipe.component';
+import { RecipeComponent } from 'src/app/sharing/forms/recipe/recipe.component';
 import { ConfirmationMatModalComponent } from '../../sharing/confirmation-mat-modal/confirmation-mat-modal.component';
 import { MenuItem, MessageService } from 'primeng/api';
 import { IUserInfo } from '../../models/interfaces/IUserInfo';

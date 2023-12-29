@@ -1,6 +1,7 @@
-export interface ICreator {
-    id: number;
+export interface IUser {
+    id: string;
     firstname: string;
+    lastname?: string;
     username: string;
     email: string;
     birthdate?: string;

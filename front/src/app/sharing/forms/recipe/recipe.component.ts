@@ -1,13 +1,13 @@
 import { Router } from '@angular/router';
-import { Image } from './../../models/image';
+import { Image } from '../../../models/image';
 import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Recipe } from '../../recipe/recipe';
-import { CommonUtils } from '../../Utils/CommonUtils';
-import { RecipeService } from '../../services/recipe.service';
-import { MessageHandlerService } from '../../services/message-handler.service';
+import { Recipe } from '../../../recipe/recipe';
+import { CommonUtils } from '../../../Utils/CommonUtils';
+import { RecipeService } from '../../../services/recipe.service';
+import { MessageHandlerService } from '../../../services/message-handler.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { LocalityService } from '../../services/locality.service';
+import { LocalityService } from '../../../services/locality.service';
 import { Observable, Subject, catchError, concat, debounceTime, distinctUntilChanged, filter, of, switchMap, takeUntil, tap } from 'rxjs';
 
 

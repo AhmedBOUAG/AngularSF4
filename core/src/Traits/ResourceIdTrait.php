@@ -18,7 +18,7 @@ trait ResourceIdTrait
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: OrderedUuidGenerator::class)]
     #[ApiProperty(identifier: true)]
-    #[Groups(['recette:read', 'user:read', 'locality:read'])]
+    #[Groups(['recette:read', 'user:read', 'locality:read', 'message:read'])]
     protected ?UuidInterface $id = null;
 
     public function getId(): ?UuidInterface
