@@ -10,6 +10,7 @@ import * as Leaflet from 'leaflet';
 import { MatDialog } from '@angular/material/dialog';
 import { ContactComponent } from 'src/app/sharing/contact/contact.component';
 import { ButtonsModule, WavesModule, CollapseModule } from 'angular-bootstrap-md'
+import { MessageComponent } from 'src/app/sharing/forms/message/message.component';
 
 
 @Component({
@@ -94,7 +95,8 @@ export class RecipeDetailsComponent implements OnInit {
   }
   recipeOwnerContactOpenDialog() {
     console.log('envoi message')
-    const dialog = this.dialog.open(ContactComponent, {
+    const dialog = this.dialog.open(MessageComponent, {
+      panelClass: 'custom-dialog-container',
       data: {
         subject: 'recipeOwnerContact',
         recipeInfos: this.recipe

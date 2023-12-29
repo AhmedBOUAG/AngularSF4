@@ -23,6 +23,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use App\Filter\CategoryFilter;
+use App\Traits\TimestampableTrait;
 
 #[Gedmo\Loggable]
 #[ORM\Entity(repositoryClass: RecetteDFMRepository::class)]
@@ -92,6 +93,8 @@ use App\Filter\CategoryFilter;
 class RecetteDFM
 {
     use ResourceIdTrait;
+    use TimestampableTrait;
+
     #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['recette:read', 'recette:write'])]
@@ -115,14 +118,6 @@ class RecetteDFM
     #[Groups(['recette:read', 'recette:write'])]
     private $description;
 
-    #[ORM\Column(type: 'datetime')]
-    #[Groups(['recette:read', 'recette:write'])]
-    private $createdAt;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    #[Groups(['recette:read', 'recette:write'])]
-    private $updatedAt;
-
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'recette', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Groups(['recette:read', 'recette:write'])]
     private $images = [];
@@ -143,11 +138,15 @@ class RecetteDFM
     #[Groups(['recette:read', 'recette:write'])]
     private ?Locality $locality = null;
 
+    #[ORM\OneToMany(mappedBy: 'relatedRecipe', targetEntity: Message::class, orphanRemoval: true)]
+    private Collection $messages;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->users = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getTitle(): ?string
@@ -208,23 +207,6 @@ class RecetteDFM
         $this->description = $description;
 
         return $this;
-    }
-
-    public function getCreatedAt(): \DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $date)
-    {
-        $this->updatedAt = $date;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
     }
 
     public function getImages(): ?Collection
@@ -320,5 +302,30 @@ class RecetteDFM
     public function __toString(): string
     {
         return $this->title;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setRelatedRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): static
+    {
+        $this->messages->removeElement($message);
+
+        return $this;
     }
 }

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecipeService } from '../services/recipe.service';
-import { RecipeComponent } from '../sharing/forms/recipe.component';
+import { RecipeComponent } from '../sharing/forms/recipe/recipe.component';
 import { MyRecipesComponent } from './my-recipes/my-recipes.component';
 import { RecipeCreateComponent } from './recipe-create/recipe-create.component';
 import { RecipeRoutingModule } from './recipe-routing.module';

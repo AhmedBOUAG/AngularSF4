@@ -7,20 +7,23 @@ import { environment } from 'src/environments/environment';
 import { IFilter } from '../models/interfaces/IFilter';
 import { FilterService } from './filter.service';
 import { CommonUtils } from '../Utils/CommonUtils';
+import { AbstractService } from './abstractService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RecipeService {
+export class RecipeService extends AbstractService {
 
   //isSingleResult = false;
-  private apiUrl = environment.apiBaseUrl + 'api/recipes';
+  private apiUrl = environment.apiBaseUrl + this.IRI_RECIPES;
   private ownRecipes = environment.apiBaseUrl + 'api/own_recipes';
   private lastThreeRecipes = environment.apiBaseUrl + 'api/last_three_recipes'
   recipes!: Recipe[];
   images = [];
 
-  constructor(private http: HttpClient, private filterService: FilterService) { }
+  constructor(protected http: HttpClient, private filterService: FilterService) {
+    super(http);
+  }
 
   /**
    * Fonction qui récupère, via l'API, toutes les recettes

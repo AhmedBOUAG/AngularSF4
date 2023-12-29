@@ -11,6 +11,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ButtonModule } from 'primeng/button';
 import { ContactComponent } from './contact/contact.component';
+import { MessageComponent } from './forms/message/message.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -19,6 +20,7 @@ import { ContactComponent } from './contact/contact.component';
     ToastComponent,
     FilterComponent,
     ContactComponent,
+    MessageComponent,
   ],
   exports: [
     BreadcrumbComponent,

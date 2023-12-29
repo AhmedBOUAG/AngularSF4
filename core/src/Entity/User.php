@@ -13,6 +13,7 @@ use App\Controller\Api\User\UserController;
 use App\Controller\Api\User\UserFavoriteRecipesController;
 use App\Repository\UserRepository;
 use App\Traits\ResourceIdTrait;
+use App\Traits\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -40,6 +41,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface
 {
     use ResourceIdTrait;
+    use TimestampableTrait;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Vous devez saisir votre nom.')]
@@ -78,10 +80,6 @@ class User implements UserInterface
     #[Groups(['user:read', 'user:write'])]
     private $birthdate;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    #[Groups(['recette:read'])]
-    private $createdAt;
-
     #[ORM\OneToMany(targetEntity: RecetteDFM::class, mappedBy: 'creator', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Groups(['user:read'])]
     private $recetteDFMs;
@@ -90,15 +88,19 @@ class User implements UserInterface
     #[Groups(['user:read', 'user:write'])]
     private Collection $favoris;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Message::class, orphanRemoval: true)]
-    private Collection $messages;
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class, orphanRemoval: true)]
+    private Collection $sentMessages;
+
+    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Message::class, orphanRemoval: true)]
+    private Collection $recievedMessages;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->recetteDFMs = new ArrayCollection();
         $this->favoris = new ArrayCollection();
-        $this->messages = new ArrayCollection();
+        $this->sentMessages = new ArrayCollection();
+        $this->recievedMessages = new ArrayCollection();
     }
 
     public function getFirstname(): ?string
@@ -177,18 +179,6 @@ class User implements UserInterface
     public function setBirthdate(\DateTimeInterface $birthdate): self
     {
         $this->birthdate = $birthdate;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -275,29 +265,49 @@ class User implements UserInterface
     /**
      * @return Collection<int, Message>
      */
-    public function getMessages(): Collection
+    public function getSentMessages(): Collection
     {
-        return $this->messages;
+        return $this->sentMessages;
     }
 
-    public function addMessage(Message $message): self
+    public function addSentMessage(Message $sentMessage): static
     {
-        if (!$this->messages->contains($message)) {
-            $this->messages->add($message);
-            $message->setUser($this);
+        if (!$this->sentMessages->contains($sentMessage)) {
+            $this->sentMessages->add($sentMessage);
+            $sentMessage->setSender($this);
         }
 
         return $this;
     }
 
-    public function removeMessage(Message $message): self
+    public function removeSentMessage(Message $sentMessage): static
     {
-        if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getUser() === $this) {
-                $message->setUser(null);
-            }
+        $this->sentMessages->removeElement($sentMessage);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getRecievedMessages(): Collection
+    {
+        return $this->recievedMessages;
+    }
+
+    public function addRecievedMessage(Message $recievedMessage): static
+    {
+        if (!$this->recievedMessages->contains($recievedMessage)) {
+            $this->recievedMessages->add($recievedMessage);
+            $recievedMessage->setRecipient($this);
         }
+
+        return $this;
+    }
+
+    public function removeRecievedMessage(Message $recievedMessage): static
+    {
+        $this->recievedMessages->removeElement($recievedMessage);
 
         return $this;
     }

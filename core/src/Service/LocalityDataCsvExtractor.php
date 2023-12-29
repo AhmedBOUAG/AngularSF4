@@ -7,6 +7,8 @@ namespace App\Service;
 use App\Entity\Locality;
 use App\Service\Interface\ExtractorInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
 class LocalityDataCsvExtractor implements ExtractorInterface
@@ -18,7 +20,7 @@ class LocalityDataCsvExtractor implements ExtractorInterface
     {
     }
 
-    public function importData(string $fileName = null): bool
+    public function importData(string $fileName = null, OutputInterface $output): bool
     {
         if (null === $fileName) {
             return false;
@@ -35,15 +37,16 @@ class LocalityDataCsvExtractor implements ExtractorInterface
             }
         }
 
-        return $this->handlerData($realPath);
+        return $this->handlerData($realPath, $output);
     }
 
-    private function handlerData($filePath): bool
+    private function handlerData(string $filePath, OutputInterface $output): bool
     {
         $processed = false;
         $file = new \SplFileObject($filePath);
         $file->setFlags(\SplFileObject::READ_CSV);
         $csvHeaders = explode(';', $file->fgetcsv()[0]);
+        $progressBar = new ProgressBar($output, intval(exec("wc -l < $filePath")));
         if (array_diff(self::AUTORIZED_HEADERS, $csvHeaders)) {
             throw new \Exception('Some information is missing from the file.');
         }
@@ -59,11 +62,15 @@ class LocalityDataCsvExtractor implements ExtractorInterface
                     ->setLibelle($data[4])
                     ->setCoordonneesGeo(floatval($data[5]) . ',' . floatval($row[1]));
                 $this->em->persist($locality);
+
+                $progressBar->advance();
             }
         }
         if ($processed) {
             $this->em->flush();
+            $progressBar->finish();
         }
+        $progressBar->clear();
 
         return $processed;
     }

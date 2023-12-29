@@ -1,5 +1,5 @@
 export interface IUserInfo {
-    id?: number,
+    id?: string,
     username?: string;
     roles?: string[];
 }

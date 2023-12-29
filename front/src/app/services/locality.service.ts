@@ -4,15 +4,18 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ILocality } from './../models/interfaces/ILocality';
+import { AbstractService } from './abstractService';
 
 @Injectable({
     providedIn: 'root'
 })
-export class LocalityService {
-    private apiUrl = environment.apiBaseUrl + 'api/localities';
+export class LocalityService extends AbstractService {
+    private apiUrl = environment.apiBaseUrl + this.IRI_LOCALITIES;
     localities: ILocality[] = [];
 
-    constructor(private http: HttpClient) { }
+    constructor(protected http: HttpClient) {
+        super(http);
+    }
 
     /**
      * Fonction qui récupère, via l'API, toutes les communes

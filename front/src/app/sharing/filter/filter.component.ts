@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RecipeComponent } from '../forms/recipe.component';
+import { RecipeComponent } from '../forms/recipe/recipe.component';
 import { IFilterSearch } from 'src/app/models/interfaces/IFilterSearch';
 import { CommonUtils } from 'src/app/Utils/CommonUtils';
 

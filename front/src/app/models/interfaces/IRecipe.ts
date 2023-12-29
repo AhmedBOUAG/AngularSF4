@@ -1,5 +1,5 @@
 import { ILocality } from './ILocality';
-import { ICreator } from './creator';
+import { IUser } from './IUser';
 interface IRecipe {
   title: string;
   subtitle?: string;
@@ -8,7 +8,7 @@ interface IRecipe {
   locality: ILocality;
   price: any;
   images?: any[];
-  creator: ICreator;
+  creator: IUser;
   deletedThumbnails?: any[];
   status?: string;
   coverage?: string;
