@@ -27,15 +27,15 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Delete(),
         new Post(),
         new Put(
-            requirements: ['id' => '[a-f0-9]{8}-[a-f0-9]{4}-[4][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}'],
+            requirements: ['id' => '[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}'],
         ),
         new Get(
-            requirements: ['id' => '[a-f0-9]{8}-[a-f0-9]{4}-[4][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}'],
+            requirements: ['id' => '[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}'],
         ),
         new GetCollection(
             name: self::API_NAME_SENDERED_MESSAGES,
             normalizationContext: ['groups' => ['message:read']],
-            uriTemplate: 'my-sendered-messages',
+            uriTemplate: 'messages/my-sendered-messages',
             security: "is_granted('ROLE_USER')",
             openapiContext: [
                 'summary' => 'Get my sendered messages',
@@ -50,6 +50,7 @@ class Message
 {
     use ResourceIdTrait;
     use TimestampableTrait;
+
     const API_NAME_SENDERED_MESSAGES = '_api_my_sendered_messages_get_collection';
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'messages')]

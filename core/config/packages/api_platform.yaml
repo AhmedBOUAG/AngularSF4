@@ -1,5 +1,5 @@
 api_platform:
-  metadata_backward_compatibility_layer: false
+  #metadata_backward_compatibility_layer: false
   defaults:
     pagination_client_items_per_page: true
     normalization_context:
