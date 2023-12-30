@@ -42,15 +42,15 @@ class JwtTokenAuthenticator extends AbstractAuthenticator
         return $this->tokenExtractor->extract($request);
     }
 
-    public function authenticate(Request $request): ?Passport
+    public function authenticate(Request $request): Passport
     {
         $token = $this->getToken($request);
         if (null === $token) {
             throw new CustomUserMessageAuthenticationException('No API token provided');
         }
         $claims = $this->jwtEncoder->decode($token);
-        if ( ! $claims) {
-            return null;
+        if (!$claims) {
+            throw new CustomUserMessageAuthenticationException('Avoid claims');
         }
         $userIdentifier = $claims[$this->jwtManager->getUserIdClaim()];
 
