@@ -6,7 +6,7 @@ import { ToastComponent } from './toast/toast.component';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FilterComponent } from './filter/filter.component';
+import { FilterComponent } from './filter/Recipe/filter.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ButtonModule } from 'primeng/button';

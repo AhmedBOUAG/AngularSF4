@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -24,19 +27,19 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(),
         new Post(),
-        new Delete(),
-        new Post(),
+        new Delete(
+            requirements: ['id' => self::UUID_PATTERN],
+        ),
         new Put(
-            requirements: ['id' => '[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}'],
+            requirements: ['id' => self::UUID_PATTERN],
         ),
         new Get(
-            requirements: ['id' => '[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}'],
+            requirements: ['id' => self::UUID_PATTERN],
         ),
         new GetCollection(
             name: self::API_NAME_SENDERED_MESSAGES,
             normalizationContext: ['groups' => ['message:read']],
             uriTemplate: 'messages/my-sendered-messages',
-            security: "is_granted('ROLE_USER')",
             openapiContext: [
                 'summary' => 'Get my sendered messages',
             ],
@@ -45,8 +48,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['message:read']],
     denormalizationContext: ['groups' => ['message:write']]
 )]
+#[ApiFilter(OrderFilter::class, properties: ['id', 'createdAt', 'content', 'recipient.username', 'sender.username'])]
+#[ApiFilter(SearchFilter::class, properties: ['recipient' => 'exact', 'sender' => 'partial'])]
 #[UniqueEntity(fields: 'id', message: 'This message already exists')]
-class Message
+class Message extends AbstractDefinition
 {
     use ResourceIdTrait;
     use TimestampableTrait;

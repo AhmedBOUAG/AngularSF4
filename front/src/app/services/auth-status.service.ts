@@ -6,7 +6,6 @@ export class AuthStatusService {
     isloggededIn$ = this.isAuthenticated$.asObservable();
 
     setAuthenticated(status: boolean) {
-        console.log(status)
         this.isAuthenticated$.next(status);
     }
 }

@@ -25,8 +25,8 @@ export class LastRecipesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.recipeService.getLastThreeRecipies().pipe(takeUntil(this.destroy$)).subscribe((recipe: any) => {
-      this.recipes = recipe;
+    this.recipeService.getLatestRecipesPosted().pipe(takeUntil(this.destroy$)).subscribe((recipe: any) => {
+      this.recipes = recipe[CommonUtils.RESPONSE_ARRAY_KEY];
     }, (err: any) => {
       console.log(err);
     },

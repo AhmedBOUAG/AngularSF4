@@ -1,7 +1,7 @@
 <div class="modal-content custom-modal-content">
   <h2 class="modal-title"><i class="pi pi-filter"></i> | {{filterModalTitle}}</h2>
 
-  <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="filterForm" (ngSubmit)="onSubmit($event)">
     <div class="row">
     <div class="col-4">
     <div class="form-group">

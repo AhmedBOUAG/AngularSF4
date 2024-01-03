@@ -10,7 +10,7 @@ recette_delete_image:
     _api_item_operation_name: delete_image
 api_login_check:
   path: /api/login_check
-swagger_ui:
+api_doc:
   path: /docs
   controller: api_platform.swagger.action.ui
 current_user:

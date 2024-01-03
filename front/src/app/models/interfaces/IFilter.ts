@@ -1,9 +1,9 @@
-import { IFilterSearch } from "./IFilterSearch";
+import { IRecipeFilterSearch } from "./IRecipeFilterSearch";
 import { IPaginate } from "./IPaginate";
 
 export interface IFilter {
     orderBy?: string;
     order?: string;
-    criteria?: IFilterSearch;
+    criteria?: IRecipeFilterSearch;
     paginator?: IPaginate
 }

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,7 +14,6 @@ import { LoaderService } from './services/loader.service';
 import { RegistrationComponent } from './registration/registration.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
-import { RecipeModule } from './recipe/recipe.module';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -45,6 +44,13 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AuthStatusService } from './services/auth-status.service';
 import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
+import { MessagesDatatableComponent } from './datatables/messages-datatable/messages-datatable.component';
+import { MessagesComponent } from './messages/messages.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { registerLocaleData } from '@angular/common';
+import * as fr from '@angular/common/locales/fr';
+import { PaginatorModule } from 'primeng/paginator';
+
 register();
 
 @NgModule({
@@ -60,6 +66,8 @@ register();
         LastRecipesComponent,
         LoadingSkeletonComponent,
         ConfirmationMatModalComponent,
+        MessagesDatatableComponent,
+        MessagesComponent
     ],
     imports: [
         BrowserModule,
@@ -90,6 +98,8 @@ register();
         NgxSkeletonLoaderModule,
         LeafletModule,
         MdbCheckboxModule,
+        NgxDatatableModule,
+        PaginatorModule,
 
     ],
     providers: [
@@ -98,6 +108,7 @@ register();
         AuthStatusService,
         { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
         { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: LOCALE_ID, useValue: 'fr-FR' },
         { provide: MatDialogRef, useValue: {} },
         DatePipe,
         TokenStorageService,
@@ -105,4 +116,8 @@ register();
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+    constructor() {
+        registerLocaleData(fr.default, 'fr');
+    }
+}

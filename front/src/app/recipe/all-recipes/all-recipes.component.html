@@ -95,7 +95,7 @@
 
             </p-dataView>
             <div class="flex-1">
-                <p-paginator (onPageChange)="onPageChange($event)" [first]="1" [rows]="nbItemPerPage" [totalRecords]="nbItem" [rowsPerPageOptions]="[10, 20, 30]" [showFirstLastIcon]="false"></p-paginator>
+                <p-paginator #p (onPageChange)="onPageChange($event)" [first]="1" [rows]="nbItemPerPage" [totalRecords]="nbItem" [rowsPerPageOptions]="pageLimitOptions" [showFirstLastIcon]="true"></p-paginator>
             </div>
         </div>
     </div>

@@ -1,0 +1,9 @@
+::ng-deep .ngx-datatable {
+    display: inherit !important;
+}
+
+::ng-deep .datatable-header-inner {
+    background-color: #afc2c8 !important;
+    color: #f8fdff !important;
+    font-size: 1.2em !important;
+}

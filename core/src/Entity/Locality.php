@@ -22,7 +22,7 @@ use Symfony\Component\Uid\UuidV6 as Uuid;
     denormalizationContext: ['groups' => ['locality:write']]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['libelle' => 'word_start'])]
-class Locality
+class Locality extends AbstractDefinition
 {
     use ResourceIdTrait;
 

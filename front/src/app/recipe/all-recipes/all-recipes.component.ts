@@ -1,5 +1,5 @@
 import { RecipeService } from './../../services/recipe.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Recipe } from '../recipe';
 import { CommonUtils } from 'src/app/Utils/CommonUtils';
 import { Subject, takeUntil, filter } from 'rxjs';
@@ -11,17 +11,20 @@ import { ILocality } from 'src/app/models/interfaces/ILocality';
 import { IPaginate } from 'src/app/models/interfaces/IPaginate';
 import { IFilter } from 'src/app/models/interfaces/IFilter';
 import { MatDialog } from '@angular/material/dialog';
-import { FilterComponent } from 'src/app/sharing/filter/filter.component';
-import { FilterService } from 'src/app/services/filter.service';
+import { FilterComponent } from 'src/app/sharing/filter/Recipe/filter.component';
+import { RecipeFilterService } from 'src/app/services/filters/recipeFilter.service';
 import { FavoriteService } from 'src/app/services/favorite.service';
 import { Router } from '@angular/router';
+import { Paginator } from 'primeng/paginator';
+import { AbstractDatatable } from 'src/app/datatables/abstractDatatable';
 
 @Component({
   selector: 'app-all-recipes',
   templateUrl: './all-recipes.component.html',
   styleUrls: ['./all-recipes.component.css']
 })
-export class AllRecipesComponent implements OnInit {
+export class AllRecipesComponent extends AbstractDatatable implements OnInit {
+  @ViewChild('p', { static: false }) paginator: Paginator;
   destroy$: Subject<void> = new Subject<void>();
   sortOptions: SelectItem[];
   sortOrder: number;
@@ -47,15 +50,17 @@ export class AllRecipesComponent implements OnInit {
     private messageService: MessageService,
     private mhs: MessageHandlerService,
     private modalDialog: MatDialog,
-    private filterService: FilterService,
+    private recipeFilterService: RecipeFilterService,
     private favoriteService: FavoriteService,
     private router: Router
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.loadRecipeFavoriteIds();
     this.breadcrumbMenuItems = [{ label: 'Recipe', routerLink: '/recipe' }];
-    this.getRecipes();
+    this.getData();
     this.sortOptions = [
       { icon: 'pi pi-sort-numeric-down-alt', label: 'Décroissant', value: '!price' },
       { icon: 'pi pi-sort-numeric-down', label: 'Croissant', value: 'price' }
@@ -81,7 +86,7 @@ export class AllRecipesComponent implements OnInit {
             .subscribe(
               (res: any) => {
                 this.loadRecipeFavoriteIds();
-                this.getRecipes()
+                this.getData()
               },
               (err) => this.errorHandler(err),
               () => {
@@ -101,7 +106,7 @@ export class AllRecipesComponent implements OnInit {
             .subscribe(
               (res: any) => {
                 this.loadRecipeFavoriteIds();
-                this.getRecipes()
+                this.getData()
               },
               (err) => this.errorHandler(err),
               () => {
@@ -139,10 +144,10 @@ export class AllRecipesComponent implements OnInit {
     return this.items;
   }
 
-  private getRecipes(filter: IFilter = {}, operationType = 'undefined',): void {
+  protected getData(filter: IFilter = {}, operationType = 'undefined',): any {
     this.RecipeService.getAll(filter).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
-        this.recipes = res['hydra:member'].map((recipe: any) => {
+        this.recipes = res[CommonUtils.RESPONSE_ARRAY_KEY].map((recipe: any) => {
           if (!Boolean(recipe.images.length)) {
             recipe.coverage = this.uploadImage + CommonUtils.NO_AVAILABLE_IMAGE;
           } else {
@@ -152,7 +157,7 @@ export class AllRecipesComponent implements OnInit {
 
           return recipe;
         });
-        this.nbItem = res['hydra:totalItems'];
+        this.nbItem = res[CommonUtils.RESPONSE_TOTALITEMS_KEY];
       },
       (err) => this.errorHandler(err),
       () => {
@@ -172,7 +177,7 @@ export class AllRecipesComponent implements OnInit {
         },
         (err) => this.errorHandler(err),
         () => {
-          this.getRecipes();
+          this.getData();
         }
       );
   }
@@ -182,7 +187,7 @@ export class AllRecipesComponent implements OnInit {
 
   paginateToFirstSortedPage() {
     this.filter.paginator = { page: 0, first: 0, rows: this.nbItemPerPage };
-    this.getRecipes(this.filter);
+    this.getData(this.filter);
   }
 
   getLocality(locality: ILocality) {
@@ -192,7 +197,7 @@ export class AllRecipesComponent implements OnInit {
   onPageChange(event: IPaginate) {
     this.nbItemPerPage = event.rows;
     this.filter.paginator = event;
-    this.getRecipes(this.filter);
+    this.getData(this.filter);
   }
 
   onModalFilter() {
@@ -205,19 +210,19 @@ export class AllRecipesComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(filteredItem => {
-      this.filter.order = '';
-      this.filter.orderBy = '';
+    dialogRef.afterClosed().subscribe(valueSubmitted => {
+      const [filteredItem, event] = valueSubmitted || [];
       if (!filteredItem) return;
-      if ('' !== filteredItem?.price && null !== filteredItem?.price && undefined !== filteredItem?.price) {
-        this.filter.order = filteredItem.price.toUpperCase();
-        this.filter.orderBy = 'price';
-        delete filteredItem.price;
-      }
 
-      this.filter.criteria = filteredItem;
-      this.filterCount = this.filterService.onFilterCount(this.filter);
+      const { price, ...filteredCriteria } = filteredItem || {};
+
+      this.filter.order = price ? price.toUpperCase() : '';
+      this.filter.orderBy = price ? 'price' : '';
+      this.filter.criteria = filteredCriteria;
+
+      this.filterCount = this.recipeFilterService.onFilterCount(this.filter);
       this.paginateToFirstSortedPage();
+      this.paginator.changePageToFirst(event);
     });
   }
 

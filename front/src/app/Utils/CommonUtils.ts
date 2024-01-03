@@ -15,6 +15,8 @@ export abstract class CommonUtils {
       { "type": "Pâtesserie", "id": 2 },
       { "type": "Variété", "id": 3 }
     ];
+  static readonly RESPONSE_ARRAY_KEY = 'hydra:member';
+  static readonly RESPONSE_TOTALITEMS_KEY = 'hydra:totalItems';
   static readonly KEY_LOCALSTORAGE_CURRENT_USER = 'info_user';
   static readonly KEY_AUTH_TOKEN = 'auth_token';
   static readonly MODIF = 'MODIF';
@@ -35,7 +37,7 @@ export abstract class CommonUtils {
   static readonly BD_DATE_FORMAT = 'YYYY-MM-DD';
   static readonly LAST_IMAGE_WARNING = "<strong>Important:</strong> Votre recette ne contient qu'une seule image. Si vous décidez de supprimer cette dernière <u>sans</u> en chargeant une autre, votre recette sera <u>rejetée</u>."
   static readonly MIN_LENTH_TERM = 3;
-  static readonly NB_ITEM_PER_PAGE = 20;
+  static readonly NB_ITEM_PER_PAGE = 25;
   static readonly ITEM_PER_PAGE = 'itemsPerPage';
   static readonly _PAGE = '_page';
   static readonly ORDER_PARAMETER_NAME = '_order';

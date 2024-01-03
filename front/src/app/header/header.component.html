@@ -58,6 +58,15 @@
         <li style="padding-top:5px">
           <a *ngIf="isLogged"
             class="nav-link-title" 
+            routerLink="/messages/"
+            routerLinkActive="selected"
+            [routerLinkActiveOptions]="{ exact: true }">
+              <i class="pi pi-comments"></i> Messages
+              </a>
+        </li>
+        <li style="padding-top:5px">
+          <a *ngIf="isLogged"
+            class="nav-link-title" 
             routerLink="/recipe/"
             routerLinkActive="selected"
             [routerLinkActiveOptions]="{ exact: true }">
@@ -85,6 +94,7 @@
             {{ username }}
           </a>
           <div
+          data-bs-toggle="dropdown" 
             #dropdownZone
             class="hidden dropdown-menu dropdown-menu-end"
             aria-labelledby="navbarDropdownMenuLink"

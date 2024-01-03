@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Security;
 
 class MessageSubscriber implements EventSubscriberInterface
 {
-    const ROUTE_EVENT_POST_MESSAGE = '_api_/messages.{_format}_post';
+    const ROUTE_EVENT_POST_MESSAGE = '_api_/messages{._format}_post';
 
     public function __construct(private Security $security)
     {
@@ -19,7 +19,7 @@ class MessageSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::REQUEST => 'onSetSenderMessage'
+            KernelEvents::REQUEST => ['onSetSenderMessage', 0],
         ];
     }
 
