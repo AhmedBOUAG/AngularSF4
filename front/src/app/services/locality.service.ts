@@ -4,17 +4,19 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ILocality } from './../models/interfaces/ILocality';
-import { AbstractService } from './abstractService';
+import { AbstractFilter } from './abstractFilter';
+import { IService } from '../models/interfaces/IService';
 
 @Injectable({
     providedIn: 'root'
 })
-export class LocalityService extends AbstractService {
+export class LocalityService extends AbstractFilter implements IService {
+    IRI_LOCALITIES = 'api/localities';
     private apiUrl = environment.apiBaseUrl + this.IRI_LOCALITIES;
     localities: ILocality[] = [];
 
     constructor(protected http: HttpClient) {
-        super(http);
+        super();
     }
 
     /**
@@ -41,6 +43,10 @@ export class LocalityService extends AbstractService {
                 return this.citiesFormatted(cities);
             }),
             catchError(this.handleError));
+    }
+
+    getHydarationIri(id: string): string {
+        return `/${this.IRI_LOCALITIES}/${id}`;
     }
 
     citiesFormatted(cities: ILocality[]): ILocality[] {

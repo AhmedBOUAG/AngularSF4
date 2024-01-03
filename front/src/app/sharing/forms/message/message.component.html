@@ -1,28 +1,15 @@
 <a class="close float-end" (click)="onnoclick()"><span class="pi pi-times"></span></a>
 <h1>{{title}}{{recipe.creator.username}}</h1>
 <hr />
-<!--<div class="form-group">
-
-
-<form [formGroup]="form">
-    <div class="form-group">
-        <label for="subject">Sujet:</label>
-        <input type="text" id="subject" formControlName="subject">
-      </div>
-    <div class="form-group">
-        <label for="bio">Message:</label>
-        <textarea class="form-control" id="message" rows="3" formControlName="message"></textarea>
-      </div>
-    <button (click)="submit()">Submit</button>
-  </form>
-</div> -->
 
 <div class="register-photo">
+  <h2 class="text-center">Echanger avec le cuisinier à propos de cette recette</h2>
     <div class="form-container">
         <div class="image-holder" style="background: url('{{getImage()}}')"></div>
         <form [formGroup]="form">
-            <h2 class="text-center">Echanger avec le cuisinier à propos de cette recette</h2>
-            <div class="form-group"><textarea class="form-control" id="content" rows="3" formControlName="content" placeholder="Votre message"></textarea></div>
+            <div class="form-group">
+              <textarea class="form-control" id="content" style="height: 170px;" rows="3" formControlName="content" placeholder="Votre message" rows="10" cols="50"></textarea>
+            </div>
             <div class="form-group">
                 <br />
             <button

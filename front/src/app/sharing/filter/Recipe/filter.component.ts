@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RecipeComponent } from '../forms/recipe/recipe.component';
-import { IFilterSearch } from 'src/app/models/interfaces/IFilterSearch';
+import { RecipeComponent } from '../../forms/recipe/recipe.component';
+import { IRecipeFilterSearch } from 'src/app/models/interfaces/IRecipeFilterSearch';
 import { CommonUtils } from 'src/app/Utils/CommonUtils';
 
 @Component({
@@ -12,7 +12,7 @@ import { CommonUtils } from 'src/app/Utils/CommonUtils';
 })
 export class FilterComponent implements OnInit {
   filterForm: FormGroup;
-  orders: IFilterSearch = {};
+  orders: IRecipeFilterSearch = {};
   orderPrice: any[] = [];
   filterModalTitle: string = CommonUtils.FILTER_MODAL_TITLE;
   categories: any = {};
@@ -64,9 +64,9 @@ export class FilterComponent implements OnInit {
     this.orders = {};
   }
 
-  onSubmit() {
+  onSubmit($event: any) {
     if (this.filterForm.valid) {
-      this.dialogRef.close(this.filterForm.value);
+      this.dialogRef.close([this.filterForm.value, $event]);
     } else {
       console.log("Le formulaire est invalide.");
     }

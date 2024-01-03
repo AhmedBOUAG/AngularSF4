@@ -5,24 +5,24 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { IFilter } from '../models/interfaces/IFilter';
-import { FilterService } from './filter.service';
+import { RecipeFilterService } from './filters/recipeFilter.service';
 import { CommonUtils } from '../Utils/CommonUtils';
-import { AbstractService } from './abstractService';
+import { IService } from '../models/interfaces/IService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RecipeService extends AbstractService {
+export class RecipeService extends RecipeFilterService implements IService {
 
-  //isSingleResult = false;
+  IRI_RECIPES = 'api/recipes';
   private apiUrl = environment.apiBaseUrl + this.IRI_RECIPES;
   private ownRecipes = environment.apiBaseUrl + 'api/own_recipes';
-  private lastThreeRecipes = environment.apiBaseUrl + 'api/last_three_recipes'
+  private lastThreeRecipes = environment.apiBaseUrl + 'api/latest_recipes_posted'
   recipes!: Recipe[];
   images = [];
 
-  constructor(protected http: HttpClient, private filterService: FilterService) {
-    super(http);
+  constructor(protected http: HttpClient) {
+    super();
   }
 
   /**
@@ -30,7 +30,7 @@ export class RecipeService extends AbstractService {
    */
   getAll(filter: IFilter = {}): Observable<Recipe[]> {
     const uri = `${this.apiUrl}`;
-    let params = this.filterService.handlerParamFilter(filter);
+    let params = this.handlerParamFilter(filter);
     return this.getRecipe(uri, params);
   }
 
@@ -97,6 +97,10 @@ export class RecipeService extends AbstractService {
     );
   }
 
+  getHydarationIri(id: string): string {
+    return `/${this.IRI_RECIPES}/${id}`;
+  }
+
   private formDataHydrate(recipe: any) {
     const formData = new FormData();
 
@@ -125,7 +129,7 @@ export class RecipeService extends AbstractService {
     return formData;
   }
 
-  getLastThreeRecipies() {
+  getLatestRecipesPosted() {
     return this.getRecipe(this.lastThreeRecipes);
   }
 

@@ -40,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write']]
 )]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User extends AbstractDefinition implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use ResourceIdTrait;
     use TimestampableTrait;
@@ -57,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Un pseudo est nécessaire pour l\'inscription.')]
-    #[Groups(['user:read', 'user:write', 'recette:read'])]
+    #[Groups(['user:read', 'user:write', 'recette:read', 'message:read'])]
     private $username;
 
     #[ORM\Column(type: 'string', unique: true, length: 255)]

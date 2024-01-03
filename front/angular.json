@@ -50,18 +50,24 @@
                         ],
                         "styles": [
                             "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                            "src/styles.css",
                             "node_modules/primeng/resources/themes/saga-blue/theme.css",
                             "node_modules/primeng/resources/primeng.min.css",
                             "node_modules/primeflex/primeflex.css",
                             "node_modules/primeicons/primeicons.css",
                             "node_modules/font-awesome/css/font-awesome.css",
                             "node_modules/leaflet/dist/leaflet.css",
-                            "src/styles.scss"
+                            "node_modules/@swimlane/ngx-datatable/index.css",
+                            "node_modules/@swimlane/ngx-datatable/themes/bootstrap.css",
+                            "node_modules/@swimlane/ngx-datatable/themes/material.css",
+                            "src/styles.css",
+                            "node_modules/mdb-angular-ui-kit/assets/scss/mdb.scss",
+                            "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss",
+                            "node_modules/@fortawesome/fontawesome-free/scss/solid.scss",
+                            "node_modules/@fortawesome/fontawesome-free/scss/regular.scss",
+                            "node_modules/@fortawesome/fontawesome-free/scss/brands.scss"
                         ],
                         "scripts": [
-                            "node_modules/jquery/dist/jquery.slim.min.js",
-                            "node_modules/popper.js/dist/umd/popper.js"
+                            "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
                         ],
                         "vendorChunk": true,
                         "extractLicenses": false,

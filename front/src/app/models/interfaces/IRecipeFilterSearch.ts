@@ -3,7 +3,7 @@ interface choice {
     value?: string;
 }
 
-export interface IFilterSearch {
+export interface IRecipeFilterSearch {
     price?: choice[];
     title?: string;
     subtitle?: string;

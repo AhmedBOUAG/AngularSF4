@@ -79,7 +79,14 @@ use App\Traits\TimestampableTrait;
             ]
         ),
         new GetCollection(name: '_api_/recipes_get_collection'),
-        new GetCollection(uriTemplate: 'last_three_recipes', controller: LatestRecipesAction::class),
+        new GetCollection(
+            uriTemplate: 'latest_recipes_posted',
+            security: 'is_granted("PUBLIC_ACCESS")',
+            controller: LatestRecipesAction::class,
+            openapiContext: [
+                'summary' => 'Get latest recipes posted',
+            ],
+        ),
         new GetCollection(uriTemplate: 'own_recipes', normalizationContext: ['groups' => ['recette:read']], security: "is_granted('IS_AUTHENTICATED_FULLY')"),
     ],
     shortName: 'recipe',
@@ -90,14 +97,14 @@ use App\Traits\TimestampableTrait;
 #[ApiFilter(OrderFilter::class, properties: ['id', 'price'])]
 #[ApiFilter(SearchFilter::class, properties: ['title' => 'partial', 'locality.libelle' => 'partial', 'subtitle' => 'partial', 'description' => 'partial', 'creator.username' => 'partial'])]
 #[ApiFilter(CategoryFilter::class)]
-class RecetteDFM
+class RecetteDFM extends AbstractDefinition
 {
     use ResourceIdTrait;
     use TimestampableTrait;
 
     #[Gedmo\Versioned]
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['recette:read', 'recette:write'])]
+    #[Groups(['recette:read', 'recette:write', 'message:read'])]
     private string $title;
 
     #[Gedmo\Versioned]
@@ -107,11 +114,11 @@ class RecetteDFM
 
     #[Gedmo\Versioned]
     #[ORM\Column(type: 'integer', length: 30)]
-    #[Groups(['recette:read', 'recette:write'])]
+    #[Groups(['recette:read', 'recette:write', 'message:read'])]
     private int $category = 0;
 
     #[ORM\Column(type: 'float')]
-    #[Groups(['recette:read', 'recette:write'])]
+    #[Groups(['recette:read', 'recette:write', 'message:read'])]
     private ?float $price = 0.0;
 
     #[ORM\Column(type: 'text')]
@@ -119,7 +126,7 @@ class RecetteDFM
     private $description;
 
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'recette', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[Groups(['recette:read', 'recette:write'])]
+    #[Groups(['recette:read', 'recette:write', 'message:read'])]
     private $images = [];
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'recetteDFMs')]

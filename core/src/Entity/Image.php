@@ -23,12 +23,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     operations: [new GetCollection()]
 )]*/
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
-class Image
+class Image extends AbstractDefinition
 {
     use ResourceIdTrait;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['recette:read', 'recette:write'])]
+    #[Groups(['recette:read', 'recette:write', 'message:read'])]
     private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
