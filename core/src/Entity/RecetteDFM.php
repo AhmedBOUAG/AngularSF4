@@ -131,6 +131,7 @@ class RecetteDFM extends AbstractDefinition
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'recetteDFMs')]
     #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[Groups(['recette:read'])]
     private $creator;
 
