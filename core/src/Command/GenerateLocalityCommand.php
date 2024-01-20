@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:generate-locality',
-    description: 'generate locality data from csv file',
+    description: 'Generate locality data from CSV file',
     aliases: ['dfm:import-locality']
 )]
 class GenerateLocalityCommand extends Command
@@ -28,10 +28,16 @@ class GenerateLocalityCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Importing localities from csv file');
-        $this->extractor->importData(self::FILENAME, $output);
-        $io->success('Localities have been successfully.');
+        $io->title('Importing localities from CSV file');
 
-        return Command::SUCCESS;
+        $hasImportSucceeded = $this->extractor->importData(self::FILENAME, $output);
+
+        if ($hasImportSucceeded) {
+            $io->success('Localities have been successfully imported.');
+            return Command::SUCCESS;
+        } else {
+            $io->warning('Something went wrong with importing localities !');
+            return Command::FAILURE;
+        }
     }
 }

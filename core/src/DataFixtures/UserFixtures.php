@@ -13,27 +13,37 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture implements FixtureGroupInterface
 {
-    public function __construct(
-        private UserPasswordHasherInterface $passwordHasher
-    ) {
+    public const USER_REFERENCE = 'user_';
+    public const NB_USERS = 30;
+
+    public function __construct(private UserPasswordHasherInterface $passwordHasher)
+    {
     }
 
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create('fr_FR');
-        $populator = new Faker\ORM\Doctrine\Populator($faker, $manager);
-        $populator->addEntity(User::class, 30, [], [
-            function ($user) use ($faker) {
-                $hashedPassword = $this->passwordHasher->hashPassword(
-                    $user,
-                    'test'
-                );
-                $user->setPassword($hashedPassword);
-                $user->setBirthdate($faker->dateTimeBetween('-60 years', '-18 years'));
-                $user->setCreatedAt($faker->dateTimeBetween('-7 years', '-5 years'));
-            },
-        ]);
-        $populator->execute();
+
+        for ($nbUsers = 1; $nbUsers <= self::NB_USERS; $nbUsers++) {
+            $user = new User();
+
+            if ($nbUsers === 1)
+                $user->setRoles(['ROLE_ADMIN']); // default : ['ROLE_USER'] pour les autres dans Entity User
+
+            $user->setEmail($faker->unique()->email);
+            $hashedPassword = $this->passwordHasher->hashPassword($user, 'test');
+            $user->setPassword($hashedPassword);
+            $user->setFirstname($faker->firstName);
+            $user->setLastname($faker->lastName);
+            $user->setUsername($faker->userName);
+            $user->setBirthdate($faker->dateTimeBetween('-60 years', '-18 years'));
+            $manager->persist($user);
+
+            // On enregistre l'utilisateur dans une référence
+            $this->addReference(self::USER_REFERENCE . $nbUsers, $user);
+        }
+
+        $manager->flush();
     }
 
     public static function getGroups(): array
