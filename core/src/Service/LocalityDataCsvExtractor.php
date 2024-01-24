@@ -14,7 +14,7 @@ use Symfony\Component\Finder\Finder;
 class LocalityDataCsvExtractor implements ExtractorInterface
 {
     public const IMPORT_DIR_PATH = DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'imports' . DIRECTORY_SEPARATOR;
-    public const AUTORIZED_HEADERS = ['Code_commune_INSEE', 'Nom_commune', 'Code_postal', 'Libellé_d_acheminement', 'coordonnees_geographiques'];
+    public const AUTHORIZED_HEADERS = ['Code_commune_INSEE', 'Nom_commune', 'Code_postal', 'Libellé_d_acheminement', 'coordonnees_geographiques'];
 
     public function __construct(private EntityManagerInterface $em)
     {
@@ -25,16 +25,24 @@ class LocalityDataCsvExtractor implements ExtractorInterface
         if (null === $fileName) {
             return false;
         }
-        $finder = new Finder();
+
         $realPath = '';
-        $finder->files()->in(dirname(dirname(__DIR__)) . self::IMPORT_DIR_PATH);
+        $importDirectory = dirname(dirname(__DIR__)) . self::IMPORT_DIR_PATH;
+        $finder = new Finder();
+        $finder->files()->in($importDirectory);
+
         if (!$finder->hasResults()) {
-            throw new \Exception('No file in the import directory.');
+            throw new \Exception('[IMPORT-FILE] No file found in the import directory : ' . $importDirectory);
         }
+
         foreach ($finder as $file) {
             if ($file->getFilename() === $fileName) {
                 $realPath = $file->getRealPath();
             }
+        }
+
+        if (empty($realPath)) {
+            throw new \Exception('[IMPORT-FILE] The file "' . $fileName . '" is not found in the import directory : ' . $importDirectory);
         }
 
         return $this->handlerData($realPath, $output);
@@ -46,31 +54,40 @@ class LocalityDataCsvExtractor implements ExtractorInterface
         $file = new \SplFileObject($filePath);
         $file->setFlags(\SplFileObject::READ_CSV);
         $csvHeaders = explode(';', $file->fgetcsv()[0]);
-        $progressBar = new ProgressBar($output, intval(exec("wc -l < $filePath")));
-        if (array_diff(self::AUTORIZED_HEADERS, $csvHeaders)) {
-            throw new \Exception('Some information is missing from the file.');
+
+        // Lire les lignes du fichier CSV dans un tableau et Compter le nombre de lignes
+        $fileLines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $totalNbLines = count($fileLines) - 1;
+
+        $progressBar = new ProgressBar($output, $totalNbLines);
+
+        if (array_diff(self::AUTHORIZED_HEADERS, $csvHeaders)) {
+            throw new \Exception('[FILE INTEGRITY] Some information is missing from the file.');
         }
+
+        $nbProcessed = 0;
         foreach ($file as $key => $row) {
             if (0 !== $key && !$file->eof()) {
-                $processed = true;
-                $locality = new Locality();
                 $data = explode(';', $row[0]);
-                $codepostal = 4 === mb_strlen($data[2]) ? '0' . $data[2] : $data[2];
+                $locality = new Locality();
+                $codePostal = str_pad($data[2], 5, "0", STR_PAD_LEFT);
                 $locality->setCodeCommune($data[0])
                     ->setNomCommune($data[1])
-                    ->setCodePostal($codepostal)
+                    ->setCodePostal($codePostal)
                     ->setLibelle($data[4])
                     ->setCoordonneesGeo(floatval($data[5]) . ',' . floatval($row[1]));
                 $this->em->persist($locality);
-
+                $nbProcessed++;
                 $progressBar->advance();
             }
         }
-        if ($processed) {
+
+        if ($nbProcessed === $totalNbLines) {
             $this->em->flush();
             $progressBar->finish();
+            $processed = true;
         }
-        $progressBar->clear();
+        $output->writeln(['', '']);
 
         return $processed;
     }

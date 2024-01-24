@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Locality } from "../models/Locality";
 import { ILocality } from "../models/interfaces/ILocality";
 
@@ -8,7 +9,7 @@ type RecipeStatus = {
   rejected: string;
 };
 export abstract class CommonUtils {
-  static readonly UPLOAD_IMAGES_DIRECTORY = "http://127.0.0.1/images/";
+  static readonly UPLOAD_IMAGES_DIRECTORY = environment.apiBaseUrl +'images/';
   static readonly recipeCategory =
     [
       { "type": "Gâteau Anniversaire", "id": 1 },
