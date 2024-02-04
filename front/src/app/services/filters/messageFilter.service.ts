@@ -8,9 +8,10 @@ import { AbstractFilter } from '../abstractFilter';
 export class MessageFilterService extends AbstractFilter {
 
     boMatchingCriteria: { [key: string]: string } = {
-        'Content': 'content',
-        'To': 'recipient.username',
-        'SendAt': 'createdAt',
-        'relatedRecipe': 'relatedRecipe'
+        'content': 'content',
+        'to': 'recipient.username',
+        'createdAt': 'createdAt',
+        'relatedRecipe': 'relatedRecipe',
+        'from': 'sender.username',
     };
 }

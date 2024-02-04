@@ -50,6 +50,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { registerLocaleData } from '@angular/common';
 import * as fr from '@angular/common/locales/fr';
 import { PaginatorModule } from 'primeng/paginator';
+import { MatTabsModule } from '@angular/material/tabs';
 
 register();
 
@@ -100,7 +101,7 @@ register();
         MdbCheckboxModule,
         NgxDatatableModule,
         PaginatorModule,
-
+        MatTabsModule
     ],
     providers: [
         LoaderService,

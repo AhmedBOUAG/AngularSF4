@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="d-flex flex-md-column align-items-md-end gap-3 gap-2">
                                     <span class="text-base font-semibold">{{ recipe.price + '€' }}</span>
-                                   <p-speedDial (click)="selectedItemId = recipe.id" class="float-end btn-options" [radius]="120" [model]="getItems(recipe)" direction="left" buttonClassName="p-button dfm-btn dfm-btn-left"></p-speedDial>
+                                   <p-speedDial (click)="selectedRecipe = recipe" class="float-end btn-options" [radius]="120" [model]="getItems(recipe)" direction="left" buttonClassName="p-button dfm-btn dfm-btn-left"></p-speedDial>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +87,7 @@
                                     <i class="pi pi-user"></i>
                                     <span class="text-xs" style="color: #a7a7a7;">{{ recipe.creator.username }}</span>
                                 </span>
-                                <p-speedDial className="speeddial-right" (click)="selectedItemId = recipe.id" [radius]="120" [model]="getItems(recipe)" direction="up" buttonClassName="p-button dfm-btn dfm-btn-up"></p-speedDial>
+                                <p-speedDial className="speeddial-right" (click)="selectedRecipe = recipe" [radius]="120" [model]="getItems(recipe)" direction="up" buttonClassName="p-button dfm-btn dfm-btn-up"></p-speedDial>
                             </div>
                         </div>
                     </div>

@@ -52,7 +52,7 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const infoUser = localStorage.getItem('info_user');
+    const infoUser = localStorage.getItem(CommonUtils.KEY_LOCALSTORAGE_CURRENT_USER);
     this.loggedInUser = JSON.parse(infoUser!);
     const uuid = this.route.snapshot.paramMap.get('uuid');
     const recipeUuid = null != uuid ? uuid : '0';
@@ -93,13 +93,12 @@ export class RecipeDetailsComponent implements OnInit {
     }).addTo(map);
     Leaflet.marker([x, y]).addTo(map);
   }
-  recipeOwnerContactOpenDialog() {
-    console.log('envoi message')
+  recipeOwnerContactOpenDialog(recipe: Recipe) {
     const dialog = this.dialog.open(MessageComponent, {
       panelClass: 'custom-dialog-container',
       data: {
         subject: 'recipeOwnerContact',
-        recipeInfos: this.recipe
+        recipeInfos: recipe
       }
     })
   }

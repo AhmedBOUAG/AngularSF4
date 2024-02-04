@@ -21,100 +21,82 @@
     <i class="pi pi-times"></i>
   </a>
 </div>
-<nav class="navbar navbar-expand-lg bg-light navbar-costum">
+<nav class="dropdownmenu">
   <div class="container">
-    <a
-      class="navbar-brand nav-link-title"
-      href=""
-      routerLink="/"
-      routerLinkActive="selected"
-      [routerLinkActiveOptions]="{ exact: true }"
-      >{{ title }}</a
-    >
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <input type='checkbox' id='responsive-menu'><label></label>
+    <div class="logo-title">DuFaitMaison</div>
+  <ul class="align-items-center">
+    <li routerLinkActive="active" class="align-height home"><a routerLink="/"><i class="fa fa-home" aria-hidden="true"></i>
+      <span class="libelle-menu-dfm">DuFaitMaison</span></a>
+    </li>
+    <li *ngIf="!isLogged" class="align-height float-end">
+      <a
+        routerLink="/login"
+        routerLinkActive="selected"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Se connecter</a
+      >
+    </li>
+    <li *ngIf="!isLogged" class="align-height float-end">
+      <a
+        class="nav-link-title"
+        routerLink="/inscription"
+        routerLinkActive="selected"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        S'inscrire</a
+      >
+    </li>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto" id="menu-links">
-        <li *ngIf="!isLogged" class="nav-item">
-          <a
-            class="nav-link-title"
-            routerLink="/inscription"
-            routerLinkActive="selected"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            S'inscrire</a
-          >
-          <a
-            class="nav-link-title"
-            routerLink="/login"
-            routerLinkActive="selected"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            Se connecter</a
-          >
-        </li>
-        <li style="padding-top:5px">
-          <a *ngIf="isLogged"
-            class="nav-link-title" 
-            routerLink="/messages/"
-            routerLinkActive="selected"
-            [routerLinkActiveOptions]="{ exact: true }">
-              <i class="pi pi-comments"></i> Messages
-              </a>
-        </li>
-        <li style="padding-top:5px">
-          <a *ngIf="isLogged"
-            class="nav-link-title" 
-            routerLink="/recipe/"
-            routerLinkActive="selected"
-            [routerLinkActiveOptions]="{ exact: true }">
-              <i class="pi pi-search"></i> Explorer
-              </a>
-        </li>
-        <li *ngIf="isLogged" class="nav-item dropdown">
-          <a
-            class="nav-link-title dropdown-toggle"
-            href="#"
-            id="navbarDropdownMenuLink"
-            role="button"
-
-            (click)="openCloseDD($event)"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <p-avatar 
-              icon="pi pi-user" 
-              styleClass="mr-2" 
-              [style]="{'background-color': 'rgb(81 143 164)', 'color': '#ffffff'}" 
-              shape="circle"
-              >
-            </p-avatar>
-            {{ username }}
+    <li routerLinkActive="active" *ngIf="isLogged" class="align-height">
+      <a routerLink="/messages/"
+        routerLinkActive="selected"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <i class="fa fa-comments-o" aria-hidden="true"></i>
+        <span for="libelle" class="libelle-after-icon">Messages</span>
           </a>
-          <div
-          data-bs-toggle="dropdown" 
-            #dropdownZone
-            class="hidden dropdown-menu dropdown-menu-end"
-            aria-labelledby="navbarDropdownMenuLink"
+    </li>
+    <li *ngIf="isLogged" routerLinkActive="active" class="align-height">
+      <a routerLink="/recipe/"
+        routerLinkActive="selected"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <span for="libelle" class="libelle-after-icon">Explorer</span>
+      </a>
+    </li>
+    <li *ngIf="isLogged" class="align-height"><a href="#">News</a></li>
+    <li routerLinkActive="active" *ngIf="isLogged" class="float-end dropmenu">
+      <a href="javascript:void(0)">
+        <p-avatar 
+          icon="pi pi-user" 
+          [style]="{'background-color': 'rgb(81 143 164)', 'color': '#ffffff'}" 
+          shape="circle"
           >
-            <a *ngIf="isLogged"
-            class="dropdown-item" 
-            routerLink="/recipe/my-recipes"
+        </p-avatar>
+        {{ username }} <i class="fa fa-chevron-down" aria-hidden="true"></i>
+      </a>
+        <ul id="submenu">
+          <li routerLinkActive="active">
+            <a routerLink="/recipe/my-recipes"
             routerLinkActive="selected"
             [routerLinkActiveOptions]="{ exact: true }">
-              Mes recettes
+            <i class="fa fa-cutlery" aria-hidden="true"></i>
+            <span for="libelle" class="libelle-after-icon">Mes recettes</span>
+          </a>
+          </li>
+          <li routerLinkActive="active"><a href="#">
+            <i class="fa fa-cubes" aria-hidden="true"></i>
+            <span for="libelle" class="libelle-after-icon">Mon ableau de bord</span>
+            </a></li>
+          <li routerLinkActive="active">
+            <a  (click)="logout()">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+              <span for="libelle" class="libelle-after-icon">Déconnexion</span>
             </a>
-            <a class="dropdown-item" href="#">Mon tableau de bord</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item text-danger" (click)="logout()"
-              >Déconnexion</a
-            >
-          </div>
-        </li>
-      </ul>
-    </div>
+          </li>
+        </ul>
+    </li>
+  </ul>
   </div>
 </nav>

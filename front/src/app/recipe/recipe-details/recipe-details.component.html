@@ -99,7 +99,7 @@
     <p class="recipe-creator line-details" *ngIf="recipe.creator && !isOwnRecipe()"><i class="pi pi-user" aria-hidden="true"></i>&nbsp;Postée par: <span class="float-end text-black-50">{{ recipe.creator.username }}</span></p>
     
     <div class="mb-5" *ngIf="!isOwnRecipe()" role="group" aria-label="boutons de la fiche recette">
-      <button class="btn btn-primary" (click)="recipeOwnerContactOpenDialog()">
+      <button class="btn btn-primary" (click)="recipeOwnerContactOpenDialog(recipe)">
         <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp;Contacter le cuisinier
       </button>
       <button class="btn btn-secondary" style="float:right">
