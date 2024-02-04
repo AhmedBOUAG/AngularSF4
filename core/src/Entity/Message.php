@@ -44,6 +44,14 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'summary' => 'Get my sendered messages',
             ],
         ),
+        new GetCollection(
+            name: self::API_NAME_INBOX_MESSAGES,
+            normalizationContext: ['groups' => ['message:read']],
+            uriTemplate: 'messages/my-inbox-messages',
+            openapiContext: [
+                'summary' => 'Get my inbox messages',
+            ],
+        ),
     ],
     normalizationContext: ['groups' => ['message:read']],
     denormalizationContext: ['groups' => ['message:write']]
@@ -57,6 +65,7 @@ class Message extends AbstractDefinition
     use TimestampableTrait;
 
     const API_NAME_SENDERED_MESSAGES = '_api_my_sendered_messages_get_collection';
+    const API_NAME_INBOX_MESSAGES = '_api_my_inbox_messages_get_collection';
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'messages')]
     #[Groups(['message:read', 'message:write'])]

@@ -46,7 +46,7 @@ export class MessageComponent extends AbstractForm implements OnInit {
     }
   }
   getImage() {
-    return !null ? CommonUtils.UPLOAD_IMAGES_DIRECTORY + this.recipe.images[0].name : CommonUtils.NO_AVAILABLE_IMAGE;
+    return this.recipe.images.length > 0 ? CommonUtils.UPLOAD_IMAGES_DIRECTORY + this.recipe.images[0].name : CommonUtils.NO_AVAILABLE_IMAGE;
   }
 
   onnoclick(): void {

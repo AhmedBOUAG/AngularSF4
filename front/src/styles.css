@@ -244,3 +244,15 @@ h3 {
 :root {
   --swiper-navigation-size: 10px;
 }
+
+/**   p-speeddial */
+span.text-base.font-semibold {
+  position: absolute !important;
+  right: 0px !important;
+  top: -18px !important;
+}
+
+.d-flex.flex-md-column.align-items-md-end.gap-3.gap-2 {
+  position: absolute !important;
+  right: 5px !important;
+}
