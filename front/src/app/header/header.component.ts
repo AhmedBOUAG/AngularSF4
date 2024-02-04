@@ -11,7 +11,6 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  @ViewChild('dropdownZone') dorpdownZone: ElementRef;
   destroy$: Subject<boolean> = new Subject<boolean>();
   title = 'Du Fait Maison';
   isLogged = false;
@@ -44,16 +43,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.isLogged = true;
       this.username = this.ts.getUser()['username'];
     }
-  }
-
-  onClick() {
-    this.isDisabled = false;
-  }
-
-  openCloseDD(event: any) {
-    const element = this.dorpdownZone.nativeElement;
-    element.classList.toggle('hidden');
-    event.stopPropagation();
   }
 
   closeBanner() {

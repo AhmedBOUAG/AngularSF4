@@ -17,6 +17,7 @@ import { FavoriteService } from 'src/app/services/favorite.service';
 import { Router } from '@angular/router';
 import { Paginator } from 'primeng/paginator';
 import { AbstractDatatable } from 'src/app/datatables/abstractDatatable';
+import { MessageComponent } from 'src/app/sharing/forms/message/message.component';
 
 @Component({
   selector: 'app-all-recipes',
@@ -33,7 +34,7 @@ export class AllRecipesComponent extends AbstractDatatable implements OnInit {
   recipes: Recipe[];
   items: MenuItem[];
   allItems: any[];
-  selectedItemId: any = null;
+  selectedRecipe: Recipe;
   recipeCreatorId: any;
   uploadImage: string = CommonUtils.UPLOAD_IMAGES_DIRECTORY;
   currentUser: IUserInfo = JSON.parse(localStorage[CommonUtils.KEY_LOCALSTORAGE_CURRENT_USER]);
@@ -52,7 +53,8 @@ export class AllRecipesComponent extends AbstractDatatable implements OnInit {
     private modalDialog: MatDialog,
     private recipeFilterService: RecipeFilterService,
     private favoriteService: FavoriteService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     super();
   }
@@ -70,19 +72,21 @@ export class AllRecipesComponent extends AbstractDatatable implements OnInit {
         tabindex: 'access_to',
         icon: 'pi pi-eye',
         command: () => {
-          this.router.navigate(['/recipe/details', this.selectedItemId]);
+          this.router.navigate(['/recipe/details', this.selectedRecipe.id]);
         }
       },
       {
         tabindex: 'send_msg',
         icon: 'pi pi-envelope',
-        routerLink: ['/fileupload']
+        command: () => {
+          this.recipeOwnerContactOpenDialog(this.selectedRecipe);
+        }
       },
       {
         tabindex: 'like',
         icon: 'pi pi-heart',
         command: () => {
-          this.favoriteService.addToFavorite(this.selectedItemId)
+          this.favoriteService.addToFavorite(this.selectedRecipe.id)
             .subscribe(
               (res: any) => {
                 this.loadRecipeFavoriteIds();
@@ -102,7 +106,7 @@ export class AllRecipesComponent extends AbstractDatatable implements OnInit {
         tabindex: 'unlike',
         icon: 'pi pi-heart-fill',
         command: () => {
-          this.favoriteService.removeFromFavorite(this.selectedItemId)
+          this.favoriteService.removeFromFavorite(this.selectedRecipe.id)
             .subscribe(
               (res: any) => {
                 this.loadRecipeFavoriteIds();
@@ -224,6 +228,16 @@ export class AllRecipesComponent extends AbstractDatatable implements OnInit {
       this.paginateToFirstSortedPage();
       this.paginator.changePageToFirst(event);
     });
+  }
+
+  recipeOwnerContactOpenDialog(recipe: Recipe) {
+    const dialog = this.dialog.open(MessageComponent, {
+      panelClass: 'custom-dialog-container',
+      data: {
+        subject: 'recipeOwnerContact',
+        recipeInfos: recipe
+      }
+    })
   }
 
   displayMessage(type: string) {

@@ -9,7 +9,7 @@ type RecipeStatus = {
   rejected: string;
 };
 export abstract class CommonUtils {
-  static readonly UPLOAD_IMAGES_DIRECTORY = environment.apiBaseUrl +'images/';
+  static readonly UPLOAD_IMAGES_DIRECTORY = environment.apiBaseUrl + 'images/';
   static readonly recipeCategory =
     [
       { "type": "Gâteau Anniversaire", "id": 1 },
@@ -42,6 +42,8 @@ export abstract class CommonUtils {
   static readonly ITEM_PER_PAGE = 'itemsPerPage';
   static readonly _PAGE = '_page';
   static readonly ORDER_PARAMETER_NAME = '_order';
+  static readonly CREATED_AT = 'createdAt';
+  static readonly DEFAULT_ORDER_MSG = 'DESC'
   static readonly recipeStatus: RecipeStatus = {
     [CommonUtils.DRAFT]: 'Brouillon',
     [CommonUtils.PUBLISHED]: 'Publiée',
