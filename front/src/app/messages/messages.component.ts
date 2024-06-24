@@ -10,8 +10,7 @@ type Row = {
 };
 @Component({
   selector: 'app-messages',
-  templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.css']
+  templateUrl: './messages.component.html'
 })
 export class MessagesComponent implements OnInit {
   // tabType = new BehaviorSubject<string>('inbox');
@@ -34,6 +33,7 @@ export class MessagesComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('in messages')
   }
   calculateNbMessages(nbMessages: number[]) {
     this.nbSendedMessages = nbMessages[1];

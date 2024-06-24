@@ -8,9 +8,9 @@ import { Image } from 'src/app/models/image';
 import { IImageRecipe } from 'src/app/models/interfaces/imageRecipe';
 import * as Leaflet from 'leaflet';
 import { MatDialog } from '@angular/material/dialog';
-import { ContactComponent } from 'src/app/sharing/contact/contact.component';
+import { ContactComponent } from 'src/app/shared/contact/contact.component';
 import { ButtonsModule, WavesModule, CollapseModule } from 'angular-bootstrap-md'
-import { MessageComponent } from 'src/app/sharing/forms/message/message.component';
+import { MessageComponent } from 'src/app/shared/forms/message/message.component';
 
 
 @Component({
