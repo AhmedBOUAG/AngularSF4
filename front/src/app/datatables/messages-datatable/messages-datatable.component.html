@@ -8,17 +8,6 @@
                         {{column.label}}
                         <i class="fa-solid {{column.class}}" aria-hidden="true"></i>
                     </th>
-
-                    <!--<th (click)="sortColumn('createdAt')">
-                        Date <i class="fa fa-sort" aria-hidden="true" [class.descending]="currentSortColumn === 'date' && currentSortOrder === 'desc'"></i>
-                    </th>
-                    <th (click)="sortColumn('content')">
-                        Contenu <i class="fa fa-sort" aria-hidden="true" [class.descending]="currentSortColumn === 'content' && currentSortOrder === 'desc'"></i>
-                    </th>
-                    <th (click)="sortColumn(type !== 'inbox' ? 'recipient' : 'sender')">
-                        {{ type !== 'inbox' ? 'Destinataire' : 'Expéditeur' }}
-                        <i class="fa fa-sort" aria-hidden="true" [class.descending]="currentSortColumn === (type !== 'inbox' ? 'recipient' : 'sender') && currentSortOrder === 'desc'"></i>
-                    </th>-->
                 </tr>
             </thead>
             <tbody [@filterAnimation]="totalItems">

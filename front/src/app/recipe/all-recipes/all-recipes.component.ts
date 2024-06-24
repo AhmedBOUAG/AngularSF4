@@ -11,13 +11,13 @@ import { ILocality } from 'src/app/models/interfaces/ILocality';
 import { IPaginate } from 'src/app/models/interfaces/IPaginate';
 import { IFilter } from 'src/app/models/interfaces/IFilter';
 import { MatDialog } from '@angular/material/dialog';
-import { FilterComponent } from 'src/app/sharing/filter/Recipe/filter.component';
+import { FilterComponent } from 'src/app/shared/filter/Recipe/filter.component';
 import { RecipeFilterService } from 'src/app/services/filters/recipeFilter.service';
 import { FavoriteService } from 'src/app/services/favorite.service';
 import { Router } from '@angular/router';
 import { Paginator } from 'primeng/paginator';
 import { AbstractDatatable } from 'src/app/datatables/abstractDatatable';
-import { MessageComponent } from 'src/app/sharing/forms/message/message.component';
+import { MessageComponent } from 'src/app/shared/forms/message/message.component';
 
 @Component({
   selector: 'app-all-recipes',

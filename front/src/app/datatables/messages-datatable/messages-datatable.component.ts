@@ -1,28 +1,27 @@
 import { catchError, map } from 'rxjs';
-import { Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { CommonUtils } from 'src/app/Utils/CommonUtils';
-import { MessageService } from 'src/app/services/message.service';
-import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { CommonUtils } from '../../Utils/CommonUtils';
+import { MessageService } from '../../services/message.service';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 import { AbstractDatatable } from '../abstractDatatable';
-import { IFilter } from 'src/app/models/interfaces/IFilter';
-import { pageAnimations, filterAnimation } from '../datatableAnimation';
-
+import { IFilter } from '../../models/interfaces/IFilter';
+import { filterAnimation } from '../../shared/animations/datatable.animation';
+import { RouterService } from '../../services/router.service';
 type Row = {
-  SendAt: string;
-  Content: string;
-  To?: string;
-  From?: string;
+  id: string;
+  createdAt: string;
+  content: string;
+  to?: string;
+  from?: string;
 };
 @Component({
   selector: 'app-messages-datatable',
   templateUrl: './messages-datatable.component.html',
   styleUrls: ['./messages-datatable.component.css'],
-  animations: [pageAnimations, filterAnimation]
+  animations: [filterAnimation]
 })
 
 export class MessagesDatatableComponent extends AbstractDatatable implements OnInit {
-  @HostBinding('@pageAnimations')
-  @ViewChild('table') table: DatatableComponent;
   @Input() type: string = 'inbox';
   @Output() nbMessages = new EventEmitter<number[]>();
   messages: any;
@@ -35,7 +34,10 @@ export class MessagesDatatableComponent extends AbstractDatatable implements OnI
   defaultSortOrder = CommonUtils.DEFAULT_ORDER_MSG;
   currentSortOrder = this.defaultSortOrder;
 
-  constructor(private messageService: MessageService) {
+  constructor(
+    private messageService: MessageService,
+    private routerService: RouterService
+  ) {
     super();
   }
 
@@ -73,6 +75,7 @@ export class MessagesDatatableComponent extends AbstractDatatable implements OnI
     this.nbMessages.emit([this.totalItems, this.totalItems]);
 
     return messages[CommonUtils.RESPONSE_ARRAY_KEY].map((message: any) => ({
+      id: message.id,
       to: message.recipient.username,
       content: message.content,
       from: message.sender.username,
@@ -80,7 +83,8 @@ export class MessagesDatatableComponent extends AbstractDatatable implements OnI
     }));
   }
 
-  accessToMessage(message: Row[]): void {
-    console.log(message);
+  accessToMessage(message: Row): void {
+    this.routerService.navigateByBreadcrumb('readMessage', { id: message.id });
+    //this.router.navigate(['/messages/read', message.id]);
   }
 }

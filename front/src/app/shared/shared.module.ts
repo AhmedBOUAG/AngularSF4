@@ -39,4 +39,4 @@ import { MessageComponent } from './forms/message/message.component';
     ButtonModule
   ]
 })
-export class SharingModule { }
+export class SharedModule { }

@@ -28,7 +28,7 @@ import { LoadingSkeletonComponent } from './loader/loading-skeleton/loading-skel
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ConfirmationMatModalComponent } from './sharing/confirmation-mat-modal/confirmation-mat-modal.component';
+import { ConfirmationMatModalComponent } from './shared/confirmation-mat-modal/confirmation-mat-modal.component';
 import { CalendarModule } from 'primeng/calendar';
 import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
@@ -45,12 +45,12 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { AuthStatusService } from './services/auth-status.service';
 import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
 import { MessagesDatatableComponent } from './datatables/messages-datatable/messages-datatable.component';
-import { MessagesComponent } from './messages/messages.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { registerLocaleData } from '@angular/common';
 import * as fr from '@angular/common/locales/fr';
 import { PaginatorModule } from 'primeng/paginator';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MessagesModule } from './messages/messages.module';
 
 register();
 
@@ -66,9 +66,7 @@ register();
         LoginComponent,
         LastRecipesComponent,
         LoadingSkeletonComponent,
-        ConfirmationMatModalComponent,
-        MessagesDatatableComponent,
-        MessagesComponent
+        ConfirmationMatModalComponent
     ],
     imports: [
         BrowserModule,
@@ -100,7 +98,6 @@ register();
         LeafletModule,
         MdbCheckboxModule,
         NgxDatatableModule,
-        PaginatorModule,
         MatTabsModule
     ],
     providers: [

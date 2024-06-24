@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecipeService } from '../services/recipe.service';
-import { RecipeComponent } from '../sharing/forms/recipe/recipe.component';
+import { RecipeComponent } from '../shared/forms/recipe/recipe.component';
 import { MyRecipesComponent } from './my-recipes/my-recipes.component';
 import { RecipeCreateComponent } from './recipe-create/recipe-create.component';
 import { RecipeRoutingModule } from './recipe-routing.module';
@@ -17,7 +17,7 @@ import { AllRecipesComponent } from './all-recipes/all-recipes.component';
 import { DataViewModule } from 'primeng/dataview';
 import { DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
-import { SharingModule } from '../sharing/sharing.module';
+import { SharedModule } from '../shared/shared.module';
 import { BadgeModule } from 'primeng/badge';
 import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
 import { GalleriaModule } from 'primeng/galleria';
@@ -38,12 +38,12 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     DataViewModule,
     DropdownModule,
     TagModule,
-    SharingModule,
+    SharedModule,
     PaginatorModule,
     BadgeModule,
     GalleriaModule,
     LeafletModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
   ],
   providers: [RecipeService, MessageService, AuthStatusService],
   declarations: [

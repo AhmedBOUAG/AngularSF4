@@ -4,7 +4,6 @@ import { HomeComponent } from './home/home.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
 import { DfmCheckGuard } from './dfm-check.guard';
-import { MessagesComponent } from './messages/messages.component';
 
 const routes: Routes = [
   {
@@ -26,7 +25,8 @@ const routes: Routes = [
   },
   {
     path: 'messages',
-    component: MessagesComponent
+    loadChildren: () => import('./messages/messages.module').then(m => m.MessagesModule),
+    canActivate: [DfmCheckGuard]
   },
   // Not found 404
   {
