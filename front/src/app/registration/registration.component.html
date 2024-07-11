@@ -1,16 +1,29 @@
 <div class="container" id="wrapper">
   <div class="row col-12 shadow-sm p-3 bg-white rounded mt-5">
     <h3>
-      <i class="fas fa-pen"></i> Devenir membre
+      <i class="fas fa-pen"></i> Devenir membre /
     </h3>
   </div>
-
+  <div
+    *ngIf="errorMessages"
+    class="alert alert-danger alert-dismissible fade show mt-1"
+    role="alert"
+    >
+    {{ errorMessages }}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    >
+    </button>
+  </div>
   <form #formUser="ngForm" (ngSubmit)="onUserRegistration(formUser)">
     <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded mt-2">
       <h4>Saisissez vos informations d'inscription:</h4>
       <hr />
       <div class="col-md-6 mt-2">
-        <label for="nom">Nom :</label>
+        <label for="nom" class="mandatory">Nom :</label>
         <input
           type="text"
           class="form-control"
@@ -19,12 +32,9 @@
           #trackLastname="ngModel"
           required
         />
-        <p class="alert" *ngIf="!trackLastname.valid && trackLastname.touched">
-          Le Nom est obligatoire!
-        </p>
       </div>
       <div class="col-md-6 mt-2">
-        <label for="prenom">Prénom:</label>
+        <label for="prenom" class="mandatory">Prénom:</label>
         <input
           type="text"
           class="form-control"
@@ -34,15 +44,9 @@
           #prenom="ngModel"
           required
         />
-        <p
-          class="alert"
-          *ngIf="!trackFirstname.valid && trackFirstname.touched"
-        >
-          Le Prénom est obligatoire!
-        </p>
       </div>
       <div class="col-md-6 mt-2">
-        <label for="pseudo">Pseudo:</label>
+        <label for="pseudo" class="mandatory">Pseudo:</label>
         <input
           type="text"
           class="form-control"
@@ -52,12 +56,9 @@
           #username="ngModel"
           required
         />
-        <p class="alert" *ngIf="!trackUsername.valid && trackUsername.touched">
-          Le pseudo est obligatoire!
-        </p>
       </div>
       <div class="col-md-6 mt-2">
-        <label for="email">Adresse Email:</label>
+        <label for="email" class="mandatory">Adresse Email:</label>
         <input
           type="text"
           class="form-control"
@@ -67,12 +68,9 @@
           #email="ngModel"
           required
         />
-        <p class="alert" *ngIf="!trackEmail.valid && trackEmail.touched">
-          L'Email est obligatoire!
-        </p>
       </div>
       <div class="col-md-6 mt-2">
-        <label for="bithdate">Date de naissance :</label>
+        <label for="bithdate" class="mandatory">Date de naissance :</label>
         <div class="input-group">
           <p-calendar 
             placeholder="jj/mm/aaaa" 
@@ -81,25 +79,23 @@
             dateFormat="dd/mm/yy"
             name="birthdate"
             class="form-control p-0"
-            [style]="{'width':'100%'}"
+            [style]="{'width':'100%', 'height':'35px', 'border-radius':'5px'}"
             styleClass="dfm-btn"
           >
           </p-calendar>
         </div>
       </div>
       <div class="col-md-6 mt-2">
-        <label for="nom">Mot de passe :</label><br/>
-        <div class="card flex justify-content-center">
+        <label for="nom" class="mandatory">Mot de passe :</label><br/>
+        <div class="flex justify-content-center">
           <p-password
             [style]="{'width':'100%'}"
             [inputStyle] = "{'width':'100%'}"
             [(ngModel)]="newUser.password"
             name="password" 
             #trackPassword="ngModel" 
+            class="w-100"
           ></p-password>
-          <p class="alert" *ngIf="!trackPassword.valid && trackPassword.touched">
-            Le mot de passe est obligatoire!
-          </p>
         </div>
 
       </div>
@@ -114,7 +110,6 @@
         </button>
       </div>
     </div>
-    <!-- {{ formUser.value | json }} -->
   </form>
 </div>
 <app-toast></app-toast>

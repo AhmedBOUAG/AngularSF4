@@ -39,7 +39,7 @@ export class MessageHandlerService {
         detail: message
       }
     }
-
+    console.log('message', this.message);
     return this.message;
   }
 }

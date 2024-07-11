@@ -46,17 +46,17 @@ class User extends AbstractDefinition implements UserInterface, PasswordAuthenti
     use TimestampableTrait;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'Vous devez saisir votre nom.')]
+    #[Assert\NotBlank(message: 'Vous devez saisir votre prénom.')]
     #[Groups(['user:read', 'user:write'])]
     private $firstname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'Vous devez saisir votre prénom.')]
+    #[Assert\NotBlank(message: 'Vous devez saisir votre nom.')]
     #[Groups(['user:read', 'user:write'])]
     private $lastname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'Un pseudo est nécessaire pour l\'inscription.')]
+    #[Assert\NotBlank(message: 'Un pseudonyme est nécessaire pour l\'inscription.')]
     #[Groups(['user:read', 'user:write', 'recette:read', 'message:read'])]
     private $username;
 

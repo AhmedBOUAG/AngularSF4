@@ -256,3 +256,8 @@ span.text-base.font-semibold {
   position: absolute !important;
   right: 5px !important;
 }
+.mandatory::after{
+  content: "*";
+  color: red;
+  margin-left: 5px;
+}

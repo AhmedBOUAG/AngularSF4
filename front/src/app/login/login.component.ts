@@ -33,11 +33,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.auth.isLogged$
+    /*this.auth.isLogged$
       .pipe(takeUntil(this.destroy$))
       .subscribe(expired => {
         this.expired = expired;
-      });
+      });*/
 
     this.form = this.formBuilder.group({
       email: ['', Validators.required],
