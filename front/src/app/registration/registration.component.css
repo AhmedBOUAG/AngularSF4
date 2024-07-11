@@ -1,3 +1,7 @@
 label {
     font-weight: 500;
 }
+.p-calendar {
+    height: 34px;
+    border-radius: 5px;
+}

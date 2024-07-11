@@ -18,6 +18,7 @@ import { MessageService } from 'primeng/api';
 export class RegistrationComponent implements OnInit {
   parseDate = new NgbDateFRParserFormatter();
   loading: boolean = false;
+  errorMessages = null;
 
   newUser: UserRegistration = new UserRegistration();
 
@@ -36,6 +37,7 @@ export class RegistrationComponent implements OnInit {
 
   onUserRegistration(f: any) {
     this.loading = true;
+    this.errorMessages = null;
     f.form.value.birthdate = moment(f.form.value.birthdate).format(CommonUtils.BD_DATE_FORMAT);
     this.regUser.registration(f.form.value).subscribe(
       (data: UserRegistration[]) => {
@@ -47,7 +49,9 @@ export class RegistrationComponent implements OnInit {
         }, 3000);
       },
       (err) => {
-        this.messageService.add(this.mhs.display(err, '', true));
+        console.log('err', err);
+        //this.messageService.add(this.mhs.display(err, '', true));
+        this.errorMessages = err;
         this.loading = false;
       },
       () => { this.loading = false; }
