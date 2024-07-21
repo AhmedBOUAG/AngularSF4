@@ -1,14 +1,15 @@
 <form [formGroup]="recipeForm" (ngSubmit)="saveRecipe()">
   <div class="modal-header">
     <h4 class="modal-title" id="modalEditRecetteLabel">{{ operationTitle }}</h4>
-    <button
-      *ngIf="isEdit"
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="modal"
-      aria-label="Close"
-      (click)="closeModal()"
-    ></button>
+    @if (isEdit) {
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+        (click)="closeModal()"
+      ></button>
+    }
   </div>
 
   <div class="modal-body" mat-dialog-content>
@@ -21,181 +22,193 @@
           class="form-control"
           name="title"
           required
-        />
-
-        <div
-          *ngIf="f.title.touched && f.title.invalid"
-          class="alert alert-danger"
-        >
-          <div class="info-validation" *ngIf="f.title.errors && f.title.errors.required">
-            Le titre est obligatoire!
-          </div>
-          <div class="info-validation" *ngIf="f.title.errors && f.title.errors.minlength">
-            Le titre doit contenir au moins 15 caractères
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <label for="subtitle"><i>Sous titre :</i></label>
-        <input
-          type="text"
-          class="form-control"
-          name="subtitle"
-          formControlName="subtitle"
-          required
-        />
-      </div>
-      <div class="col-md-12 mt-3">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01"
-              >Catégorie :</label
-            >
-          </div>
-          <select
-            class="form-select custom-select"
-            id="inputGroupSelect01"
-            name="category"
-            formControlName="category"
-            required
-          >
-            <option>----- Séléctionnez -------</option>
-            <option value="1">Gateau Anniversaire</option>
-            <option value="2">Pâtisserie</option>
-            <option value="3">Variété</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-md-12">
-        <label for="description">Description</label>
-        <textarea
-          class="form-control"
-          placeholder="Décrivez ici votre produit"
-          id="floatingTextarea2"
-          name="description"
-          style="height: 100px"
-          formControlName="description"
-          required
-        ></textarea>
-        <div class="info-validation" *ngIf="f.description.errors && f.description.errors.minlength">
-          La discription doit contenir au moins 15 caractères
-        </div>
-      </div>
-
-      <div class="col-md-12">
-        <label for="city">Ville :</label>
-        <ng-select 
-          [items]="cities$ | async" 
-          bindLabel="libelle" 
-          [minTermLength]="minLengthTerm" 
-          [loading]="citiesLoading"
-          typeToSearchText="Please enter {{minLengthTerm}} or more characters" [typeahead]="citiesInput$"
-          formControlName="locality">
-        </ng-select>
-      </div>
-
-      <div class="input-group mt-3">
-        <input
-          type="file"
-          class="form-control custom-file-input"
-          type="file"
-          name="images"
-          id="file"
-          multiple
-          (change)="loadFile($event)"
-          aria-describedby="inputAjoutImage"
-          aria-label="Upload"
-        />
-      </div>
-      <div
-        class="input-group mt-3 col-md-3"
-        style="min-width: 240px !important"
-      >
-        <div class="input-group-prepend">
-          <span class="input-group-text"><strong>Prix: </strong></span>
-        </div>
-        <input
-          type="number"
-          class="form-control"
-          style="font-weight: bold"
-          dir="rtl"
-          name="price"
-          aria-label="Prix en euro"
-          formControlName="price"
-          required
-        />
-        <div class="input-group-append">
-          <span class="input-group-text">€</span>
-        </div>
-      </div>
-      <div class="toggle-state">
-        <label for="title">Publier? </label>
-        <mat-slide-toggle
-        [(ngModel)]="publishIt" 
-        name="status" 
-        (change) = "onChangeStatus($event.checked)"
-        ngDefaultControl 
-        [ngModelOptions]="{standalone: true}">{{publishIt ? 'Oui' : 'Non'}}
-        </mat-slide-toggle>
-      </div>
-    </div>
-    <div
-      class="row mt-2 thumbnails-strip"
-      *ngIf="isEdit"
-    >
-      <div *ngFor="let image of thumbnails" class="col-lg-2 col-md-2 dfm-thumbnails-edition">
-        <div class="align-items-center">
-          <a
-            id="btn-delete-image"
-            class="btn btn-danger btn-delete-image"
-            (click)="preDeleteThumbnail(image.id)"
-            title="Supprimer cette image"
-            >X</a
-          >
-          <img
-            src="{{ uploadImagesDir }}{{ image.name }}"
-            id="img{{ image.id }}"
-            class="rounded mx-1 img-thumbnails"
-            alt=""
           />
+
+          @if (f.title.touched && f.title.invalid) {
+            <div
+              class="alert alert-danger"
+              >
+              @if (f.title.errors && f.title.errors.required) {
+                <div class="info-validation">
+                  Le titre est obligatoire!
+                </div>
+              }
+              @if (f.title.errors && f.title.errors.minlength) {
+                <div class="info-validation">
+                  Le titre doit contenir au moins 15 caractères
+                </div>
+              }
+            </div>
+          }
         </div>
-      </div>
-    </div>
-    <br />
-    <div
-      *ngIf="thumbnails.length === 1 && isEdit && true === publishIt"
-      class="alert alert-warning"
-      style="font-size: 0.9em"
-      [innerHTML] = "warning_last_image"
-    >
-    </div>
-  </div>
+        <div class="col-md-6">
+          <label for="subtitle"><i>Sous titre :</i></label>
+          <input
+            type="text"
+            class="form-control"
+            name="subtitle"
+            formControlName="subtitle"
+            required
+            />
+          </div>
+          <div class="col-md-12 mt-3">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01"
+                  >Catégorie :</label
+                  >
+                </div>
+                <select
+                  class="form-select custom-select"
+                  id="inputGroupSelect01"
+                  name="category"
+                  formControlName="category"
+                  required
+                  >
+                  <option>----- Séléctionnez -------</option>
+                  <option value="1">Gateau Anniversaire</option>
+                  <option value="2">Pâtisserie</option>
+                  <option value="3">Variété</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <label for="description">Description</label>
+              <textarea
+                class="form-control"
+                placeholder="Décrivez ici votre produit"
+                id="floatingTextarea2"
+                name="description"
+                style="height: 100px"
+                formControlName="description"
+                required
+              ></textarea>
+              @if (f.description.errors && f.description.errors.minlength) {
+                <div class="info-validation">
+                  La discription doit contenir au moins 15 caractères
+                </div>
+              }
+            </div>
 
-  <div class="modal-footer" mat-dialog-actions>
-    <button
-      *ngIf="isEdit"
-      pButton
-      pRipple
-      mat-dialog-close
-      type="button"
-      class="mr-5 p-button-raised p-button-secondary"
-      data-dismiss="modal"
-      (click)="closeModal()"
-    >
-      Annuler
-    </button>
-    <button
-      pButton
-      pRipple
-      type="submit"
-      class="p-button-raised p-button-success float-end"
-      [disabled]="recipeForm.invalid"
-    >
-      <i class="pi pi-check" style="font-size: 1rem; margin-right: 7px"></i>
+            <div class="col-md-12">
+              <label for="city">Ville :</label>
+              <ng-select
+                [items]="cities$ | async"
+                bindLabel="libelle"
+                [minTermLength]="minLengthTerm"
+                [loading]="citiesLoading"
+                typeToSearchText="Please enter {{minLengthTerm}} or more characters" [typeahead]="citiesInput$"
+                formControlName="locality">
+              </ng-select>
+            </div>
 
-      Valider
-    </button>
-  </div>
-<!--   {{recipeForm.value | json}} -->
+            <div class="input-group mt-3">
+              <input
+                type="file"
+                class="form-control custom-file-input"
+                type="file"
+                name="images"
+                id="file"
+                multiple
+                (change)="loadFile($event)"
+                aria-describedby="inputAjoutImage"
+                aria-label="Upload"
+                />
+              </div>
+              <div
+                class="input-group mt-3 col-md-3"
+                style="min-width: 240px !important"
+                >
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><strong>Prix: </strong></span>
+                </div>
+                <input
+                  type="number"
+                  class="form-control"
+                  style="font-weight: bold"
+                  dir="rtl"
+                  name="price"
+                  aria-label="Prix en euro"
+                  formControlName="price"
+                  required
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text">€</span>
+                  </div>
+                </div>
+                <div class="toggle-state">
+                  <label for="title">Publier? </label>
+                  <mat-slide-toggle
+                    [(ngModel)]="publishIt"
+                    name="status"
+                    (change) = "onChangeStatus($event.checked)"
+                    ngDefaultControl
+                    [ngModelOptions]="{standalone: true}">{{publishIt ? 'Oui' : 'Non'}}
+                  </mat-slide-toggle>
+                </div>
+              </div>
+              @if (isEdit) {
+                <div
+                  class="row mt-2 thumbnails-strip"
+                  >
+                  @for (image of thumbnails; track image) {
+                    <div class="col-lg-2 col-md-2 dfm-thumbnails-edition">
+                      <div class="align-items-center">
+                        <a
+                          id="btn-delete-image"
+                          class="btn btn-danger btn-delete-image"
+                          (click)="preDeleteThumbnail(image.id)"
+                          title="Supprimer cette image"
+                          >X</a
+                          >
+                          <img
+                            src="{{ uploadImagesDir }}{{ image.name }}"
+                            id="img{{ image.id }}"
+                            class="rounded mx-1 img-thumbnails"
+                            alt=""
+                            />
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+                  <br />
+                  @if (thumbnails.length === 1 && isEdit && true === publishIt) {
+                    <div
+                      class="alert alert-warning"
+                      style="font-size: 0.9em"
+                      [innerHTML] = "warning_last_image"
+                      >
+                    </div>
+                  }
+                </div>
 
-</form>
+                <div class="modal-footer" mat-dialog-actions>
+                  @if (isEdit) {
+                    <button
+                      pButton
+                      pRipple
+                      mat-dialog-close
+                      type="button"
+                      class="mr-5 p-button-raised p-button-secondary"
+                      data-dismiss="modal"
+                      (click)="closeModal()"
+                      >
+                      Annuler
+                    </button>
+                  }
+                  <button
+                    pButton
+                    pRipple
+                    type="submit"
+                    class="p-button-raised p-button-success float-end"
+                    [disabled]="recipeForm.invalid"
+                    >
+                    <i class="pi pi-check" style="font-size: 1rem; margin-right: 7px"></i>
+
+                    Valider
+                  </button>
+                </div>
+                <!--   {{recipeForm.value | json}} -->
+
+              </form>

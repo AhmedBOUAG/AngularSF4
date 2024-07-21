@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first, takeUntil } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
@@ -7,15 +7,20 @@ import { UserService } from '../services/user.service';
 import { TokenStorageService } from '../services/token-storage.service';
 import { CommonUtils } from '../Utils/CommonUtils';
 import { Subject } from 'rxjs';
+import { ButtonModule } from 'primeng/button';
+import { DividerModule } from 'primeng/divider';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
+  imports: [ButtonModule, DividerModule, CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
-  form: UntypedFormGroup;
+  form: FormGroup;
   loading: boolean = false;
   submitted: boolean = false;
   isLoggedIn: boolean = false;
@@ -25,7 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   formNotifyMessage: string = '';
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private auth: AuthService,
     private tokenStorage: TokenStorageService,
     private router: Router,

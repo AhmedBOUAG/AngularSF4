@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractForm } from '../AbstractForm';
-import { FormService } from 'src/app/services/form.service';
+import { FormService } from '../../app/services/form.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Recipe } from 'src/app/recipe/recipe';
-import { CommonUtils } from 'src/app/Utils/CommonUtils';
+import { Recipe } from '../../app/recipe/recipe';
+import { CommonUtils } from '../../app/Utils/CommonUtils';
 import { MessageService } from '../../../services/message.service';
 
 @Component({

@@ -4,20 +4,21 @@
       <i class="fas fa-pen"></i> Devenir membre /
     </h3>
   </div>
-  <div
-    *ngIf="errorMessages"
-    class="alert alert-danger alert-dismissible fade show mt-1"
-    role="alert"
-    >
-    {{ errorMessages }}
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="alert"
-      aria-label="Close"
-    >
-    </button>
-  </div>
+  @if (errorMessages) {
+    <div
+      class="alert alert-danger alert-dismissible fade show mt-1"
+      role="alert"
+      >
+      {{ errorMessages }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+        >
+      </button>
+    </div>
+  }
   <form #formUser="ngForm" (ngSubmit)="onUserRegistration(formUser)">
     <div class="row col-12 shadow-sm p-3 mb-5 bg-white rounded mt-2">
       <h4>Saisissez vos informations d'inscription:</h4>
@@ -31,85 +32,87 @@
           [(ngModel)]="newUser.lastname"
           #trackLastname="ngModel"
           required
-        />
-      </div>
-      <div class="col-md-6 mt-2">
-        <label for="prenom" class="mandatory">Prénom:</label>
-        <input
-          type="text"
-          class="form-control"
-          name="firstname"
-          [(ngModel)]="newUser.firstname"
-          #trackFirstname="ngModel"
-          #prenom="ngModel"
-          required
-        />
-      </div>
-      <div class="col-md-6 mt-2">
-        <label for="pseudo" class="mandatory">Pseudo:</label>
-        <input
-          type="text"
-          class="form-control"
-          name="username"
-          [(ngModel)]="newUser.username"
-          #trackUsername="ngModel"
-          #username="ngModel"
-          required
-        />
-      </div>
-      <div class="col-md-6 mt-2">
-        <label for="email" class="mandatory">Adresse Email:</label>
-        <input
-          type="text"
-          class="form-control"
-          name="email"
-          [(ngModel)]="newUser.email"
-          #trackEmail="ngModel"
-          #email="ngModel"
-          required
-        />
-      </div>
-      <div class="col-md-6 mt-2">
-        <label for="bithdate" class="mandatory">Date de naissance :</label>
-        <div class="input-group">
-          <p-calendar 
-            placeholder="jj/mm/aaaa" 
-            [(ngModel)]="newUser.birthdate" 
-            [showIcon]="true"
-            dateFormat="dd/mm/yy"
-            name="birthdate"
-            class="form-control p-0"
-            [style]="{'width':'100%', 'height':'35px', 'border-radius':'5px'}"
-            styleClass="dfm-btn"
-          >
-          </p-calendar>
+          />
         </div>
-      </div>
-      <div class="col-md-6 mt-2">
-        <label for="nom" class="mandatory">Mot de passe :</label><br/>
-        <div class="flex justify-content-center">
-          <p-password
-            [style]="{'width':'100%'}"
-            [inputStyle] = "{'width':'100%'}"
-            [(ngModel)]="newUser.password"
-            name="password" 
-            #trackPassword="ngModel" 
-            class="w-100"
-          ></p-password>
-        </div>
+        <div class="col-md-6 mt-2">
+          <label for="prenom" class="mandatory">Prénom:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="firstname"
+            [(ngModel)]="newUser.firstname"
+            #trackFirstname="ngModel"
+            #prenom="ngModel"
+            required
+            />
+          </div>
+          <div class="col-md-6 mt-2">
+            <label for="pseudo" class="mandatory">Pseudo:</label>
+            <input
+              type="text"
+              class="form-control"
+              name="username"
+              [(ngModel)]="newUser.username"
+              #trackUsername="ngModel"
+              #username="ngModel"
+              required
+              />
+            </div>
+            <div class="col-md-6 mt-2">
+              <label for="email" class="mandatory">Adresse Email:</label>
+              <input
+                type="text"
+                class="form-control"
+                name="email"
+                [(ngModel)]="newUser.email"
+                #trackEmail="ngModel"
+                #email="ngModel"
+                required
+                />
+              </div>
+              <div class="col-md-6 mt-2">
+                <label for="bithdate" class="mandatory">Date de naissance :</label>
+                <div class="input-group">
+                  <p-calendar
+                    placeholder="jj/mm/aaaa"
+                    [(ngModel)]="newUser.birthdate"
+                    [showIcon]="true"
+                    dateFormat="dd/mm/yy"
+                    name="birthdate"
+                    class="form-control p-0"
+                    [style]="{'width':'100%', 'height':'35px', 'border-radius':'5px'}"
+                    styleClass="dfm-btn"
+                    >
+                  </p-calendar>
+                </div>
+              </div>
+              <div class="col-md-6 mt-2">
+                <label for="nom" class="mandatory">Mot de passe :</label><br/>
+                <div class="flex justify-content-center">
+                  <p-password
+                    [style]="{'width':'100%'}"
+                    [inputStyle] = "{'width':'100%'}"
+                    [(ngModel)]="newUser.password"
+                    name="password"
+                    #trackPassword="ngModel"
+                    class="w-100"
+                  ></p-password>
+                </div>
 
-      </div>
-      <div style="float: right" class="col-12 mt-3">
-        <button 
-          class="btn btn-success float-end" 
-          [disabled]="loading" 
-          type="submit"
-        >
-          <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
-          Enregistrer
-        </button>
-      </div>
-    </div>
-  </form>
-</div>
-<app-toast></app-toast>
+              </div>
+              <div style="float: right" class="col-12 mt-3">
+                <button
+                  class="btn btn-success float-end"
+                  [disabled]="loading"
+                  type="submit"
+                  >
+                  @if (loading) {
+                    <span class="spinner-border spinner-border-sm"></span>
+                  }
+                  Enregistrer
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <app-toast></app-toast>

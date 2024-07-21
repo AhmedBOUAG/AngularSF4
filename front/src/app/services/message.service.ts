@@ -1,10 +1,10 @@
 import { UserService } from './user.service';
-import { RecipeService } from 'src/app/services/recipe.service';
+import { RecipeService } from '../../app/services/recipe.service';
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Message } from "../models/Message";
 import { Recipe } from "../recipe/recipe";
-import { environment } from "src/environments/environment";
+import { environment } from '../../environments/environment';
 import { IFilter } from "../models/interfaces/IFilter";
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';

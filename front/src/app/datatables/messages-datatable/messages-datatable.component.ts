@@ -16,6 +16,8 @@ type Row = {
 };
 @Component({
   selector: 'app-messages-datatable',
+  standalone: true,
+  imports: [],
   templateUrl: './messages-datatable.component.html',
   styleUrls: ['./messages-datatable.component.css'],
   animations: [filterAnimation]

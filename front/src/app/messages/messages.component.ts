@@ -10,6 +10,8 @@ type Row = {
 };
 @Component({
   selector: 'app-messages',
+  standalone: true,
+  imports: [],
   templateUrl: './messages.component.html'
 })
 export class MessagesComponent implements OnInit {
