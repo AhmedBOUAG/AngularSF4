@@ -1,16 +1,16 @@
 import { Subject, first, takeUntil } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RecipeService } from 'src/app/services/recipe.service';
+import { RecipeService } from '../../app/services/recipe.service';
 import { Recipe } from '../recipe';
-import { CommonUtils } from 'src/app/Utils/CommonUtils';
-import { Image } from 'src/app/models/image';
-import { IImageRecipe } from 'src/app/models/interfaces/imageRecipe';
+import { CommonUtils } from '../../app/Utils/CommonUtils';
+import { Image } from '../../app/models/image';
+import { IImageRecipe } from '../../app/models/interfaces/imageRecipe';
 import * as Leaflet from 'leaflet';
 import { MatDialog } from '@angular/material/dialog';
-import { ContactComponent } from 'src/app/shared/contact/contact.component';
+import { ContactComponent } from '../../app/shared/contact/contact.component';
 import { ButtonsModule, WavesModule, CollapseModule } from 'angular-bootstrap-md'
-import { MessageComponent } from 'src/app/shared/forms/message/message.component';
+import { MessageComponent } from '../../app/shared/forms/message/message.component';
 
 
 @Component({

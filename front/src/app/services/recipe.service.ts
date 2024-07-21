@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { IFilter } from '../models/interfaces/IFilter';
 import { RecipeFilterService } from './filters/recipeFilter.service';
 import { CommonUtils } from '../Utils/CommonUtils';

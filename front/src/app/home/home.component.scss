@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Waiting+for+the+Sunrise');
+
+div#typedtext {
+    color: #0FB2D2;
+    width: 58%;
+    text-align: center;
+    transform: rotateZ(349deg);
+    font-family: 'Waiting for the Sunrise', cursive;
+    font-size: 30px;
+    margin-top: 6%;
+    font-weight: 600;
+    letter-spacing: 6px;
+}
+
+.anim-home {
+    font-size: 2em;
+    max-height: 48vh;
+    height: 30vh;
+    text-align: center;
+    color: #0fb2d2;
+    font-weight: 600;
+    min-height: 10em;
+    display: table-cell;
+    vertical-align: middle
+}
+  .container-animation {
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+  .animed-text {
+    font-weight: 200;
+    font-size: 28px;
+    color: #0fb2d2;
+    line-height: normal;
+  }

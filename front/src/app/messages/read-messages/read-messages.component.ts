@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-read-messages',
+  standalone: true,
+  imports: [],
   templateUrl: './read-messages.component.html',
   styleUrls: ['./read-messages.component.css']
 })

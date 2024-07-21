@@ -1,102 +1,116 @@
-<div *ngIf="displayBanner"
-  class="banner-top bg-bluegray-900 text-gray-100 p-3 flex justify-content-between lg:justify-content-center align-items-center flex-wrap"
->
-  <div class="font-bold mr-8">🔥 Hot Deals!</div>
-  <div class="align-items-center hidden lg:flex">
-    <span class="line-height-3">
-      En ce moment, profitez d'une large variété sur les produits faits maison'
-    </span>
-  </div>
-  <a class="flex align-items-center ml-2 mr-8">
-    <a class="text-white" href="#"
-      ><span class="underline font-bold">En savoir plus</span></a
+@if (displayBanner) {
+  <div
+    class="banner-top bg-bluegray-900 text-gray-100 p-3 flex justify-content-between lg:justify-content-center align-items-center flex-wrap"
     >
-  </a>
-  <a
-    pRipple
-    class="flex align-items-center no-underline justify-content-center border-circle text-gray-50 hover:bg-bluegray-700 cursor-pointer transition-colors transition-duration-150"
-    style="width: 2rem; height: 2rem"
-    (click)="closeBanner()"
-  >
-    <i class="pi pi-times"></i>
-  </a>
-</div>
-<nav class="dropdownmenu">
-  <div class="container">
-    <input type='checkbox' id='responsive-menu'><label></label>
-    <div class="logo-title">DuFaitMaison</div>
-  <ul class="align-items-center">
-    <li routerLinkActive="active" class="align-height home"><a routerLink="/"><i class="fa fa-home" aria-hidden="true"></i>
-      <span class="libelle-menu-dfm">DuFaitMaison</span></a>
-    </li>
-    <li *ngIf="!isLogged" class="align-height float-end">
-      <a
-        routerLink="/login"
-        routerLinkActive="selected"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        Se connecter</a
-      >
-    </li>
-    <li *ngIf="!isLogged" class="align-height float-end">
-      <a
-        class="nav-link-title"
-        routerLink="/inscription"
-        routerLinkActive="selected"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        S'inscrire</a
-      >
-    </li>
-
-    <li routerLinkActive="active" *ngIf="isLogged" class="align-height">
-      <a routerLink="/messages/"
-        routerLinkActive="selected"
-        [routerLinkActiveOptions]="{ exact: true }">
-        <i class="fa fa-comments-o" aria-hidden="true"></i>
-        <span for="libelle" class="libelle-after-icon">Messages</span>
-          </a>
-    </li>
-    <li *ngIf="isLogged" routerLinkActive="active" class="align-height">
-      <a routerLink="/recipe/"
-        routerLinkActive="selected"
-        [routerLinkActiveOptions]="{ exact: true }">
-        <i class="fa fa-search" aria-hidden="true"></i>
-        <span for="libelle" class="libelle-after-icon">Explorer</span>
+    <div class="font-bold mr-8">🔥 Hot Deals!</div>
+    <div class="align-items-center hidden lg:flex">
+      <span class="line-height-3">
+        En ce moment, profitez d'une large variété sur les produits faits maison'
+      </span>
+    </div>
+    <a class="flex align-items-center ml-2 mr-8">
+      <a class="text-white" href="#"
+        ><span class="underline font-bold">En savoir plus</span></a
+        >
       </a>
-    </li>
-    <li *ngIf="isLogged" class="align-height"><a href="#">News</a></li>
-    <li routerLinkActive="active" *ngIf="isLogged" class="float-end dropmenu">
-      <a href="javascript:void(0)">
-        <p-avatar 
-          icon="pi pi-user" 
-          [style]="{'background-color': 'rgb(81 143 164)', 'color': '#ffffff'}" 
-          shape="circle"
-          >
-        </p-avatar>
-        {{ username }} <i class="fa fa-chevron-down" aria-hidden="true"></i>
+      <a
+        pRipple
+        class="flex align-items-center no-underline justify-content-center border-circle text-gray-50 hover:bg-bluegray-700 cursor-pointer transition-colors transition-duration-150"
+        style="width: 2rem; height: 2rem"
+        (click)="closeBanner()"
+        >
+        <i class="pi pi-times"></i>
       </a>
-        <ul id="submenu">
-          <li routerLinkActive="active">
-            <a routerLink="/recipe/my-recipes"
+    </div>
+  }
+  <nav class="dropdownmenu">
+    <div class="container">
+      <input type='checkbox' id='responsive-menu'><label></label>
+      <div class="logo-title">DuFaitMaison</div>
+      <ul class="align-items-center">
+        <li routerLinkActive="active" class="align-height home"><a routerLink="/"><i class="fa fa-home" aria-hidden="true"></i>
+        <span class="libelle-menu-dfm">DuFaitMaison</span></a>
+      </li>
+      @if (!isLogged) {
+        <li class="align-height float-end">
+          <a
+            routerLink="/login"
             routerLinkActive="selected"
-            [routerLinkActiveOptions]="{ exact: true }">
-            <i class="fa fa-cutlery" aria-hidden="true"></i>
-            <span for="libelle" class="libelle-after-icon">Mes recettes</span>
-          </a>
+            [routerLinkActiveOptions]="{ exact: true }"
+            >
+            Se connecter</a
+            >
           </li>
-          <li routerLinkActive="active"><a href="#">
-            <i class="fa fa-cubes" aria-hidden="true"></i>
-            <span for="libelle" class="libelle-after-icon">Mon ableau de bord</span>
-            </a></li>
-          <li routerLinkActive="active">
-            <a  (click)="logout()">
-              <i class="fa fa-sign-out" aria-hidden="true"></i>
-              <span for="libelle" class="libelle-after-icon">Déconnexion</span>
-            </a>
-          </li>
+        }
+        @if (!isLogged) {
+          <li class="align-height float-end">
+            <a
+              class="nav-link-title"
+              routerLink="/inscription"
+              routerLinkActive="selected"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >
+              S'inscrire</a
+              >
+            </li>
+          }
+
+          @if (isLogged) {
+            <li routerLinkActive="active" class="align-height">
+              <a routerLink="/messages/"
+                routerLinkActive="selected"
+                [routerLinkActiveOptions]="{ exact: true }">
+                <i class="fa fa-comments-o" aria-hidden="true"></i>
+                <span for="libelle" class="libelle-after-icon">Messages</span>
+              </a>
+            </li>
+          }
+          @if (isLogged) {
+            <li routerLinkActive="active" class="align-height">
+              <a routerLink="/recipe/"
+                routerLinkActive="selected"
+                [routerLinkActiveOptions]="{ exact: true }">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <span for="libelle" class="libelle-after-icon">Explorer</span>
+              </a>
+            </li>
+          }
+          @if (isLogged) {
+            <li class="align-height"><a href="#">News</a></li>
+          }
+          @if (isLogged) {
+            <li routerLinkActive="active" class="float-end dropmenu">
+              <a href="javascript:void(0)">
+                <p-avatar
+                  icon="pi pi-user"
+                  [style]="{'background-color': 'rgb(81 143 164)', 'color': '#ffffff'}"
+                  shape="circle"
+                  >
+                </p-avatar>
+                {{ username }} <i class="fa fa-chevron-down" aria-hidden="true"></i>
+              </a>
+              <ul id="submenu">
+                <li routerLinkActive="active">
+                  <a routerLink="/recipe/my-recipes"
+                    routerLinkActive="selected"
+                    [routerLinkActiveOptions]="{ exact: true }">
+                    <i class="fa fa-cutlery" aria-hidden="true"></i>
+                    <span for="libelle" class="libelle-after-icon">Mes recettes</span>
+                  </a>
+                </li>
+                <li routerLinkActive="active"><a href="#">
+                  <i class="fa fa-cubes" aria-hidden="true"></i>
+                  <span for="libelle" class="libelle-after-icon">Mon ableau de bord</span>
+                </a></li>
+                <li routerLinkActive="active">
+                  <a  (click)="logout()">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    <span for="libelle" class="libelle-after-icon">Déconnexion</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          }
         </ul>
-    </li>
-  </ul>
-  </div>
-</nav>
+      </div>
+    </nav>

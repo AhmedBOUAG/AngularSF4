@@ -1,23 +1,23 @@
 import { RecipeService } from './../../services/recipe.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Recipe } from '../recipe';
-import { CommonUtils } from 'src/app/Utils/CommonUtils';
+import { CommonUtils } from '../../app/Utils/CommonUtils';
 import { Subject, takeUntil, filter } from 'rxjs';
 import { MenuItem, MessageService } from 'primeng/api';
-import { MessageHandlerService } from 'src/app/services/message-handler.service';
+import { MessageHandlerService } from '../../app/services/message-handler.service';
 import { SelectItem } from 'primeng/api';
-import { IUserInfo } from 'src/app/models/interfaces/IUserInfo';
-import { ILocality } from 'src/app/models/interfaces/ILocality';
-import { IPaginate } from 'src/app/models/interfaces/IPaginate';
-import { IFilter } from 'src/app/models/interfaces/IFilter';
+import { IUserInfo } from '../../app/models/interfaces/IUserInfo';
+import { ILocality } from '../../app/models/interfaces/ILocality';
+import { IPaginate } from '../../app/models/interfaces/IPaginate';
+import { IFilter } from '../../app/models/interfaces/IFilter';
 import { MatDialog } from '@angular/material/dialog';
-import { FilterComponent } from 'src/app/shared/filter/Recipe/filter.component';
-import { RecipeFilterService } from 'src/app/services/filters/recipeFilter.service';
-import { FavoriteService } from 'src/app/services/favorite.service';
+import { FilterComponent } from '../../app/shared/filter/Recipe/filter.component';
+import { RecipeFilterService } from '../../app/services/filters/recipeFilter.service';
+import { FavoriteService } from '../../app/services/favorite.service';
 import { Router } from '@angular/router';
 import { Paginator } from 'primeng/paginator';
-import { AbstractDatatable } from 'src/app/datatables/abstractDatatable';
-import { MessageComponent } from 'src/app/shared/forms/message/message.component';
+import { AbstractDatatable } from '../../app/datatables/abstractDatatable';
+import { MessageComponent } from '../../app/shared/forms/message/message.component';
 
 @Component({
   selector: 'app-all-recipes',

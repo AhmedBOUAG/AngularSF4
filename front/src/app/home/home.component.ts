@@ -1,12 +1,16 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { gsap, Power3 } from 'gsap';
 import ScrollToPlugin from 'gsap/ScrollToPlugin';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import { LastRecipesComponent } from './last-recipes/last-recipes.component';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
+  imports: [RouterLink, LastRecipesComponent],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 
 export class HomeComponent implements OnInit, AfterViewInit {

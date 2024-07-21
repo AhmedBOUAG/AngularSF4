@@ -1,4 +1,4 @@
-import { environment } from 'src/environments/environment';
+import { environment } from "../../environments/environment";
 import { Locality } from "../models/Locality";
 import { ILocality } from "../models/interfaces/ILocality";
 

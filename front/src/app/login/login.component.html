@@ -8,14 +8,14 @@
         *ngIf="loggedInFailed"
         class="alert alert-danger alert-dismissible fade show"
         role="alert"
-      >
+        >
         {{ formNotifyMessage }}
         <button
           type="button"
           class="close"
           data-dismiss="alert"
           aria-label="Close"
-        >
+          >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -26,106 +26,113 @@
           formControlName="email"
           class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
-        />
-        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-          <div *ngIf="f.email.errors.required">
-            Une adresse email valide est obligatoire!
+          />
+          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">
+              Une adresse email valide est obligatoire!
+            </div>
           </div>
         </div>
-      </div>
-      <div class="form-group mt-3">
-        <label for="password">Mot de passe</label>
-        <input
-          type="password"
-          formControlName="password"
-          class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
-        />
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">
-            Un mot de passe doit-être fourni!
+        <div class="form-group mt-3">
+          <label for="password">Mot de passe</label>
+          <input
+            type="password"
+            formControlName="password"
+            class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+            />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">
+                Un mot de passe doit-être fourni!
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group mt-5">
-        <button
-          [disabled]="loading"
-          pButton
-          pRipple
-          label="Se connecter"
-          icon="pi pi-user"
-          class="w-full"
-        >
-          <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
-        </button>
-        <a routerLink="../inscription" class="btn btn-link">S'inscrire</a>
-      </div>
-    </form>
-  </div>
-</div>
--->
-
-<div *ngIf="expired">Session expirée!</div>
-
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div
-    *ngIf="loggedInFailed"
-    class="alert alert-danger alert-dismissible fade show"
-    role="alert"
-    >
-    {{ formNotifyMessage }}
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="alert"
-      aria-label="Close"
-    >
-    </button>
-  </div>
-  <div class="card" *ngIf="!isLoggedIn">
-    <div class="grid">
-      <div class="col-5 align-items-center justify-content-center">
-        <h3>Se connecter</h3>
-        <hr>  
-        <div class="p-fluid">
-              <div class="field">
-                  <label for="Email">Email</label>
-                  <input
-                  type="text"
-                  formControlName="email"
-                  class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
-                />
-              </div>
-              <div class="field">
-                  <label for="password">Mot de passe</label>
-                  <input
-                  type="password"
-                  formControlName="password"
-                  class="form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
-                />
-              </div>
-              <button
+          <div class="form-group mt-5">
+            <button
               [disabled]="loading"
               pButton
               pRipple
               label="Se connecter"
               icon="pi pi-user"
               class="w-full"
-            >
+              >
               <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
             </button>
+            <a routerLink="../inscription" class="btn btn-link">S'inscrire</a>
           </div>
-      </div>
-      <div class="col-2">
-          <p-divider layout="vertical">
-              <b>OU</b>
-          </p-divider>
-      </div>
-      <div class="col-5 flex align-items-center justify-content-center">
-          <p-button routerLink="../inscription" label="S'inscrire" icon="pi pi-user-plus" styleClass="p-button-success"></p-button>
+        </form>
       </div>
     </div>
-  </div>
-</form>
+    -->
+
+    @if (expired) {
+      <div>Session expirée!</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      @if (loggedInFailed) {
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+          >
+          {{ formNotifyMessage }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+            >
+          </button>
+        </div>
+      }
+      @if (!isLoggedIn) {
+        <div class="card">
+          <div class="grid">
+            <div class="col-5 align-items-center justify-content-center">
+              <h3>Se connecter</h3>
+              <hr>
+                <div class="p-fluid">
+                  <div class="field">
+                    <label for="Email">Email</label>
+                    <input
+                      type="text"
+                      formControlName="email"
+                      class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                      />
+                    </div>
+                    <div class="field">
+                      <label for="password">Mot de passe</label>
+                      <input
+                        type="password"
+                        formControlName="password"
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+                        />
+                      </div>
+                      <button
+                        [disabled]="loading"
+                        pButton
+                        pRipple
+                        label="Se connecter"
+                        icon="pi pi-user"
+                        class="w-full"
+                        >
+                        @if (loading) {
+                          <span class="spinner-border spinner-border-sm"></span>
+                        }
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <p-divider layout="vertical">
+                      <b>OU</b>
+                    </p-divider>
+                  </div>
+                  <div class="col-5 flex align-items-center justify-content-center">
+                    <p-button routerLink="../inscription" label="S'inscrire" icon="pi pi-user-plus" styleClass="p-button-success"></p-button>
+                  </div>
+                </div>
+              </div>
+            }
+          </form>

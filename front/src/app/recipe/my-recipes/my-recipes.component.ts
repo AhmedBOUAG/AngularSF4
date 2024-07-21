@@ -5,15 +5,15 @@ import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from '../recipe';
 import { MessageHandlerService } from '../../services/message-handler.service';
 import { takeUntil } from 'rxjs/operators';
-import { CommonUtils } from 'src/app/Utils/CommonUtils';
+import { CommonUtils } from '../../app/Utils/CommonUtils';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { RecipeComponent } from 'src/app/shared/forms/recipe/recipe.component';
+import { RecipeComponent } from '../../app/shared/forms/recipe/recipe.component';
 import { ConfirmationMatModalComponent } from '../../shared/confirmation-mat-modal/confirmation-mat-modal.component';
 import { MenuItem, MessageService } from 'primeng/api';
 import { IUserInfo } from '../../models/interfaces/IUserInfo';
-import { ILocality } from 'src/app/models/interfaces/ILocality';
-import { IButton } from 'src/app/models/interfaces/IButton';
+import { ILocality } from '../../app/models/interfaces/ILocality';
+import { IButton } from '../../app/models/interfaces/IButton';
 
 @Component({
   selector: 'app-my-recipes',

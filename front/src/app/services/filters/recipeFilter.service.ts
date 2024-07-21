@@ -1,7 +1,7 @@
-import { CommonUtils } from 'src/app/Utils/CommonUtils';
 import { Injectable } from '@angular/core';
 import { AbstractFilter } from '../abstractFilter';
 import { IRecipeFilterSearch } from '../../models/interfaces/IRecipeFilterSearch';
+import { CommonUtils } from '../../Utils/CommonUtils';
 
 
 @Injectable({

@@ -1,18 +1,27 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { Recipe } from 'src/app/recipe/recipe';
-import { RecipeService } from 'src/app/services/recipe.service';
-import { CommonUtils } from 'src/app/Utils/CommonUtils';
+import { Recipe } from '../../recipe/recipe';
+import { CommonUtils } from '../../Utils/CommonUtils';
+import { RecipeService } from '../../services/recipe.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { register } from 'swiper/element/bundle';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import SwiperCore from 'swiper';
 
 
+register();
 
 @Component({
   selector: 'app-last-recipes',
+  standalone: true,
+  imports: [NgxSkeletonLoaderModule, RouterModule, CommonModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './last-recipes.component.html',
   styleUrls: ['./last-recipes.component.css'],
 })
 export class LastRecipesComponent implements OnInit {
-  @ViewChild('swiper') swiper: ElementRef;
+  @ViewChild('swiper') swiper: ElementRef<any>;
   destroy$: Subject<void> = new Subject<void>();
   public recipes: Recipe[];
   isLoaded = false;
